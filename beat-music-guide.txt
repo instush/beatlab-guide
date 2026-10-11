@@ -1842,7 +1842,7 @@ Full note form shared by tracks, patterns, and motifs. The enclosing collection 
 | `dur` | `number` | no | pitched: 0.5 sec; drums/resamples: source duration | > 0 — Duration in seconds on a plain Track. |
 | `durB` | `number` | no | pitched: 0.5 sec after placement; drums/resamples: source duration | > 0 — Duration in beats inside a Pattern or Motif. |
 | `vol` | `number` | no | `0.7` | ≥ 0.01; ≤ 1 — Note gain. |
-| `volTo` | `number` | no |  | ≥ 0.01; ≤ 1 — Gain target at the end of the note. |
+| `volTo` | `number` | no |  | ≥ 0; ≤ 1 — Gain target at the end of the note; 0 fades to silence. |
 | `expr` | `Expression` | no |  |  |
 | `pan` | `number` | no | enclosing Track/Pattern pan; otherwise 0 | ≥ -1; ≤ 1 — Per-note pan position. |
 | `p` | `number` | no | `1` | ≥ 0; ≤ 1 — Seeded probability for this note. |
@@ -2089,7 +2089,7 @@ Place and optionally develop one named Pattern on the global score timeline. Pro
 | `repeat` | `integer` | no | `1` | ≥ 1; ≤ 256 — Number of pattern cycles. |
 | `vol` | `number` | no | `1` | > 0 — Placement gain multiplier. |
 | `volFrom` | `number` | no | Placement.vol | ≥ 0.01; ≤ 1 — Gain multiplier at the beginning of the complete declared placement timeline. |
-| `volTo` | `number` | no | Placement.vol | ≥ 0.01; ≤ 1 — Gain multiplier at the end of the complete declared placement timeline. |
+| `volTo` | `number` | no | Placement.vol | ≥ 0; ≤ 1 — Gain multiplier at the end of the complete declared placement timeline; 0 fades to silence. |
 | `transpose` | `integer` | no | `0` | ≥ -96; ≤ 96 — Placement-wide semitone transposition applied after the repeat-local Transform. |
 | `motifTransform` | `MotifTransform` | no |  | Transforms the complete pitched Pattern before repetitions are selected; rhythm also scales repeat spacing. |
 | `transform` | `Transform` | no |  | Base repeat-local Transform applied independently to every repetition that passes Condition. |

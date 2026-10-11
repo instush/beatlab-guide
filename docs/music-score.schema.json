@@ -2885,9 +2885,9 @@
         },
         "volTo": {
           "type": "number",
-          "minimum": 0.01,
+          "minimum": 0,
           "maximum": 1,
-          "description": "Gain target at the end of the note."
+          "description": "Gain target at the end of the note; 0 fades to silence."
         },
         "expr": {
           "$ref": "#/$defs/Expression"
@@ -3523,9 +3523,9 @@
         },
         "volTo": {
           "type": "number",
-          "minimum": 0.01,
+          "minimum": 0,
           "maximum": 1,
-          "description": "Gain multiplier at the end of the complete declared placement timeline.",
+          "description": "Gain multiplier at the end of the complete declared placement timeline; 0 fades to silence.",
           "x-beatlab-effective-default": "Placement.vol"
         },
         "transpose": {
