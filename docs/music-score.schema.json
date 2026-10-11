@@ -56,6 +56,12 @@
       "description": "Mix-bus compressor amount.",
       "default": 0
     },
+    "ceilingDbtp": {
+      "type": "number",
+      "minimum": -9,
+      "maximum": 0,
+      "description": "True-peak ceiling for the finished master, in dBTP. Omit to keep the default soft-clipped master (it lands near -3 dBFS). Set it to deliver against a spec: -1 is the usual streaming ceiling. The renderer reports the measured loudness either way."
+    },
     "groove": {
       "$ref": "#/$defs/GrooveBinding"
     },
@@ -491,7 +497,10 @@
         "damping",
         "tone",
         "cutoff",
-        "resonance"
+        "resonance",
+        "freq",
+        "gain",
+        "q"
       ],
       "x-beatlab-syntax": [
         "\"fader\"",
@@ -510,7 +519,10 @@
         "| \"damping\"",
         "| \"tone\"",
         "| \"cutoff\"",
-        "| \"resonance\""
+        "| \"resonance\"",
+        "| \"freq\"",
+        "| \"gain\"",
+        "| \"q\""
       ],
       "x-beatlab-values": {
         "fader": "Bus property only; 0..1",
@@ -529,7 +541,10 @@
         "damping": "reverb effect only; 0..1",
         "tone": "reverb effect only; -1..1",
         "cutoff": "filter effect only; 30..16000 Hz",
-        "resonance": "filter effect only; 0..0.9"
+        "resonance": "filter effect only; 0..0.9",
+        "freq": "bell/shelf effect only; 20..18000 Hz",
+        "gain": "bell/shelf effect only; -24..24 dB",
+        "q": "bell effect only; 0.1..18"
       }
     },
     "MasterMoveEffect": {
@@ -569,6 +584,16 @@
         "highpass"
       ],
       "x-beatlab-syntax": "\"lowpass\" | \"highpass\""
+    },
+    "BusShelfMode": {
+      "title": "BusShelfMode",
+      "description": "String enum selecting which end of the spectrum a custom-Bus shelf band lifts or cuts.",
+      "type": "string",
+      "enum": [
+        "low",
+        "high"
+      ],
+      "x-beatlab-syntax": "\"low\" | \"high\""
     },
     "BuiltInReturn": {
       "title": "BuiltInReturn",
@@ -5618,6 +5643,101 @@
         },
         {
           "type": "object",
+          "title": "Bell bus effect",
+          "description": "One parametric peaking band. Chain several on a bus for a full EQ; each has its own id, so each one's freq, gain and q can be swept independently.",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{0,31}$",
+              "description": "Unique effect id inside this bus."
+            },
+            "type": {
+              "const": "bell",
+              "description": "Effect discriminator."
+            },
+            "freq": {
+              "type": "number",
+              "minimum": 20,
+              "maximum": 18000,
+              "description": "Centre frequency in Hz.",
+              "default": 1000
+            },
+            "gain": {
+              "type": "number",
+              "minimum": -24,
+              "maximum": 24,
+              "description": "Band gain in dB. Negative cuts.",
+              "default": 0
+            },
+            "q": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 18,
+              "description": "Bandwidth. ~0.7 is a wide musical curve, 8+ is surgical.",
+              "default": 1
+            },
+            "mix": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Dry/wet mix.",
+              "default": 1
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "title": "Shelf bus effect",
+          "description": "One low or high shelving band: everything below (or above) the corner moves together.",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{0,31}$",
+              "description": "Unique effect id inside this bus."
+            },
+            "type": {
+              "const": "shelf",
+              "description": "Effect discriminator."
+            },
+            "mode": {
+              "$ref": "#/$defs/BusShelfMode",
+              "default": "low"
+            },
+            "freq": {
+              "type": "number",
+              "minimum": 20,
+              "maximum": 18000,
+              "description": "Corner frequency in Hz.",
+              "default": 200
+            },
+            "gain": {
+              "type": "number",
+              "minimum": -24,
+              "maximum": 24,
+              "description": "Shelf gain in dB. Negative cuts.",
+              "default": 0
+            },
+            "mix": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Dry/wet mix.",
+              "default": 1
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
           "title": "Drive bus effect",
           "description": "Saturation.",
           "properties": {
@@ -6133,9 +6253,9 @@
           "items": {
             "$ref": "#/$defs/BusEffect"
           },
-          "description": "Insert chain processed in array order; changing the order can change the sound.",
+          "description": "Insert chain processed in array order; changing the order can change the sound. Chain several bell/shelf bands here to build a full parametric EQ.",
           "minItems": 0,
-          "maxItems": 8,
+          "maxItems": 16,
           "default": []
         },
         "sends": {

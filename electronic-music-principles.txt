@@ -164,6 +164,18 @@ Resist the urge to sculpt extensively. Three moves cover most cases:
 | Lift click | +3 dB @ 4.5 kHz | cuts through the mix |
 | Add weight | +2.5 dB low shelf @ 60 Hz | fills the bottom |
 
+In this engine those are three bands chained on one bus — `bell` for the first two,
+`shelf` for the third. The older three-band `eq` effect has fixed crossovers and
+gain only, so it cannot place a move at a frequency; reach for `bell`:
+
+```json
+"effects":[
+  {"id":"mud","type":"bell","freq":320,"gain":-4,"q":1.4},
+  {"id":"click","type":"bell","freq":4500,"gain":3,"q":1.2},
+  {"id":"weight","type":"shelf","mode":"low","freq":60,"gain":2.5}
+]
+```
+
 ---
 
 ## 3. The low end: kick versus bass {#low-end}
@@ -184,6 +196,14 @@ the gap between hits stops the groove breathing.
 frequencies partially cancel on mono playback (club subs, phone speakers) and the
 weight simply vanishes. Keep width high *above* the crossover — the rule costs
 nothing in perceived stereo image.
+
+This engine has **no frequency-dependent width**: the `width` effect is broadband
+(0 = mono, 1 = unchanged, 2 = double), and a bus split into a mono low path and a
+wide high path does not separate cleanly — a 12 dB/oct crossover leaks enough bass
+into the wide path to undo the point. So apply the rule at the source instead:
+leave low material centred. Don't pan kicks or sub basses, and don't put `width`
+above 1 on any bus carrying them. Widen the hats, percussion, pads and effects
+returns, where there is no weight to lose.
 
 **4. Saturate the bass** for the same reason as the kick (§2.6). Keep the clean sub;
 blend harmonics on top.
@@ -359,6 +379,16 @@ new partials above and below the carrier.
 - **Knee** — hard knee switches abruptly at the threshold; soft knee eases in.
 - **Makeup gain** — restores the level compression removed.
 
+**This engine does not expose any of those four.** It offers compression as
+amount knobs (0–10) with the decisions already made inside: `squash` (fast,
+aggressive), `smooth` (slow program-dependent leveling), `glue` (one mix-bus
+compressor over drums + percussion + bass together), `punch` (transient
+enhancement) and `pump` (onset-triggered ducking). That is a deliberate design,
+not a missing feature: a threshold in dB is meaningless without hearing the signal
+level, so a value guessed blind either does nothing or destroys the take, whereas
+every value of an amount knob yields a sane result. Read §7.1 to understand what
+the knobs are doing; reach for the knobs to do it.
+
 ### 7.2 Attack and release are the whole instrument
 
 **Attack decides how much transient survives.** Sub-millisecond attack (0.3 ms)
@@ -369,6 +399,12 @@ through, compressing what follows it.
 **Release must resolve before the next hit.** A 700 ms release at 140 BPM never
 recovers between hits and the groove stops breathing; ~110 ms (one sixteenth at that
 tempo) tracks the groove. Release is a tempo value, not a taste value.
+
+This engine agrees with that second rule to the point of enforcing it: the only
+release control it exposes, `pumpRelease`, is specified **in beats** (0.15–1.5),
+not milliseconds, so a duck cannot drift out of time when the tempo changes. For
+attack there is no parameter — `punch` adds transient rather than letting you
+choose how much to eat, which is the same decision from the other side.
 
 ### 7.3 Always compare level-matched
 
@@ -381,21 +417,32 @@ way or you are not judging compression at all.
 
 At identical settings and matched level, the topology still changes the sound:
 
-| Type | Character | Typical use |
-|---|---|---|
-| VCA | clean, precise, transparent | the general-purpose workhorse |
-| FET | fast, aggressive | drums, snare edge |
-| Opto | smooth, slow, breathing release | vocals, bus glue |
-| Vari-Mu | warm, glue | mix bus |
+| Type | Character | Typical use | In this engine |
+|---|---|---|---|
+| VCA | clean, precise, transparent | the general-purpose workhorse | — |
+| FET | fast, aggressive | drums, snare edge | `squash` |
+| Opto | smooth, slow, breathing release | vocals, bus glue | `smooth` |
+| Vari-Mu | warm, glue | mix bus | `glue` (top-level) |
+
+There is no topology to select here, and the two poles that actually matter —
+fast-and-aggressive versus slow-and-gentle — are the two knobs. Asking for "an
+Opto on the bus" means writing `smooth`.
 
 ### 7.5 Two structural uses
 
 - **Parallel compression** — duplicate, crush the copy (20:1, 0.5 ms attack), blend
   it ~35% under the dry. Keeps the transient *and* adds weight, which serial
   compression cannot do simultaneously.
+  *Here:* send the source bus to a second bus (`"tap":"post"`), put `squash` high
+  on that return, and set the return's `fader` to the blend. The send amount and
+  the return fader together are the "35%".
 - **Sidechain** — a compressor keyed from another track. Kick ducking a pad at 12:1
   with 200 ms release makes room rhythmically. See §3 for the bass case, and §9 for
   ducking reverb returns.
+  *Here:* a bus `sidechain` block names its sources explicitly (`{"track":"KICK"}`,
+  `{"drumHit":"e_kick"}`, or a silent `trigger`), with `amount` 0–10 and
+  `attackMs`/`releaseMs`. Per-track, `pump` + `pumpFrom` does the same job. There
+  is no implicit kick detection — the key is always declared.
 
 ---
 
@@ -410,10 +457,19 @@ two points, and it matters as much as the endpoints.
 |---|---|---|
 | Ramp per bar | cutoff 260 Hz → 6.5 kHz, length 1 bar, sawtooth | reads as groove |
 | Same ramp over 4 bars | — | reads as a build |
-| Resonance ride | cutoff rising, resonance 20% → 85% peaking at bar 3 | peak in the middle, then back off |
+| Resonance ride | cutoff rising, resonance 0.2 → 0.85 peaking at bar 3 | peak in the middle, then back off |
 | Noise riser | band-pass filter rising to 7.1 kHz **and** volume −7.8 → +24 dB | build-up (two lanes, not one) |
-| Reverb throw | send normally 0%, spiked for one hit at beat 16, 4.5 s decay | fills a turnaround without washing the groove |
-| EQ bell sweep | +14 dB, Q 5, centre 200 Hz → 6 kHz over 4 bars | reads as "leaving" |
+| Reverb throw | send normally 0, spiked for one hit at beat 16, long decay | fills a turnaround without washing the groove |
+| EQ bell sweep | gain +14 dB, q 5, freq 200 Hz → 6 kHz over 4 bars | reads as "leaving" |
+
+Units here are native, not percentages: `resonance` runs 0–0.9, a send `amount`
+0–1, a bell's `gain` ±24 dB and its `q` 0.1–18. Sweep a band by giving it an id and
+naming that id as the automation target — `freq`, `gain` and `q` all move:
+
+```json
+"buses":{"music":{"effects":[{"id":"sweep","type":"bell","freq":200,"gain":14,"q":5}]}},
+"automation":[{"bus":"music","effect":"sweep","param":"freq","points":[[0,200],[16,6000]]}]
+```
 
 Note the pattern: the *same* cutoff ramp is a groove element at one bar and a build
 at four. Length is what assigns meaning, which is why automation should be written
@@ -530,6 +586,17 @@ master made for the target. Chase a master that sounds good, not a number.
 *Platform figures checked 11 Oct 2026; these policies change, so verify before
 relying on them.*
 
+**In this engine you can both set and check these.** Top-level `ceilingDbtp`
+(−9..0) sets the true-peak ceiling of the finished master; omit it and the master
+soft-clips to wherever it lands, near −3 dBFS, which is not a delivery spec. Either
+way the renderer measures the result and reports integrated LUFS, the loudest
+3-second window, true peak and sample peak — so the targets above are checkable
+rather than aspirational, and you can aim a render at one and confirm it landed.
+
+Use true peak, not sample peak, as the ceiling: a render can sit at −3.0 dBFS by
+sample and still measure −2.2 dBTP between samples, and it is the inter-sample
+value that clips a consumer decoder.
+
 ### 10.3 Delivery
 
 MP3 is lossy perceptual coding: a masking model keeps what is audible and discards
@@ -569,6 +636,13 @@ HARMONY     A minor; Am-F-C-G or Am-Dm-E-Am
 COMPRESS    drums: attack 10-30 ms, release = one 1/16
             parallel: 20:1, 0.5 ms, blend 35%
             always compare level-matched
+            this engine: amounts 0-10, not threshold/ratio
+              squash = fast+aggressive   smooth = slow leveling
+              glue = mix bus             punch = add transient
+              pump + pumpRelease (BEATS) = ducking
+
+EQ          this engine: bell {freq, gain, q} and shelf {mode, freq, gain}
+            chained on a bus; the 3-band "eq" cannot target a frequency
 
 AUTOMATE    (parameter, start, end, bars, curve)
             1 bar = groove; 4 bars = build
@@ -582,6 +656,8 @@ MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
             pre-master -6 dBFS / -18 LUFS
             master -1 dBTP ceiling, -8 LUFS club / -14 LUFS streaming
             dB = peak, LUFS = felt loudness; they are not interchangeable
+            this engine: "ceilingDbtp" sets it, the render reports
+              integrated LUFS / 3s max / true peak / sample peak
 ```
 
 ---

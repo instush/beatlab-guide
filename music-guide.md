@@ -1576,8 +1576,16 @@ closest named character first, then bend it:
   - "role" is "kit"|"perc"|"bass"|"bed"|"lead"|"fx". It says which
     existing mix role receives the completed bus. This preserves Beatlab's
     role-specific drum, bass, bed, lead, and transition processing.
-  - "effects" is an ORDERED rack, maximum 8. The array order is audible:
-    drive→filter is not filter→drive. Author the order deliberately.
+  - "effects" is an ORDERED rack, maximum 16. The array order is audible:
+    drive→filter is not filter→drive. Author the order deliberately. A
+    multi-band EQ is just several bell/shelf entries in a row:
+      "effects":[
+        {"id":"sub","type":"shelf","mode":"low","freq":60,"gain":2.5},
+        {"id":"mud","type":"bell","freq":320,"gain":-4,"q":1.4},
+        {"id":"click","type":"bell","freq":4500,"gain":3,"q":1.2}
+      ]
+    Each band has its own id, so each one's freq/gain/q can be swept
+    independently from top-level "automation".
   - "sends" is maximum 8. A send to another named bus creates a parallel path:
     the source bus still continues to its role while a copy feeds the target.
     "tap":"pre" copies the bus input BEFORE its ordered rack and fader/pan;
@@ -1608,6 +1616,17 @@ closest named character first, then bend it:
 #### SAFE EFFECT TYPES AND NATIVE PARAMETER RANGES
 
     eq       low/mid/high -12..12 dB, mix 0..1
+             Fixed 200 Hz / 4 kHz crossover. A broad tone control, NOT
+             surgical: it cannot target a frequency. Use bell for that.
+    bell     freq 20..18000 Hz, gain -24..24 dB, q 0.1..18, mix 0..1
+             ONE parametric peaking band. This is how you cut a specific
+             frequency: {"id":"mud","type":"bell","freq":320,"gain":-4,"q":1.4}.
+             q ~0.7-1.5 is a wide musical curve; q 6+ is surgical.
+             Chain several bells (each with its own id) to build a full EQ.
+    shelf    mode "low"|"high", freq 20..18000 Hz, gain -24..24 dB, mix 0..1
+             Everything below (low) or above (high) the corner moves together.
+             Weight under a kick: {"id":"wt","type":"shelf","mode":"low",
+             "freq":60,"gain":2.5}.
     drive    amount 0..10, mix 0..1
     crush    amount 0..10, mix 0..1
     tape     amount 0..10, mix 0..1
@@ -1657,6 +1676,17 @@ RHYTHM GLUE (top-level "glue":0-10): a mix-bus compressor over drums+percussion+
   bass TOGETHER — one gain curve on all three, so the rhythm section moves
   as one object. 3-5 is a useful starting range for a tight, produced low end;
   0/absent is off. Its audible purpose is cohesion, not automatic quality.
+
+MASTER CEILING (top-level "ceilingDbtp":-9..0): the TRUE-PEAK ceiling of the
+  finished master, in dBTP. Omit it and the master keeps its default
+  soft-clipped landing (near -3 dBFS). Set it to deliver against a spec:
+  -1 is the usual streaming ceiling. True peak, not sample peak, is the right
+  target — a file that reads -0.1 dBFS by sample can still overshoot and clip
+  in a decoder that reconstructs between samples.
+  The renderer MEASURES the finished master either way and reports BS.1770
+  loudness: integrated LUFS, loudest 3-second window, true peak and sample
+  peak. Typical targets: about -8 LUFS for club playback, about -14 LUFS for
+  streaming, where anything louder is turned down on playback anyway.
 
 ### G.7 TRACK-PUMP SIDECHAIN
 
