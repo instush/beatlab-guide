@@ -522,12 +522,14 @@ MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
 
 ## Provenance {#provenance}
 
-Synthesized from the instructional reels published by
-**@blvck.frst_sound** (BLVCK.FRST Audio Solutions) between 3 and 11 October 2026 —
-64 lessons across 17 series, covering kick synthesis, compression, low-end
-management, synthesis fundamentals, MIDI arrangement, music theory, FX automation,
-arrangement and mastering. Values marked `[measured]` come from level-matched
-demonstrations shown in those reels.
+Synthesized from a body of short-form instructional material on electronic music
+production — 64 lessons across 17 series, covering kick synthesis, compression,
+low-end management, synthesis fundamentals, MIDI arrangement, music theory, FX
+automation, arrangement and mastering. Values marked `[measured]` come from
+level-matched demonstrations shown in that material.
+
+*Working draft under test. Source attribution is tracked separately and will be
+restored before this document is treated as published work.*
 
 The material is techno-weighted and reflects one practitioner's conventions. It is
 offered here as craft defaults, not as acoustic law. Where this guide and a specific
