@@ -312,10 +312,28 @@ much spectrum you need the filter to remove later.
 
 ### 6.2 Wavetables
 
-A wavetable is many single-cycle waves stacked (commonly 256 frames). **Position is
-the timbre axis** — a static position is just another oscillator, so the instrument
-only justifies itself when position moves. Modulate it: an LFO at 1 Hz sweeping
-5–95% of the table, or an envelope for per-note movement.
+A wavetable here is **one** cycle, written as a short list of values. You are
+drawing a waveform, not morphing between stored frames — so the table is a
+*spectrum you author*, the one timbre reachable neither from sine, saw, square
+nor triangle. That is what justifies it; the shape itself is the creative act.
+
+If you have read about 256-frame tables with a position knob as the timbre axis,
+that is a different architecture. This engine has **no position axis**, and
+nothing modulates one.
+
+- **Resolution is a brightness control.** Values are joined by straight lines, so
+  a short table is angular and buzzy, a long one smooth and closer to its ideal.
+  Reach for few points when you want harmonics, many when you want purity.
+- **Absolute numbers don't survive.** The compiler removes DC and peak-normalizes
+  the cycle, so only the shape carries: offsetting or scaling every value changes
+  nothing. Set loudness on the oscillator's level, not in the table. A table of
+  identical values is rejected — it would be silence.
+- **Movement is a separate decision.** A single-cycle table is a fixed timbre, so
+  motion comes from the rest of the patch: crossfade the table against a second
+  oscillator, bend it with waveshaping, or hard-sync and ring-modulate it — then
+  drive any of those from an envelope or LFO rather than leaving them static.
+
+See the syntax guide for the field names, limits and the modulation matrix.
 
 ### 6.3 FM
 
