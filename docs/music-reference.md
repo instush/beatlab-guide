@@ -491,7 +491,7 @@ Full note form shared by tracks, patterns, and motifs. The enclosing collection 
 | `off` | `number` | no | `0` | Timing offset in milliseconds. |
 | `flam` | `boolean` | no | `false` | Adds a grace hit before a drum onset. |
 | `roll` | `integer` | no |  | ≥ 1; ≤ 16 — Number of hits in a buzz leading into the onset. |
-| `slide` | `boolean` | no | `false` | Glides a synth from its previous note. |
+| `slide` | `boolean \| 1 \| 0` | no | `false` | Glides a synth from its previous note. 1/0 are accepted for true/false. |
 | `art` | `string` | no |  | Articulation name. Generic names (legato, tenuto, staccato, accent, ghost, mute, breathy, bend) create expression contours on synthesized, drum, and sampled notes; sampled pitched banks may also declare recorded articulations. |
 | `sampleStart` | `number` | no | `0` | ≥ 0; ≤ 600 — Seconds skipped into a sampled recording. |
 | `reverse` | `boolean` | no | `false` | Play the selected sampled take backwards. |

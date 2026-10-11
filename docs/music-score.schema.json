@@ -2923,9 +2923,20 @@
           "description": "Number of hits in a buzz leading into the onset."
         },
         "slide": {
-          "type": "boolean",
-          "description": "Glides a synth from its previous note.",
-          "default": false
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "enum": [
+                0,
+                1
+              ]
+            }
+          ],
+          "description": "Glides a synth from its previous note. 1/0 are accepted for true/false.",
+          "default": false,
+          "x-beatlab-syntax": "boolean | 1 | 0"
         },
         "art": {
           "type": "string",

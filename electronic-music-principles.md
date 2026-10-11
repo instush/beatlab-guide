@@ -423,6 +423,31 @@ Autoduck as an alternative to sidechain compression: rather than a compressor, d
 the duck curve directly — 1/4 sync, −24 dB depth, dip shape. A drawn curve is
 deterministic and shapeable in ways a detector's envelope is not.
 
+### 8.1 A whole arrangement from bus moves alone
+
+Automation is not only decoration on top of an arrangement — it can *be* the
+arrangement. One unchanging loop at 140 BPM, routed to four buses (drums: kick /
+clap / hats; music: bass / arp / pad; reverb: the wash; delay: the echo), produces a
+full intro → grow → build → drop → break → outro structure with **no change to a
+single note**: `[measured]`
+
+| Section | The only thing that moves |
+|---|---|
+| Grow | music-bus low-pass opens 200 Hz → 6 kHz over 2 bars |
+| Build | music-bus high-pass rises to 1.5 kHz **and** reverb return lifts +13 dB — the lows drop out, the wash swells |
+| Drop | both filters reset; music bus ducked 9 dB from the kick, recovering in 214 ms; one delay throw at a dotted eighth (321 ms) |
+| Break | drum-bus high-pass climbs 120 Hz → 900 Hz, then off — the kick *leaves* without muting anything |
+| Outro | music-bus low-pass closes 6 kHz → 200 Hz (−3 dB point at 338 Hz); highs fade, bass and kick remain |
+
+Both time values are grid values again: 214 ms is an eighth note at 140 BPM, 321 ms
+a dotted eighth. Same rule as §1 — recompute, don't copy.
+
+Why this matters beyond the trick: **it separates arrangement from composition.**
+The material stays fixed and only mixer state moves. For generative or live use that
+is the cheaper and safer axis — a parameter move cannot produce a wrong note, a
+truncated tail, or a seam, and a section can be rewritten without regenerating any
+musical content.
+
 ---
 
 ## 9. Arrangement {#arrangement}
@@ -482,9 +507,28 @@ as a drop.
 | Limiter gain reduction | ~4 dB |
 | Integrated loudness | −8 LUFS (club target) |
 
-−8 LUFS is a *club* target and deliberately louder than streaming normalization
-(−14 LUFS). Choose the target for the destination; mastering a streaming release to
-−8 LUFS buys nothing but distortion, since the platform will turn it down anyway.
+**dB and LUFS measure different things, and conflating them costs loudness.** dB
+(peak / dBTP) is how high the signal gets at any instant. LUFS is how loud it *feels*
+averaged over time, per ITU-R BS.1770 / EBU R128, where 1 LU = 1 dB. Two masters can
+peak identically and still differ by more than 10 LUFS — which is why peak metering
+alone tells you nothing about perceived loudness.
+
+Choose the target by destination, because platforms normalize on playback:
+
+| Destination | Integrated target | Peak |
+|---|---|---|
+| Club / DJ playback | −8 LUFS | −1.0 dBTP |
+| Spotify (normal), SoundCloud | −14 LUFS | below −1 dBTP |
+| Spotify "loud" / "quiet" settings | −11 / −19 LUFS | — |
+| EBU R128 broadcast | −23 LUFS | — |
+| Apple, YouTube, Tidal, Amazon, Deezer | no published music figure | — |
+
+Mastering a streaming release to −8 LUFS buys nothing but distortion: the platform
+turns it down to −14 anyway, and you arrive quieter *and* more squashed than a
+master made for the target. Chase a master that sounds good, not a number.
+
+*Platform figures checked 11 Oct 2026; these policies change, so verify before
+relying on them.*
 
 ### 10.3 Delivery
 
@@ -528,12 +572,16 @@ COMPRESS    drums: attack 10-30 ms, release = one 1/16
 
 AUTOMATE    (parameter, start, end, bars, curve)
             1 bar = groove; 4 bars = build
+            bus moves alone can carry a whole arrangement:
+              grow = LP opens / build = HP up + reverb send up
+              break = HP the drum bus / outro = LP closes
 
 ARRANGE     16-bar intro, 32-bar drop, reset the ear every 16 bars
 
 MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
             pre-master -6 dBFS / -18 LUFS
-            master -1 dBTP ceiling, -8 LUFS club
+            master -1 dBTP ceiling, -8 LUFS club / -14 LUFS streaming
+            dB = peak, LUFS = felt loudness; they are not interchangeable
 ```
 
 ---
