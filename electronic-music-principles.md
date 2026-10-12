@@ -586,15 +586,15 @@ master made for the target. Chase a master that sounds good, not a number.
 *Platform figures checked 11 Oct 2026; these policies change, so verify before
 relying on them.*
 
-**In this engine you can both set and check these.** Top-level `ceilingDbtp`
-(−9..0) sets the true-peak ceiling of the finished master; omit it and the master
-soft-clips to wherever it lands, near −3 dBFS, which is not a delivery spec. Either
-way the renderer measures the result and reports integrated LUFS, the loudest
-3-second window, true peak and sample peak — so the targets above are checkable
-rather than aspirational, and you can aim a render at one and confirm it landed.
+**In this engine you can set the ceiling but not read the loudness.** Top-level
+`ceilingDbtp` (−9..0) sets the true-peak ceiling of the finished master; omit it
+and the master soft-clips to wherever it lands, near −3 dBFS, which is not a
+delivery spec. There is no loudness readout, so the LUFS targets above are
+something to *compose toward* — arrangement density, how hard the bus is driven,
+how much the limiter is asked to do — not a number you can check and correct.
 
 Use true peak, not sample peak, as the ceiling: a render can sit at −3.0 dBFS by
-sample and still measure −2.2 dBTP between samples, and it is the inter-sample
+sample and still reach −2.2 dBTP between samples, and it is the inter-sample
 value that clips a consumer decoder.
 
 ### 10.3 Delivery
@@ -656,8 +656,9 @@ MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
             pre-master -6 dBFS / -18 LUFS
             master -1 dBTP ceiling, -8 LUFS club / -14 LUFS streaming
             dB = peak, LUFS = felt loudness; they are not interchangeable
-            this engine: "ceilingDbtp" sets it, the render reports
-              integrated LUFS / 3s max / true peak / sample peak
+            this engine: "ceilingDbtp" sets the true-peak ceiling;
+              there is no loudness readout, so compose toward the
+              LUFS target rather than measuring against it
 ```
 
 ---

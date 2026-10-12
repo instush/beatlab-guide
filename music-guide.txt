@@ -1683,10 +1683,6 @@ MASTER CEILING (top-level "ceilingDbtp":-9..0): the TRUE-PEAK ceiling of the
   -1 is the usual streaming ceiling. True peak, not sample peak, is the right
   target — a file that reads -0.1 dBFS by sample can still overshoot and clip
   in a decoder that reconstructs between samples.
-  The renderer MEASURES the finished master either way and reports BS.1770
-  loudness: integrated LUFS, loudest 3-second window, true peak and sample
-  peak. Typical targets: about -8 LUFS for club playback, about -14 LUFS for
-  streaming, where anything louder is turned down on playback anyway.
 
 ### G.7 TRACK-PUMP SIDECHAIN
 
