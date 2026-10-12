@@ -1,10 +1,12 @@
 # Electronic Music Genres
 
-> **Third of three.** The Beat Lab score guide is authoritative on *syntax* — what
+> **Third of four.** The Beat Lab score guide is authoritative on *syntax* — what
 > fields exist, what compiles, and how to author instruments (`ex_`) and drum
 > voices (`exd_`) from oscillators up. `electronic-music-principles.md` is
 > advisory on *sound* — kick synthesis, low end, compression, mix targets. This
 > one is advisory on *genre* — what a style has to get right to be recognisable.
+> `electronic-music-composition.md` is advisory on *composition* — motif,
+> development, form, and why one event follows another.
 > Where any two disagree about what is *possible*, the score guide wins. None of
 > them overrides an explicit user instruction.
 

@@ -378,10 +378,11 @@ PITCHED-INSTRUMENT PALETTE (use exact names; stay inside each range):
   (overhead pairs, rooms and wide textures). A note's "pan" repositions that
   existing image; it does not collapse it to mono. Do not double the same
   stereo recording left/right to manufacture width—it already owns a field.
-  FINAL LEVEL: the engine peak-normalizes and soft-limits with safety headroom;
-  it does not target LUFS or true peak like a dedicated streaming/club master.
-  Judge references at matched playback loudness. External delivery mastering
-  is outside this score JSON; do not fake energy by merely raising every vol.
+  FINAL LEVEL: the default master peak-normalizes and soft-limits with safety
+  headroom. Optional "ceilingDbtp" targets the estimated true peak of the
+  finished master; it does not target LUFS or report measured loudness.
+  Judge references at matched playback loudness. Do not fake energy by merely
+  raising every vol.
 
 #### D.1.c Engine character
 
@@ -1584,8 +1585,9 @@ closest named character first, then bend it:
         {"id":"mud","type":"bell","freq":320,"gain":-4,"q":1.4},
         {"id":"click","type":"bell","freq":4500,"gain":3,"q":1.2}
       ]
-    Each band has its own id, so each one's freq/gain/q can be swept
-    independently from top-level "automation".
+    Each band has its own id, so its freq and gain can be swept independently
+    from top-level "automation". Bell bands also support q automation;
+    shelf bands have no q parameter.
   - "sends" is maximum 8. A send to another named bus creates a parallel path:
     the source bus still continues to its role while a copy feeds the target.
     "tap":"pre" copies the bus input BEFORE its ordered rack and fader/pan;
@@ -1677,12 +1679,16 @@ RHYTHM GLUE (top-level "glue":0-10): a mix-bus compressor over drums+percussion+
   as one object. 3-5 is a useful starting range for a tight, produced low end;
   0/absent is off. Its audible purpose is cohesion, not automatic quality.
 
-MASTER CEILING (top-level "ceilingDbtp":-9..0): the TRUE-PEAK ceiling of the
-  finished master, in dBTP. Omit it and the master keeps its default
-  soft-clipped landing (near -3 dBFS). Set it to deliver against a spec:
-  -1 is the usual streaming ceiling. True peak, not sample peak, is the right
-  target — a file that reads -0.1 dBFS by sample can still overshoot and clip
-  in a decoder that reconstructs between samples.
+MASTER CEILING (top-level "ceilingDbtp":-9..0): targets the estimated TRUE
+  PEAK of the finished master, in dBTP. Omit it and the master keeps its
+  default soft-clipped landing (near -3 dBFS). The renderer can raise or
+  lower the finished level to reach this target; it does not target LUFS or
+  report measured loudness. Use a finite JSON number from -9 through 0;
+  malformed or out-of-range values are errors, never clamped or ignored.
+  -1 is a common streaming target. This is a reconstruction estimate, not a
+  guarantee of an exact continuous-time peak or compliance with an external
+  delivery specification. For such a specification, verify the exported WAV
+  with the required meter. Sample peak alone can miss inter-sample overshoots.
 
 ### G.7 TRACK-PUMP SIDECHAIN
 

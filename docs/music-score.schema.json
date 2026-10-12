@@ -60,7 +60,7 @@
       "type": "number",
       "minimum": -9,
       "maximum": 0,
-      "description": "True-peak ceiling for the finished master, in dBTP. Omit to keep the default soft-clipped master (it lands near -3 dBFS). Set it to deliver against a spec: -1 is the usual streaming ceiling. The renderer reports the measured loudness either way."
+      "description": "Estimated true-peak target for the finished master, in dBTP. The renderer may raise or lower the final level to reach it. Omit to keep the default soft-clipped master (near -3 dBFS). Invalid values are errors, never clamped or ignored. This does not target LUFS or report measured loudness. For an external delivery specification, verify the exported WAV with the required meter."
     },
     "groove": {
       "$ref": "#/$defs/GrooveBinding"
