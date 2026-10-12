@@ -780,74 +780,47 @@ made a final compositional decision.
 11. CREATIVE COMPOSITION PROCEDURE FOR AN AI
 ===============================================================================
 
-This is a reusable method, not a rigid production checklist. Internally plan,
-then output only what the authoritative Beat Lab score contract permits.
+Use this as a creative expansion of the score guide's B.5 workflow, not a second
+checklist to complete. Revisit decisions when sound, phrase or form suggests a
+better direction. All planning stays internal; the music response is JSON only.
 
-PASS 1 - DEFINE THE REQUEST
-  Extract explicit style, duration, mood, rhythmic language, sound references,
-  foreground expectations, and exclusions. Translate artist references into
-  abstract attributes rather than copying recognizable work.
+1. INTENT AND CONTRAST
+   Extract style, duration, mood, references and exclusions. Translate references
+   into musical attributes. Choose a guiding relationship such as mechanical /
+   human, tender / ominous or repetitive / evolving. Section 1's blueprint is an
+   optional aid; fill only the slots that clarify the idea.
 
-PASS 2 - DECIDE THE DRIVING CONTRAST
-  Choose a productive tension: mechanical/human, dense/spacious, tender/ominous,
-  dry/remote, static/unstable, repetitive/evolving. A track can have several
-  contrasts, but select one that guides its identity.
+2. MATERIAL WITH ITS SOUND
+   Invent a recognizable rhythmic, pitched, harmonic or timbral seed, or a few
+   related seeds when needed. Decide what anchors the music and what can mutate.
+   Try the main relationship in a short passage, often 2-4 bars for groove music.
+   Revise timing, gaps, envelopes and interaction together. A drone may need a
+   longer listening window; no universal loop length or number of seeds applies.
 
-PASS 3 - INVENT THREE DISTINCT SEEDS
-  Invent one rhythmic seed, one pitched/harmonic seed, and one timbral seed.
-  They may be interrelated, but each should have a recognizable silhouette.
-  Reject generic placeholders such as continuous root-eighth bass notes unless
-  repetition itself is a deliberate aesthetic decision.
+3. DEVELOPMENT AND PAYOFF
+   Explore variants with audible preserved traits: an answering rhythm, thinned
+   fragment, new harmony, timbral fracture or completed ending. Keep only useful
+   variants. If a late payoff suggests itself first, compose it and work backward
+   to what would make it meaningful; otherwise let the material suggest the form.
 
-PASS 4 - CHOOSE AN ANCHOR AND A PROTAGONIST
-  Decide what the listener can rely on and what has permission to mutate.
-  Determine whether the bass, break, melody, harmony, or sound field leads.
+4. SCENES AND FOCUS
+   Map the duration into scenes, identifying what remains recognizable and what
+   changes. At an entrance, consider whether another voice should leave or recede.
+   Ask why the next scene follows this one: extension, contrast, resolution,
+   delayed reply, intentional hold or rupture. Choose an ending rather than
+   letting the repeat count decide it. No fixed scene count or drop is required.
 
-PASS 5 - TEST TWO BARS BEFORE ARRANGING EVERYTHING
-  Write a compelling 2- to 4-bar combination containing the main relationship.
-  If it is weak, revise the timing, gaps, interaction, or motif. Do not hide a
-  weak loop behind 20 layers or elaborate mastering.
+5. REALIZATION
+   Translate the plan through the score guide's exact syntax. Use the conceptual
+   crosswalk in Section 16; it does not authorize additional fields. Check that
+   timing, sound and orchestration actually expose the intended relationships.
 
-PASS 6 - MAKE A TRANSFORMATION LIBRARY
-  Create 3-6 meaningful variants with known preserved traits:
-    A0 - unmistakable seed;
-    A1 - rhythmic response;
-    A2 - fragile, thinned variation;
-    A3 - harmonic reinterpretation;
-    A4 - timbrally fragmented variation;
-    A5 - returning seed with one changed ending.
-  Use only variants that serve the eventual form.
-
-PASS 7 - PLAN THE SCENES
-  Map time into scenes. For each, name protagonist, harmonic state, rhythmic
-  state, novelty, memory, transition mechanism, and reason it belongs.
-  Ensure something develops in the middle; do not simply save everything
-  interesting for an ending.
-
-PASS 8 - WRITE THE BIGGEST PAYOFF FIRST IF USEFUL
-  Decide what late return, resolution, or transformation is worth earning.
-  Place the preceding scenes to establish its significance.
-
-PASS 9 - ARRANGE WITH FOCUS
-  At each entrance, decide what leaves or becomes quieter. Reserve a space for
-  one-off events and let looped material sustain the musical grammar. Do not
-  add an instrument merely to signal the start of another 8-bar block.
-
-PASS 10 - VERIFY MUSICAL CAUSALITY
-  For each section boundary, ask: "Because of what the listener just heard,
-  why should this be the next event?" The answer may be contrast, extension,
-  resolution, a delayed reply, or purposeful rupture.
-
-PASS 11 - COMPOSE A TRUE END
-  Select completion, dissolution, interruption, or a return with changed
-  meaning. Do not let a pattern simply stop due to durationSec.
-
-PASS 12 - RENDER, LISTEN, AND REVISE
-  Schema validity is necessary, not sufficient. When audio preview is possible,
-  listen without looking at the score. Diagnose the felt result, then make
-  specific changes (see Section 15). If no renderer is accessible, inspect
-  onsets, phrase spans, harmonic motion, and energy distribution conservatively.
-  Do not claim a listening test you did not perform.
+6. REVIEW AND REVISION
+   Apply technical validation separately from musical evaluation (Section 20;
+   score guide I.1). With playback, listen without looking and diagnose the felt
+   result using Section 15. Without it, inspect onsets, phrase spans, harmonic
+   motion and density conservatively. Fix a specific weakness, then re-check the
+   affected passage and boundaries. Never claim a listening test you did not do.
 
 ===============================================================================
 12. CONTROLLED SURPRISE: A DECISION FRAMEWORK, NOT RANDOMNESS
@@ -1278,6 +1251,52 @@ STUDY C: AMBIENT, "AN OBJECT MOVES THROUGH SPACE"
   Payoff: the same gesture is heard at a changed distance. Form is built from
   attention and spatial memory rather than beats, drops, or chords.
 
+18.1 EXECUTABLE MINIATURE: TEACH A GAP, THEN ANSWER IT
+
+This 12-second study isolates Study B's gap-and-answer relationship. It is not a
+complete tech-house production or a template for its section lengths. At 120 BPM,
+each four-beat pattern lasts two seconds. Local beat 3 means the fourth beat.
+
+  Beats 0-8:   A repeats twice; hats answer its empty fourth beat.
+  Beats 8-12:  the bass repeats, but the hat answer disappears.
+  Beats 12-16: FILLED preserves A and adds a bass note in the learned gap.
+  Beats 16-20: the original bass gap and hat answer return.
+  Beat 20:    one root and kick close the study; the remaining time lets them decay.
+
+```json
+{
+  "bpm":120,"durationSec":12,"seed":23,
+  "patterns":{
+    "KICK":{"instrument":"drums","lenBeats":4,
+      "notes":["0 e_kick 0.8","1 e_kick 0.8","2 e_kick 0.8","3 e_kick 0.8"]},
+    "A":{"instrument":"moog_bass","lenBeats":4,
+      "notes":["0 A1 0.5 0.8","0.75 C2 0.25 0.65","1.5 E2 0.5 0.75","2.5 A1 0.25 0.65"]},
+    "ANSWER":{"instrument":"drums","lenBeats":4,
+      "notes":["3 e_hat_closed 0.55","3.5 e_hat_closed 0.4"]},
+    "FILLED":{"extends":"A","notes":["3 A1 0.5 0.8"]},
+    "END":{"extends":"A","only":[0]},
+    "LAST_KICK":{"extends":"KICK","only":[0]}
+  },
+  "arrangement":[
+    {"pattern":"KICK","atBeat":0,"repeat":5},
+    {"pattern":"A","atBeat":0,"repeat":3},
+    {"pattern":"ANSWER","atBeat":0,"repeat":2},
+    {"pattern":"FILLED","atBeat":12},
+    {"pattern":"A","atBeat":16},
+    {"pattern":"ANSWER","atBeat":16},
+    {"pattern":"END","atBeat":20},
+    {"pattern":"LAST_KICK","atBeat":20}
+  ]
+}
+```
+
+The new bass event is deterministic and placed once; adding it to A itself would
+erase the earlier absence that gives it meaning. The return restores the gap
+without adding another instrument. With playback, compare against a version
+using A at beat 12 too: does the single changed note register as an answer?
+If the relationship is weak, adjust the phrase, register or envelope before
+adding effects. Write new material for the user's piece; reuse the method.
+
 ===============================================================================
 19. CONCISE CREATIVE RULES TO REMEMBER WHILE GENERATING
 ===============================================================================
@@ -1307,6 +1326,17 @@ STUDY C: AMBIENT, "AN OBJECT MOVES THROUGH SPACE"
 20. FINAL SILENT SELF-REVIEW BEFORE EMITTING A BEAT LAB SCORE
 ===============================================================================
 
+TECHNICAL VALIDATION — required independently of artistic intent:
+  [ ] Fields, values, symbols and references conform to the current score guide.
+  [ ] Pattern beats and direct-track seconds, repeats and duration are correct.
+  [ ] Custom sounds, routing, effects and automation satisfy their contracts.
+  [ ] The response is one valid JSON object, with no prose or invented features.
+
+Use the score guide's I.1 for the full technical check. Its documented language
+is authoritative; a schema or compiler is additional support when accessible.
+
+MUSICAL EVALUATION — use the relevant questions for the intended style:
+
 A. ORIGINALITY
   [ ] Material is newly composed; no recognizable melody/hook is copied.
   [ ] The piece has an identity more specific than a genre and BPM.
@@ -1333,14 +1363,15 @@ E. FORM
   [ ] At least one late moment rewards the listener's memory.
   [ ] The ending is intentional.
 
-F. EXECUTION
-  [ ] All score values and symbols conform to the current music-guide.txt.
-  [ ] Pattern beats versus direct-track seconds are handled correctly.
-  [ ] No guessed instruments, fields, plugins, or impossible transformations.
-  [ ] No essential payoff depends on unreliable probability.
-  [ ] The score is valid and its musical choices have been reviewed separately.
+F. REALIZATION
+  [ ] Sound, register, level and timing expose the relationships the plan describes.
+  [ ] Essential payoffs are deterministic unless chance itself is the concept.
+  [ ] Review is based on actual playback where available, with no invented
+      listening or measurement claims when only the score can be inspected.
 
-An item can intentionally be false. If so, know the artistic reason.
+Musical heuristics may be set aside for an artistic reason. Technical validity
+and the JSON-only response contract are never optional. Revise the most important
+weakness and re-check the result rather than maximizing every checklist item.
 
 ===============================================================================
 21. SOURCES, INFLUENCES, AND PROVENANCE

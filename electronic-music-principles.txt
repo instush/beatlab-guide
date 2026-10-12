@@ -14,6 +14,10 @@ differently, or a deliberate aesthetic choice.
 Every numeric value here is a *starting point with a reason attached*. Prefer the
 reasoning to the number: when a rule says "107 ms", what it means is "one sixteenth
 note at 140 BPM" — recompute it for the actual tempo rather than copying the figure.
+Numbers from a measured demonstration describe that signal and processing chain;
+they do not predict the same result for another sound. Use audio and meters when
+available. Without them, reason from envelopes, timing and routing, and do not
+claim to have measured a mix or auditioned playback systems.
 
 **Scope and bias.** Derived from a techno-centric body of instructional material
 (see [Provenance](#provenance)). Rules marked `[techno]` are style-specific;
@@ -25,8 +29,9 @@ beyond. Where a claim rests on a single measured demonstration it is marked
 
 ## 1. Tempo and genre frame {#tempo}
 
-Tempo is the first decision because it sets every time-derived value downstream —
-envelope decays, delay times, compressor releases, choke lengths.
+Choose a working tempo early because it relates rhythmic spacing to envelope
+decays, delay times, compressor releases and choke lengths. A musical idea or
+sound may come first; revise the time-dependent settings if the tempo changes.
 
 | Genre | BPM | Signature traits |
 |---|---|---|
@@ -51,9 +56,9 @@ disguise.
 
 ## 2. The kick {#kick}
 
-In four-on-the-floor genres the kick is not one element among many — it is the
-track's spine, its loudest event, and the thing every other low-frequency decision
-is made relative to. Build it deliberately.
+In many four-on-the-floor tracks the kick anchors the pulse and low-end decisions.
+Build it in relation to the bass and intended groove; being the anchor does not
+require it to be the loudest event in every section.
 
 ### 2.1 Synthesis from first principles
 
@@ -79,11 +84,11 @@ genre:**
 
 - `hold 25 ms, decay 100 ms` — techno. Short, punchy, leaves the bar open for a
   bassline. `[techno]`
-- `decay 550 ms` — 808-style. Long, boomy, *becomes* the bassline and therefore
-  forbids a separate one in the same register.
+- `decay 550 ms` — 808-style. Long, boomy, may *become* the bassline. Another
+  part in the same register needs deliberate timing or spectral separation.
 
-This is the single most consequential kick parameter. Choosing a 550 ms decay is
-choosing not to have an independent bass part below ~80 Hz.
+Decay strongly affects how much room remains for an independent bass part.
+Choose it with the bass rhythm, not in isolation.
 
 In this engine an `exd_` kick body is exactly this envelope: `attackMs` (0–50,
 default 0 = instant), `holdMs` (0–250) and `bodyDecay` (seconds). The pitch sweep,
@@ -99,8 +104,8 @@ click and noise keep their own timing, so a hold never blunts the transient. Mak
 
 ### 2.3 Layering: three bands, three jobs
 
-Rather than one synthesized kick, build three layers that each own a frequency band
-and a slice of time:
+If one kick cannot supply the intended shape, try layers with distinct frequency
+and timing roles. A single well-shaped kick is equally valid:
 
 | Layer | Band | Role | Typical level |
 |---|---|---|---|
@@ -119,16 +124,19 @@ same punch with a different tail is, perceptually, a different kick.
 
 ### 2.4 Tuning the kick to the track
 
-A kick is a pitched event, and if its pitch disagrees with the bass root the two
-*beat* against each other — the low end audibly swings in level while the bass note
-sustains, which reads as an uneven, amateurish bottom end.
+A long, tonal kick tail can interact strongly with sustained bass. If the overlap
+sounds uneven or harmonically distracting, investigate pitch, phase and timing.
+Short or noisy kicks may have no stable musical pitch worth matching.
 
 **Procedure:**
 1. **Find** — the kick's pitch is the strongest spectral peak of its body in the
    25–120 Hz band.
 2. **Compare** — against the bass root, or the track's key.
-3. **Tune** — retune the kick to the bass root.
-4. **Check polarity** — after tuning, flip the phase and keep whichever is louder.
+3. **Compare tuning** — try the root or another compatible pitch, then judge
+   the whole bass phrase rather than one isolated note.
+4. **Check interaction** — audition timing and, in tools that expose it, polarity.
+   Keep the version whose attack and body serve the mix, not simply the louder one.
+   Beat Lab has no documented polarity-invert field; do not invent one.
 
 Worked example `[measured]`: a kick ringing at 50.8 Hz (G♯1) against a 55 Hz (A1)
 bass sits 1.4 semitones out. Level-matched, the low-end swing across the bass note
@@ -138,8 +146,9 @@ pair moved the low end by 12.5 dB — worth one A/B every time.
 Side effect to anticipate: pitching a kick up shortens it. Two semitones up ended
 the kick about 8% sooner (400 → 368 ms), while the click barely moved.
 
-Three valid fixes, in order of preference: retune the kick, choose a kick that
-already fits, or retune the bass.
+Possible fixes include shortening or separating overlapping notes, retuning the
+kick, or choosing another kick. Change the bass's pitch only if the composition
+benefits; a mix issue should not automatically rewrite the harmonic idea.
 
 ### 2.5 Processing for hard genres `[techno]`
 
@@ -203,17 +212,18 @@ gain only, so it cannot place a move at a frequency; reach for `bell`:
 
 ## 3. The low end: kick versus bass {#low-end}
 
-Kick and bass both want roughly 80 Hz. Unmanaged, they mask each other and the mix
-turns to mush. Five rules resolve nearly all of it.
+Kick and bass can compete in the low end. Inspect their timing and envelopes
+before processing, then select the strategies the actual overlap needs.
 
-**1. Split them with EQ.** Decide which source owns the sub. Typically the kick
-owns it; carve the bass at the kick's fundamental (e.g. −14 dB, Q 1.4, at 80 Hz).
-Ownership is a decision, not a compromise — refusing to decide is what creates mud.
+**1. Allocate space.** Decide whether kick or bass carries the deepest sustained
+energy. If EQ is needed, carve the competing part near the overlap; the source's
+−14 dB, Q 1.4 cut at 80 Hz is a substantial intervention, not a default to apply
+blindly. Note length, register and rests may solve the conflict more musically.
 
-**2. Sidechain the bass to the kick.** Fast attack (~1 ms), short release (~90 ms),
-6–8 dB of reduction. The critical constraint: **the bass must be back up before the
-next note.** Ducking is a timing tool, not a loudness tool. A release that outlasts
-the gap between hits stops the groove breathing.
+**2. Duck overlapping bass when useful.** Fast attack (~1 ms), short release
+(~90 ms), and 6–8 dB reduction describe one pronounced pumping treatment.
+Recover in time for the bass events that need emphasis; use less depth, another
+release shape or no ducking when the rhythm already provides space.
 
 **3. Keep the sub mono.** Crossover at 120 Hz: mono below, stereo above. Wide low
 frequencies partially cancel on mono playback (club subs, phone speakers) and the
@@ -235,10 +245,10 @@ pan is not width, and the crossover does not undo it.
 **4. Saturate the bass** for the same reason as the kick (§2.6). Keep the clean sub;
 blend harmonics on top.
 
-**5. Check three systems** — headphones, monitors, phone. Each lies differently:
-headphones exaggerate bass by around +5 dB with no room contribution; rooms distort
-the low end most of all. The phone check is not optional, it is where most listening
-happens.
+**5. Check available playback systems** — headphones, monitors and a phone can
+reveal different balances. Headphone response, room acoustics and small-speaker
+extension vary. When playback access is unavailable, do not claim these checks;
+preserve a clear low-end rhythm and useful upper harmonics as a starting strategy.
 
 ---
 
@@ -246,10 +256,11 @@ happens.
 
 ### 4.1 Build order
 
-Introduce elements one lane at a time, each establishing before the next arrives:
+For a conventional house/techno sketch, try introducing one lane at a time:
 **kick → hats → clap → percussion.** A four-on-the-floor kick with slightly more
 weight on beat 1; hats carrying speed; clap on 2 and 4 as the backbone; percussion
-last, as detail.
+last, as detail. This is a drafting method, not a required entrance order in the
+finished track. A bass, melody or percussion conversation can initiate the groove.
 
 ### 4.2 The off-beat grid
 
@@ -287,14 +298,15 @@ highest-yield single edit.
 
 ### 5.1 Key and progression defaults
 
-A minor is the default working key for this idiom, with two progressions covering
-most ground: **Am–F–C–G** (open, anthemic) and **Am–Dm–E–Am** (i–iv–V–i, darker and
-more resolved).
+A minor makes the following examples easy to read: **Am–F–C–G** (open, anthemic)
+and **Am–Dm–E–Am** (i–iv–V–i, darker and more resolved). Choose a key, mode or
+harmonic absence for the requested music and instrument registers; these examples
+are not default progressions to reuse in every score.
 
-**Harmonic minor is the main lever.** Raising the 7th (G → G♯ in A minor) turns the
+**One lever is harmonic minor.** Raising the 7th (G → G♯ in A minor) turns the
 v chord from Em into **E major**, creating a true leading tone and a strong pull home.
-This single accidental is responsible for most of the "dark electronic" harmonic
-flavour.
+Use that pull when it suits the phrase; dark character can also come from voicing,
+register, timbre, rhythm or unresolved modal relationships.
 
 **Deceptive cadence:** build the pull with E major, then land on F instead of Am. The
 expectation is created and deliberately not satisfied, so the track keeps moving —
@@ -307,7 +319,8 @@ Same roots, different extensions, different mood:
 - Root position — plain, stable
 - Voice leading — move the nearest note, not the whole shape
 - Seventh chords — jazzier, more tension
-- **Add9 voicings** (Am9, Fadd9, Cadd9, Gadd9) with the 9th on top — wide, emotional
+- **Add9 voicings** (Am(add9), Fadd9, Cadd9, Gadd9) with the 9th on top — added color;
+  Am9 also includes the seventh, G, so choose that extra tension deliberately
 - Spread voicing — more space between voices, bigger
 - Off-beat stabs — short chords on steps 3/7/11/15, one step long
 
@@ -330,10 +343,10 @@ Five archetypes: root notes, off-beat, rolling, octave, groove.
 
 ### 5.4 Melody and lead
 
-- **Contour: one peak per phrase.** An arch shape with a single highest note. Two
-  peaks read as two competing melodies.
-- **Place the climax in bar 3** of a 4-bar phrase — roughly three-quarters through,
-  not at the start and not at the very end.
+- **Try a clear focal point.** An arch with one highest note is easy to follow;
+  repeated peaks, falls, narrow orbits and interrupted contours serve other ideas.
+- **Try the climax in bar 3** of a 4-bar phrase, leaving room for a response.
+  Earlier, delayed or withheld arrivals create different expectations.
 - Call and response, a repeating motif, landing on chord tones, and leaving space
   are the remaining levers.
 - **Repeat, then change:** play the phrase twice and alter only the last beat.
@@ -397,14 +410,15 @@ sine pair with a ratio, an index and an index decay that always falls to zero;
 the operator architecture (`ops` + `routes`) is the DX7 / Operator model, and it
 is the one to reach for when any of the points below matter.
 
-- **Ratio** determines harmonicity. Integer ratios (1:1, 2:1, 0.5:1) give
-  pitched, musical tones; non-integer ratios (1.41, 3.5, 7.01) give bells and
-  metal; a ratio of 10 or more on a modulator with a 50–150 ms envelope is a
-  click or a tine, not a tone.
+- **Ratio** sets the spacing of the sidebands. Simple relationships such as
+  1:1, 2:1 and 0.5:1 are useful for clear pitch; less simple relationships can
+  create clangorous colors. Non-integer does not automatically mean inharmonic:
+  3.5:1 is 7:2. A high-ratio modulator with a short envelope can add a tine-like
+  attack; ratio alone does not determine the sound.
 - **Index** determines how much spectrum is generated. Roughly: 0.3–1.5 adds
   warmth, 2–4 is a bright keyboard or bass, 5–8 is bells and metal, 9–12 is
-  noise-like. Index is a radian value, so the same number means the same
-  brightness at any ratio.
+  noise-like in some patches. These are starting regions, not timbre guarantees:
+  ratio, routing, waveforms and envelopes change the result at the same index.
 - **Envelope the index — and give it a floor.** A falling index (peak ~5.9,
   decaying over 70 ms, resting at 0.4) gives a bright attack settling into a
   purer sustain; the rest value is the sustain of the *modulator's own* envelope.
@@ -425,7 +439,9 @@ is the one to reach for when any of the points below matter.
   formant that stays at 640 Hz across a chord, or a 3 Hz operator used as an
   extra slow modulator on a modulator.
 
-See the syntax guide for the field names, limits and the route rules.
+See the syntax guide for the field names, limits and the route rules. For the
+general interaction of modulator level and frequency ratio, see the
+[Ableton Operator reference](https://www.ableton.com/en/live-manual/12/live-instrument-reference/#operator).
 
 ---
 
@@ -443,11 +459,9 @@ See the syntax guide for the field names, limits and the route rules.
 amount knobs (0–10) with the decisions already made inside: `squash` (fast,
 aggressive), `smooth` (slow program-dependent leveling), `glue` (one mix-bus
 compressor over drums + percussion + bass together), `punch` (transient
-enhancement) and `pump` (onset-triggered ducking). That is a deliberate design,
-not a missing feature: a threshold in dB is meaningless without hearing the signal
-level, so a value guessed blind either does nothing or destroys the take, whereas
-every value of an amount knob yields a sane result. Read §7.1 to understand what
-the knobs are doing; reach for the knobs to do it.
+enhancement) and `pump` (onset-triggered ducking). Their bounded controls simplify
+authoring, but a legal amount can still overprocess a particular signal. Judge
+the result in context; do not infer gain reduction from the knob value alone.
 
 ### 7.2 Attack and release are the whole instrument
 
@@ -456,22 +470,22 @@ catches the very first click, shrinking the transient — the drum becomes softe
 rounder. On drums, start between **10 and 30 ms** and deliberately let the transient
 through, compressing what follows it.
 
-**Release must resolve before the next hit.** A 700 ms release at 140 BPM never
-recovers between hits and the groove stops breathing; ~110 ms (one sixteenth at that
-tempo) tracks the groove. Release is a tempo value, not a taste value.
+**Relate release to the groove.** At 140 BPM, ~110 ms is roughly a sixteenth,
+while 700 ms spans more than a quarter note. Short recovery can preserve the
+next attack; longer recovery can deliberately connect hits or sustain pumping.
+Choose by the intended envelope rather than assuming every hit needs full recovery.
 
-This engine agrees with that second rule to the point of enforcing it: the only
-release control it exposes, `pumpRelease`, is specified **in beats** (0.15–1.5),
-not milliseconds, so a duck cannot drift out of time when the tempo changes. For
-attack there is no parameter — `punch` adds transient rather than letting you
-choose how much to eat, which is the same decision from the other side.
+In this engine the track control `pumpRelease` is a **0–10 knob**, mapped to a
+tempo-relative recovery; it is not a literal beat or millisecond value. Track
+`pumpHold` and `pumpShape` also shape that envelope. A custom bus's `sidechain`
+instead exposes `attackMs` and `releaseMs` in milliseconds. Keep these interfaces
+distinct and use the score guide's ranges. `punch` shapes transients separately.
 
 ### 7.3 Always compare level-matched
 
-Compression lowers peaks; makeup raises everything. Compared un-matched, compression
-always sounds "better" because it is simply louder. Level-matched, the honest
-description is: *same loudness, but the quiet detail steps forward.* Judge it that
-way or you are not judging compression at all.
+Compression changes the envelope; makeup can raise the result. A louder processed
+version can seem preferable for that reason alone. Compare at similar loudness
+to judge attack, sustain, pumping and detail rather than the gain difference.
 
 ### 7.4 Compressor character
 
@@ -535,7 +549,9 @@ naming that id as the automation target — `freq`, `gain` and `q` all move:
 
 Two of the moves need a specific engine form. The **noise riser** is a bus
 `filter` in `bandpass` mode with its `cutoff` swept (an `ex_` noise patch can use
-its own `filter.mode` instead); the volume lane is the bus `fader`. The **reverb
+its own `filter.mode` instead); a bus `fader` uses linear 0–1 values, not the
+demonstration's dB numbers. Rescale the intended rise within that range and check
+the result rather than entering a positive dB value as a fader. The **reverb
 throw** is a `send` whose `amount` is automated with a `step` keyframe — and only
 custom-bus sends automate, so route the track to a custom bus with a send to
 `hall` (or to a reverb return bus) and sweep that send. The per-track `reverb` and
@@ -573,11 +589,11 @@ One routing fact makes this work here: the built-in role buses (`kit`, `bass`,
 bus with `"role":"kit"` that the drum tracks route to, and the music bus likewise.
 Only declared buses have an `effects` rack, and only those can be swept.
 
-Why this matters beyond the trick: **it separates arrangement from composition.**
-The material stays fixed and only mixer state moves. For generative or live use that
-is the cheaper and safer axis — a parameter move cannot produce a wrong note, a
-truncated tail, or a seam, and a section can be rewritten without regenerating any
-musical content.
+Why this matters beyond the trick: **processing can develop fixed note material.**
+The written notes stay fixed while the audible hierarchy changes. That can be a
+compositional choice in itself. Check the result: abrupt parameter changes can
+still expose seams or suppress tails, and a filter sweep cannot repair every weak
+phrase. Choose note development, processing or both according to the idea.
 
 ---
 
@@ -598,22 +614,24 @@ DROP 2           variation, not repetition
 OUTRO            strip back to kick + hats for the next DJ
 ```
 
-### 9.2 The governing rule
+### 9.2 Phrase-scale decisions
 
-**Reset the ear every 16 bars.** Something must change on each 16-bar boundary — an
-element enters or leaves, a filter opens, a variation appears. Attention decays on
-roughly that cycle, and a drop that sounds identical for 32 bars stops functioning
-as a drop.
+**Review what a phrase teaches the listener.** At a useful boundary, decide whether
+to sustain, remove, answer or transform material. Sixteen bars is a common club
+phrase length, not a universal attention span or deadline for change. A repeated
+passage may deepen the groove; a pickup or unexpected silence may justify a change
+before the boundary. Judge development by what becomes audible and meaningful.
 
 ### 9.3 Section craft
 
-- **Intro:** restraint is functional, not stylistic — it exists so the track can be
-  beat-matched.
+- **Intro:** in a DJ-oriented track, restraint leaves room for beat-matching;
+  other openings can establish a motif, space or immediate full groove.
 - **Build:** add movement, not sounds. Filter sweeps, velocity ramps, risers,
   snare rolls. Pulling the kick out lets the loop float and makes the return land.
 - **Drop:** vary it internally — polyrhythms, automation, percussion changes.
-- **Outro:** mirror the intro. Descending pitch (tom fills walking down) and
-  thinning texture signal the end and hand the mix cleanly to the next track.
+- **Outro:** mirroring the intro and thinning texture can support a DJ handoff.
+  A cadence, transformed return, sustained tail or deliberate cut may better serve
+  a listening piece. Compose that choice inside the score's duration.
 
 ---
 
@@ -622,11 +640,11 @@ as a drop.
 ### 10.1 Mix
 
 1. **Gain stage first.** Every channel to around −10 dBFS before any processing.
-2. **High-pass everything that isn't kick or bass.** Only those two are allowed below
-   100 Hz; everything else gets a high-pass at ~150 Hz with a 24 dB/oct slope.
-   This one move resolves most low-mid congestion.
+2. **Remove low end that masks another role.** A high-pass at ~150 Hz with a
+   24 dB/oct slope is one starting point for supporting parts that need no body
+   there. Preserve intentional low notes and warmth; choose the cutoff per sound.
    *Here:* `{"id":"hp","type":"filter","mode":"highpass","slope":24,"cutoff":150}`
-   on each bus that is not the kick's or the bass's.
+   on a bus whose low end actually needs that cut.
 3. **Duck the reverb return from the kick** (−8.5 dB, 160 ms release), not only the
    bass. Keeps the space without smearing the transient.
    *Here:* a custom return bus holding `reverb` at `mix` 1, with a `sidechain` from
@@ -658,19 +676,21 @@ Choose the target by destination, because platforms normalize on playback:
 | EBU R128 broadcast | −23 LUFS | — |
 | Apple, YouTube, Tidal, Amazon, Deezer | no published music figure | — |
 
-Mastering a streaming release to −8 LUFS buys nothing but distortion: the platform
-turns it down to −14 anyway, and you arrive quieter *and* more squashed than a
-master made for the target. Chase a master that sounds good, not a number.
+Normalization changes playback level; it does not undo compression or distortion
+already printed into the master. Choose the dynamics that serve the music and
+compare level-matched. Spotify recommends −14 LUFS and below −1 dBTP, or below
+−2 dBTP for masters louder than −14 LUFS; its settings and playback devices can
+change normalization behavior. [Spotify's delivery guidance](https://support.spotify.com/us/artists/article/loudness-normalization/)
 
-*Platform figures checked 11 Oct 2026; these policies change, so verify before
-relying on them.*
+*Spotify guidance checked 12 Oct 2026. Other platform figures are inherited
+references; verify the destination's current requirements before delivery.*
 
 **In this engine you can set the ceiling but not read the loudness.** Top-level
 `ceilingDbtp` (−9..0) sets the true-peak ceiling of the finished master; omit it
 and the master soft-clips to wherever it lands, near −3 dBFS, which is not a
-delivery spec. There is no loudness readout, so the LUFS targets above are
-something to *compose toward* — arrangement density, how hard the bus is driven,
-how much the limiter is asked to do — not a number you can check and correct.
+delivery spec. There is no loudness readout or LUFS target field. Verify the
+exported WAV with an external meter when a delivery target matters. Score values,
+arrangement density and a true-peak ceiling alone cannot establish integrated LUFS.
 
 Use true peak, not sample peak, as the ceiling: a render can sit at −3.0 dBFS by
 sample and still reach −2.2 dBTP between samples, and it is the inter-sample
@@ -693,13 +713,13 @@ KICK        sine ~50 Hz; pitch 150->50 Hz over 50 ms; attack 0.8 ms
             decay 550 ms               [808]
             this engine: exd_ kick attackMs / holdMs / bodyDecay
             click: HP 2.5 kHz, 30 ms, -16 dB under
-            layers overlap ~7 ms (never gap)
-            tune body to the bass root; then check polarity
+            compare layer handoff; ~7 ms overlap in the measured example
+            compare tonal tail with bass; adjust overlap or tuning if needed
             EQ: -4 dB@320, +3 dB@4.5k, +2.5 dB shelf@60
             hard genres: send -> filter highpass slope 24 -> drive, -9 dB
 
-LOW END     kick owns sub; carve bass -14 dB Q1.4 at kick fundamental
-            sidechain: 1 ms attack, 90 ms release, 6-8 dB
+LOW END     choose kick/bass ownership; resolve overlap with timing, envelope or EQ
+            pronounced duck example: 1 ms attack, 90 ms release, 6-8 dB
             mono below 120 Hz   (this engine: width monoBelowHz 120)
             saturate for speakers that can't reproduce the fundamental
               (this engine: drive amount 7.5 mix 0.25)
@@ -710,10 +730,10 @@ GROOVE      off-beat = steps 3, 7, 11, 15
             open hat tail = one 1/16
             3-over-4 realigns every 3 bars
 
-HARMONY     A minor; Am-F-C-G or Am-Dm-E-Am
+HARMONY     examples in A minor: Am-F-C-G or Am-Dm-E-Am; choose your own material
             harmonic minor: G -> G#, v -> V (E major)
             deceptive: E major -> F
-            melody: one peak, in bar 3
+            melody: contour, focal event, phrasing and space
 
 COMPRESS    drums: attack 10-30 ms, release = one 1/16
             parallel: 20:1, 0.5 ms, blend 35%
@@ -722,7 +742,8 @@ COMPRESS    drums: attack 10-30 ms, release = one 1/16
             this engine: amounts 0-10, not threshold/ratio
               squash = fast+aggressive   smooth = slow leveling
               glue = mix bus             punch = add transient
-              pump + pumpRelease (BEATS) = ducking
+              pump + pumpRelease (0-10 knobs) = tempo-relative ducking
+              custom-bus sidechain: attackMs / releaseMs in milliseconds
 
 EQ          this engine: bell {freq, gain, q} and shelf {mode, freq, gain}
             chained on a bus; the 3-band "eq" cannot target a frequency
@@ -736,16 +757,17 @@ AUTOMATE    (parameter, start, end, bars, curve)
               noise riser = filter bandpass cutoff sweep;
               throws = custom-bus send amount with a step keyframe
 
-ARRANGE     16-bar intro, 32-bar drop, reset the ear every 16 bars
+ARRANGE     choose form for the request; sustain, answer, subtract or transform
+            16-bar intro / 32-bar drop is one DJ-oriented option
 
-MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
+MIX         level references require meters; remove masking low end selectively
+            example HP: 150 Hz 24 dB/oct when that preserves the intended body
               (this engine: filter highpass slope 24 cutoff 150)
             pre-master -6 dBFS / -18 LUFS
             master -1 dBTP ceiling, -8 LUFS club / -14 LUFS streaming
             dB = peak, LUFS = felt loudness; they are not interchangeable
             this engine: "ceilingDbtp" sets the true-peak ceiling;
-              there is no loudness readout, so compose toward the
-              LUFS target rather than measuring against it
+              no LUFS readout/target field; measure the exported WAV externally
 ```
 
 ---

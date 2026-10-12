@@ -12,27 +12,26 @@
 
 ## How to use this — read this part first {#how-to-use}
 
-**This document deliberately does not tell you which sounds to use.** It gives,
-per genre, the small number of things that must be true, and leaves everything
-else to you. That is not an omission:
+**Use these entries as stylistic clues, not exhaustive genre definitions.**
+They summarize one producer's tutorial practice. All source counts refer to
+videos from that same producer, not independent authorities; 45 genres have
+only one video. The reported tempos and techniques describe that corpus.
+See Provenance for how captions were interpreted and what they cannot establish.
 
-- **Name no patch, build the sound.** The score guide's workflow is to read the
-  nearest factory DNA as *reference*, then author an `ex_` or `exd_` voice and
-  change it on purpose. A genre entry here tells you what the sound must *do*
-  — "plucked and pitched, sliding up into each downbeat", "clipped, mono,
-  brutal" — so you can synthesise toward that target. Picking a factory patch
-  because a document named it is how every track in a genre ends up identical.
+- **Choose sounds by function.** An entry describes a role — "plucked and
+  pitched, sliding up into each downbeat", "clipped, mono, brutal" — rather
+  than prescribing a patch. Use a factory voice when it fits, or adapt the
+  nearest documented DNA/starter into an `ex_` or `exd_` voice when useful.
+  Originality can come from phrasing, interaction and form with either choice.
 - **Tempo is a range because the sources disagree.** Where this says
   `110–128 · centre 125 · 19 sources`, nineteen tutorials were examined and they
-  chose values across that whole span. Treat the range as the genre's real
-  freedom and the centre as a default, not a rule.
-- **Two or three constraints, then invent.** A genre is defined by a handful of
-  invariants — usually something about the groove, and which element is allowed
-  to be the protagonist. Satisfy those and the track will read as the genre no
-  matter how unfamiliar the individual sounds are. That is the whole point: the
-  constraints are what let you be strange safely.
-- **`≠` lines are confusion guards.** Several genres share a tempo and differ by
-  one decision. Those lines name the decision.
+  chose values across that span. The centre is an optional starting point;
+  neither endpoint defines the limits of the genre.
+- **Choose a few defining relationships, then invent.** Consider the groove,
+  bass role, foreground and production character together. They help establish
+  identity without fixing the melody, sound palette or arrangement.
+- **`≠` lines highlight contrasts in these examples.** They are useful checks
+  against confusing neighbouring styles, not complete definitions of either.
 
 **What a genre entry does not constrain**, unless it says so: the melody, the
 chord progression, the specific timbres, the instrument count, the arrangement
@@ -41,36 +40,38 @@ musical choice; accidental sameness is not.
 
 ---
 
-## The shared form {#form}
+## A common form in the tutorial corpus {#form}
 
-Nearly every genre below is built on one structure. It is worth knowing because
-it is *assembly order*, not content — it constrains nothing about how a track
-sounds.
+The following workflow recurs in the tutorials, especially the club-oriented
+examples. It is one way to build a track. Form affects musical identity, so
+choose it deliberately rather than assuming every genre needs the same arc.
 
-**Build the loudest section first.** Across the corpus the order is: the drop's
+**Try the main section first.** Across the corpus the order is often: the drop's
 drums → bass → chords/pads → leads → ear candy and FX; *then* the intro and
 build-up, assembled by subtracting and filtering what already exists; *then* the
-breakdown and second section, made by varying the first. Writing front-to-back
-tends to invent intro material that never pays off.
+breakdown and second section, made by varying the first. This helps establish
+material worth returning to. A melodic or timbral idea may instead come first;
+the main section need not be the loudest or contain all these roles.
 
-**Sixteen bars is the unit.** Elements enter on 8- or 16-bar boundaries, never
-mid-phrase. A main section is typically two 16-bar halves, and **the second half
-adds** rather than replaces — one more percussion layer, a counter-melody, an
-answering voice. `[291 of 303 sources]` This is the most universal practice
-observed, more consistent than sidechaining. Two identical halves read as
-unfinished.
+**Phrase boundaries establish expectations.** Entries on 8- or 16-bar boundaries
+and additions in a main section's second half are frequent in this corpus
+`[291 of 303 sources]`. Use that regularity when it serves the groove or DJ form.
+Pickups, mid-phrase answers, irregular lengths, subtraction and unchanged repeats
+are also choices. A later passage can change meaning without adding a layer.
 
 **Section markers.** A cymbal on the downbeat of each 8-bar phrase is the
-default `[24 sources say 8 bars; 3 say 4; 1 says 16]`. Risers into a section,
-falls out of one, and a short noise gesture whenever a new element enters.
+common device `[24 sources say 8 bars; 3 say 4; 1 says 16]`. Risers, falls and
+noise gestures can mark selected turns. Leave other boundaries unmarked when
+continuity or the musical phrase itself supplies the transition.
 
-**The breakdown is defined by the absence of ducking.** Same material, no
-kick, no duck. That contrast *is* the section.
+**One breakdown contrast is the absence of ducking.** Removing the kick can
+let previously ducked material sustain, provided that kick was its pump source.
+Other breakdowns change harmony, rhythm, space or focus; a breakdown is optional.
 
 ### Six ways to make a repeated part survive 32 bars {#movement}
 
-Genres differ in which of these they favour; all are cheaper than new material,
-and all are parameter movement rather than notes:
+These moves develop existing material through performance and processing.
+Combine them with note or phrase changes when useful:
 
 1. **A filter sweep across the whole section** — the most common by far.
 2. **Velocity driving the filter** — write accents, and the accents open the
@@ -81,33 +82,37 @@ and all are parameter movement rather than notes:
 5. **A volume shape per bar** — this is what makes big chord stacks breathe.
 6. **Automating a send** — delay or reverb amount as an arrangement curve.
 
-### The low end, which every genre agrees on {#low-end}
+### Recurring low-end strategies {#low-end}
 
-- **One element per band.** The split between the main bass and the sub sits
-  near **60–70 Hz**: high-pass the bass there and let the sub own below it.
-- **Mono below ~200 Hz.** Width down there costs rather than pays.
+- **Assign low-end roles.** When separate main-bass and sub layers are useful,
+  a split near **60–70 Hz** is one starting point. A single bass may already
+  cover both jobs; do not add a sub merely because a tutorial uses two parts.
+- **Check low-end mono compatibility.** A crossover near **200 Hz** is a
+  conservative starting point in these examples, not a universal cutoff.
 - **Duck depth is a per-element decision, not a global setting** — and this is
   the single most consequential mix choice in these styles. Three tiers recur:
-  **deep** for bass and sub (they must vacate completely); **shallow** for
+  **deep** for overlapping bass and sub; **shallow** for
   chords, pianos and pads (they should stay present and merely breathe); and
   **barely anything** for a fast lead, which a full duck would erase. Using one
   depth everywhere is the commonest way a mix in these genres goes flat.
   One source states the reasoning for the shallow case exactly: *"I don't want
   the kick to duck so much of the piano… a really minimal sidechain effect keeps
   the piano prominent."*
-- **Prefer sends to inserts** for reverb and delay on ducked material, or the
-  duck eats the tail and the space disappears.
+- **Place ambience deliberately.** A separate return can preserve a tail
+  while the dry part ducks, or be ducked independently. Insert/send choice
+  alone does not determine this; processing order and routing do.
 
-Nothing in the corpus ever changes key or tempo mid-track. All variation is by
-element, register, filter and rhythm.
+The corpus reports no mid-track key or tempo changes. That describes the
+examples, not a prohibition: Beat Lab supports deliberate harmonic and tempo
+development through the syntax guide's documented features.
 
 ---
 
 # HOUSE {#house}
 
-The family the others borrow from. Four-on-the-floor, 110–128, minor, swung.
-**What distinguishes a house sub-genre is almost never the drums — it is which
-element is allowed to be the protagonist, and how hard the kick ducks the rest.**
+The house examples emphasize four-on-the-floor, 110–128, minor and swing.
+Their foreground choice and ducking help distinguish sub-genres; inspect the
+drum articulation and pocket too rather than assuming their grooves are identical.
 
 ### House {#house-core}
 `125` · minor · **1 source** · the baseline the rest are variations on.
@@ -117,8 +122,8 @@ closed hats as the pulse, shaker and percussion for texture. Swing on.
 
 ### Deep house {#deep-house}
 `110–128` · centre **125** · minor · **19 sources** — the best-attested genre here.
-**Groove** — **a soft kick, never punchy**; this single choice separates it from
-tech house more than tempo does. Claps often held back to the ninth bar. Two
+**Groove** — **a softer kick** than the tech-house examples at similar tempos.
+Claps often held back to the ninth bar. Two
 bass parts. Percussion deliberately lazy and behind the beat.
 **Carries it** — **the chords**, with the root doubled an octave down for weight.
 **Feel** — warm, unhurried, late-night, vocal-led, spacious.
@@ -130,8 +135,9 @@ bass parts. Percussion deliberately lazy and behind the beat.
 *"if we increase the swing we get that perfect tech house groove."* Hats in
 several layers including a quiet "filler" layer. A rolling, repetitive bass whose
 **pitch bends** rather than sweeps.
-**Carries it** — the hi-hat groove, plus **ear candy as a requirement**: many
-small odd sounds, each panned differently, all sharing one delay return.
+**Carries it** — the hi-hat groove, with **ear candy as a recurring technique**:
+small odd sounds, panned differently, sharing a delay return. Keep only details
+that reinforce the pocket or answer another voice.
 *"Tech house uses a lot of ear candy to keep the listener hooked."*
 **Feel** — dry, bouncy, percussive, witty.
 
@@ -328,14 +334,15 @@ builds its interest from parameter movement rather than parts.
 
 ### Techno {#techno-core}
 `126–134` · centre **126** · minor · **6 sources**
-**Groove** — **the low end is two parts, not one.** A continuous sub-bed derived
+**Groove** — **a layered low-end approach in these examples.** A sub-bed derived
 from the kick's own tail, ducked by the very kick that produced it, so the kick
 punches through something otherwise unbroken; and above it a **mono mid-bass with
 its lows removed**, because the kick and the bed already own them. *"Techno
-usually has two types of bass."* Strict 8-bar entry ladder. A second, much
+usually has two types of bass."* An 8-bar entry ladder. A second, much
 quieter hat layer for character. Reverb-drenched clap "fills" that blend rather
 than read as a backbeat.
-**Carries it** — **two leads answering each other**, never one line.
+**Carries it** — **two leads answering each other** in these examples; one
+evolving line or texture can carry another interpretation.
 **Feel** — relentless, mechanical, dark, physical.
 **Note on ducking** — techno often locks the duck to the *tempo* rather than to
 the kick signal, for a stated reason: the long kick tail would otherwise
@@ -453,8 +460,9 @@ sketch**. **Liminal techno** — the creator's own coinage · **1 source**.
 
 # TRANCE AND PSY {#trance}
 
-128–150, minor without exception, and **138 is the single most common tempo in
-the whole corpus** (15 sources across six sub-genres). Long sections: *"usually a
+The trance/psy examples use 128–150 and minor throughout, and **138 is the single
+most common tempo in the whole corpus** (15 sources across six sub-genres).
+Long sections: *"usually a
 trance track has long drops like 32 bars."* Two bass parts are standard — one
 supplying 16th-note motion, one supplying weight.
 
@@ -515,11 +523,10 @@ and groove, trance melodic content and section lengths · **1 source**.
 
 # BASS, BREAKS AND GLOBAL GROOVES {#bass-breaks}
 
-**These are the genres that are not four-on-the-floor, and that changes
-everything.** In house, every sub-genre shares a kick pattern and differs in its
-lead. Here **the kick pattern *is* the identity** — get it wrong and no amount of
-correct instrumentation rescues it. Ducking also matters less, because a sparse
-kick leaves less overlap to clear. And two genres have no drop at all.
+**These examples emphasize breaks, syncopation or half-time relationships.**
+Inspect the composite kick, snare, bass and subdivision pattern: a matching
+instrument palette cannot establish the groove by itself. Sparse kick patterns
+may need less ducking where overlaps are fewer. Some examples omit a drop.
 
 ### Drum & bass {#drum-and-bass}
 `165–175` · centre **170** · minor · **5 sources**
@@ -766,10 +773,11 @@ ranges here are measured, not estimated.
 
 **The videos themselves were not watched.** Captions carry what was *said*; the
 piano roll, the plugin windows and every numeric value were *shown*. So this
-document is reliable about **what a genre contains, in what order, and what must
-be true of its groove**, and carries **no note-level material and no parameter
-values** — those were on screen. When a source says "add some EQ to take off the
-lows", the frequency is not recoverable here. For numbers, use
+document reports **the creator's stated elements, order and groove advice**,
+and carries **no note-level material and no parameter values** — those were on
+screen. Captions alone do not verify the audible result or establish genre-wide
+rules. When a source says "add some EQ to take off the lows", the frequency is
+not recoverable here. For numbers, use
 `electronic-music-principles.md`, which was read from on-screen slides and is
 strong exactly where this is weak.
 
@@ -784,6 +792,6 @@ strong exactly where this is weak.
 - Five videos have no captions and are marked as sketches.
 
 **This document describes conventions, not requirements.** It is strongest used
-as a check — "does my track satisfy the two or three things that make this genre
-recognisable?" — and weakest used as a specification. Where it and a specific
+as a check — "which relationships give this interpretation its stylistic
+identity?" — and weakest used as a specification. Where it and a specific
 instruction disagree, the instruction wins.

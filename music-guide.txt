@@ -8,8 +8,9 @@ to realize it. Treat the task as compilation:
 
   musical intent → composition decisions → executable Beatlab score JSON
 
-Do not explain, summarize, quote, or evaluate this specification. Do not report
-research, planning, patch selection, or validation. Perform that work silently.
+When generating music, do not report research, planning, patch selection or
+validation. Perform that work silently and return only the score. Requests to
+review or edit this documentation instead receive the requested review or edits.
 
 ## A. THE CONTRACT — HOW TO RESPOND
 
@@ -90,8 +91,8 @@ the complete engine palette below unless the request specifies them.
   augmentation, diminution, arpeggiation, strumming and bounded voice leading.
 - TIME AND FEEL: BPM and tempo maps; swing; seeded humanization; named groove
   maps; probability; per-note offsets; flam, roll, gate and density changes.
-- SOUND SOURCES: the exact pitched-instrument and drum catalogs below; compact
-  and dual-oscillator ex_ synthesis; five exd_ drum synthesis models.
+- SOUND SOURCES: the exact pitched-instrument and drum catalogs below; compact,
+  dual-oscillator and FM-operator ex_ synthesis; five exd_ drum synthesis models.
 - PERFORMANCE: velocity layers; round robins; generic and instrument-specific
   articulations; expression lanes; bow and release choices; per-note timbre,
   tuning, dynamics, pan and control overrides.
@@ -146,25 +147,34 @@ original is your half of that contract.
 
 ### B.5 SILENT COMPILATION WORKFLOW — BEFORE WRITING NOTES
 
-1. If the style is unfamiliar, current, or easy to confuse with a neighbouring
-   genre, RESEARCH its present-day tempo, drum language, bass role, arrangement
-   and typical foreground sounds. Do not infer a genre from its name alone.
-2. If reference audio is supplied, inspect its tempo, section changes, density,
-   low/mid/high balance and foreground-vs-groove relationship. Borrow those
-   production principles only — never its melody or signature riff.
-3. Map the requested duration into sections and write an energy number for each.
-   At every boundary, decide whether material enters, leaves, transforms, or
-   intentionally holds. Unchanged is a valid decision when it serves the form.
-4. Audit the factory catalog below. Every synth exposes its exact [DNA]. Choose
-   the closest proven patch for each role. A factory patch is selected by name;
-   its DNA is reference information and is NOT copied into the score. Only when
-   creating an ex_ sound should you copy the nearest DNA and modify it.
-5. Decide the relevant mix roles before notes: for example bass, foreground,
-   bed, percussion, and transition FX. A sound name is not a role; routing and
-   arrangement make it one, and a piece need not contain every role.
-6. Compile the piece, validate it silently, and revise any weak musical or
-   technical decision before returning the JSON. Valid syntax is the start of
-   composition quality, not the finish.
+1. UNDERSTAND THE INTENT. Extract the requested style, duration, mood, energy,
+   foreground and exclusions. If the style is unfamiliar, current, or easy to
+   confuse with a neighbour, research its groove, sound hierarchy and form when
+   research tools are available. Do not infer a genre from its name alone.
+   Inspect supplied audio when accessible; borrow production principles, never
+   its melody or signature riff. Do not claim research or listening you cannot do.
+2. DEVELOP MATERIAL AND SOUND TOGETHER. Invent a distinctive groove, phrase,
+   harmonic relationship or timbral gesture. Test its identity in a short passage
+   with its intended accompaniment. A sound's envelope can change the rhythm;
+   revise notes and sound together before extending a weak idea across minutes.
+3. CHOOSE THE PALETTE AND ROLES. Audit the catalog and its exact [DNA]. Select a
+   factory patch by name when it fits; its DNA is reference, not score data.
+   For an ex_ sound, adapt the nearest factory DNA or architecture-specific
+   starter. Use custom synthesis when it serves the idea, not as an originality
+   requirement. Decide which voices provide foundation, foreground, response,
+   atmosphere or punctuation; a piece need not contain every role.
+4. DEVELOP THE FORM. Map the duration into phrases or scenes. Decide what stays
+   recognizable, what changes, and how the ending relates to earlier material.
+   Plan contrast through rhythm, harmony, density, timbre, space and level;
+   one energy number is only shorthand. Repetition, irregular boundaries and
+   nearly static forms are valid when intentional. Sound and form may revise
+   the initial idea; these stages are iterative, not a fixed arrangement template.
+5. COMPILE AND CHECK. Express those decisions using the documented JSON. Apply
+   the technical validation and musical evaluation in I.1 separately. Use the
+   compiler and renderer when available; otherwise inspect the score conservatively.
+6. REVISE AND RETURN. Correct errors and the most consequential musical weakness,
+   then re-check anything affected. Return only the final JSON. Valid syntax
+   establishes executability; it does not establish that the music is compelling.
 
 ## C. THE SCORE JSON — SHAPE, MODEL AND LIMITS
 
@@ -1395,6 +1405,8 @@ closest named character first, then bend it:
   The definition is compiled once and reused by every hit. This is sound design,
   not a license to add layers automatically: use it only when the custom voice
   gives the composition a clearer rhythmic fingerprint than a factory choice.
+  Custom-drum unknown/wrong-model fields are compile errors; use only the common
+  fields and the fields documented for the selected model.
 
 #### FIVE MODELS
 
@@ -2276,28 +2288,25 @@ numbers):
       pattern · atBeat · repeat · vol · volFrom · volTo · transpose · motifTransform · groove
       transform · condition · variations
     on an AUTOMATION entry:
-      track OR bus · knob OR param · optional effect/send · points OR lfo · res
+      track OR pattern OR instrument OR bus · knob OR param · optional effect/send · points OR lfo · res
     on a NOTE (object form):
       t/b · note · dur/durB · vol · volTo · pan · p · c · slide · flam
       roll · off · art · expr · sampleStart · reverse · damp · stretch · bow · release ·
       region · granular · chord · octave · voicing · strumMs · arp · voiceLead · range · maxLeap
     at TOP LEVEL:
-      bpm · tempoMap · seed · durationSec · swing · humanize · groove · grooves ·
+      bpm · tempoMap · seed · durationSec · swing · humanize · ceilingDbtp · groove · grooves ·
       glue · synths · drumSynths · buses · resamples · harmony · motifs · patterns · arrangement ·
-      automation · master · tracks
-  Anything not on the pattern/track/note lists is IGNORED SILENTLY — it will not raise an error,
-  so a misspelled key simply does nothing. Check spelling against this list.
-  Exception: custom-definition fields obey their own contracts above. Compact synth
-  definitions ignore unknown keys;
-  dual-oscillator synth and custom-drum unknown/wrong-model fields are errors specifically
-  to prevent inaudible sound-design instructions.
+      automation · master · tracks · triggers
+  These lists locate fields; their detailed sections define legal combinations,
+  types and ranges. Unknown score, track, pattern, note and custom-patch fields
+  are compile errors. Check spelling and location; never rely on a key being ignored.
   - EVOLUTION with "extends": a pattern may inherit another and only ADD:
     "KIT2":{"extends":"KIT","notes":["0.25 e_hat_closed 0.35", ...]} is KIT
     plus extra hats. Chain them (KIT → KIT2 → KIT3) and arrange
     KIT ×8 → KIT2 ×8 → KIT3 ×16 — the track GROWS while you only write the
-    additions. Combine with staggered track entries (bass enters at beat 32,
-    pads at 64, lead at 96) — that entrance staircase IS the arrangement of
-    real techno/house.
+    additions. Staggered entries (bass at beat 32, pads at 64, lead at 96) are
+    one possible club arrangement. Use subtraction or transformation when the
+    next passage needs a different relationship rather than greater density.
     THINNING with "omit" / "only" — the subtractive half. "extends" adds
     notes; these two take them away, BY BEAT, after the merge:
     "STAB":{"extends":"CHD","only":[0]}      = the chord, downbeat only
@@ -2650,26 +2659,23 @@ numbers):
   transpose +5 on a later return; place a fill before, or an impact on, a
   selected section boundary. Choose the moves that belong to the style.
 
-#### LAYER COUNT ALONE DOES NOT RAISE MEASURED LEVEL
+#### LAYER COUNT DOES NOT GUARANTEE SECTION CONTRAST
 
-  LAYER COUNT ALONE DOES NOT RAISE MEASURED LEVEL — read this with "glue"
-  below. More layers hit the glue compressor harder, so it clamps harder, and
-  a section can end up LESS dynamic as it gets denser: the arc you wrote is
-  real in the score and cancelled in the render. What actually moves level
-  across sections is arrangement "vol" creep, transpose, and register — so
-  pair every staircase of entrances with a vol step, and keep the thin
-  sections genuinely thin (fewer layers, not quieter ones) so the dense ones
-  have somewhere to arrive.
+  More layers can drive the rhythm-bus glue compressor harder, reducing the
+  dynamic contrast of drums and bass. Other buses and subsequent processing
+  also affect the result. Judge density, register, rhythm and level separately:
+  a new layer may add intensity without raising measured loudness. Do not
+  automatically add a volume step to every entrance or transpose to raise level.
 
 #### HOW BIG A VOL STEP
 
-  HOW BIG A VOL STEP: above its threshold the glue compressor divides written
-  section contrast by (1.5 + 0.25 x glue). So at a common glue 4 that is
-  2.5:1 — a 2 dB step in arrangement "vol" arrives as 0.8 dB, which nobody
-  hears. To land ABOUT 2 dB of real separation between sections, step "vol"
-  by roughly x1.3 (e.g. 0.7 → 0.9 → 1.0), not x1.05. At glue 8 you need
-  ~x1.5. If you want the arc to survive untouched, keep glue at 0-2 and
-  separate the sections by arrangement instead.
+  HOW BIG A VOL STEP: the glue ratio parameter is (1.5 + 0.25 x glue), but this
+  engine applies it to envelope amplitude above threshold, not to a constant
+  dB slope. Do not divide a written dB contrast by that number to predict output.
+  A gain multiplier of x1.3 is about 2.3 dB before compression. Envelopes,
+  velocity-dependent timbre, routing and mastering prevent a universal score-
+  volume-to-output formula. Keep glue low when preserving rhythm dynamics
+  matters, and check section contrast in the render when available.
   OPTIONS FOR DROPPING energy: remove the selected pump-source notes (pumped layers then stop
   breathing automatically — the release the dancefloor feels); keep pads +
   one melodic element; noise_fall as the exhale; thin drums to ticks/shaker.
@@ -2692,8 +2698,9 @@ numbers):
     crash, wide detune, arc rising to 10.
   nostalgic/lofi — crush + vinyl_crackle, swing 3-5, mellow 7th chords.
   dreamy — chorus + reverb 6+, whole-note pads, humanize 3, soft vol.
-  The strongest emotional tool is SPACE — what you leave OUT: fear and
-  longing live in rests and low density; joy lives in rhythmic density.
+  SPACE — what you leave OUT — can make a gesture intimate, tense or joyful.
+  Neither density nor mode fixes an emotion; their relationship to the phrase,
+  sound and preceding section determines the effect.
 
 ### H.10 COMPOSITION PRACTICE — MUSICAL JUDGMENT INSIDE THE CONTRACT
 
@@ -2735,13 +2742,12 @@ numbers):
 ### H.11 LONG-FORM MOTION — REPEAT WITH PURPOSE
 
 - Repetition creates identity and hypnosis; change creates direction. Decide
-  which one the request needs. When a section should evolve, every 4-8 bars use
-  one meaningful move: change voicing, remove the pattern for a bar, automate
-  the filter, change arrangement "vol", transpose an instance, or alter rhythm.
-  In deliberately minimal music, an unchanged pattern may be the concept—but
-  surrounding entrances, exits, space, and timbre must make that choice legible.
-- Two or three variants of the same pattern (CHORD_A / CHORD_B) alternating
-  costs almost nothing in tokens and is the whole difference.
+  which one the request needs. At a useful phrase boundary, consider a change
+  of voicing, a rest, filter motion, arrangement "vol", transposition or rhythm.
+  Four to eight bars is one review interval, not a deadline for a new event.
+  In deliberately minimal music, sustaining an unchanged pattern may be the point.
+- Two or three related patterns (CHORD_A / CHORD_B) can express development
+  economically. Give each variant a musical reason and an audible relationship.
 
 - Repetition is FREE via patterns — keep the UNIQUE notes you write to ~2000;
   the expanded total (patterns × repeats) may be far larger. For long pieces
@@ -2751,41 +2757,46 @@ numbers):
 
 ### I.1 SILENT PRE-OUTPUT VALIDATION — REPAIR BEFORE RETURNING THE SCORE
 
-- CONTRACT: JSON.parse() succeeds; every name resolves in its closed symbol
-  table; only documented keys are present; top-level glue is not nested under
-  mix; pattern timing is in beats and direct-track timing is in seconds; the
-  deliberate ending lands inside durationSec.
-- SOUND: factory instruments are referenced by name, not copied into "synths".
-  Every ex_ patch has a factory-DNA starting point and intentional changes.
-  Every dual-oscillator ex_ patch starts from the closest dual-oscillator role
-  blueprint and uses that topology because the sound needs it, not merely to
-  look sophisticated.
-  Every exd_ drum starts from the closest engine starter DNA, uses the right
-  model/bus/choke role, and changes only parameters with a musical purpose.
-- STYLE: an unfamiliar/current genre has been researched and translated into
-  groove, arrangement, sound hierarchy, and production—not merely named.
-- TASTE: no keyboard, square/FM, toy, retro, bagpipe, or orchestral
-  voice leads unless the request or musical concept calls for that character.
-- ROLES: bass, foreground identity, beds, percussion, and transitions are
-  distinct. Every ex_ bass declares "bus":"bass"; only a genuine foreground
-  part declares "bus":"lead"; routing, depth, and level do not overstate it.
-- ROUTING: every named bus has a deliberate role and ordered rack; every send,
-  effect automation selector, and sidechain source resolves; the graph is
-  acyclic. Parallel buses preserve the dry identity intentionally rather than
-  duplicating sound by accident. Exact automation uses native parameter units.
-- ARC: the requested form is audible. Where a boundary should change energy,
-  entry, exit, density, filter, width, rhythm, register, or silence carries the
-  change; a riser alone does not substitute for arrangement.
-- MOTIF: any foreground hook has intentional rhythm, contour, recurrence, and
-  space rather than filler notes or an aimless walk across a keyboard.
-- MIX: low-frequency ownership is intentional; competing parts are separated;
-  stereo has a coherent centre and sides; textures and full-density passages
-  have the lifecycle the concept requires rather than running by default.
-- VERIFY: when rendering or audio analysis is available, use it. Check section
-  contrast, spectral balance, foreground dominance, ending, and technical
-  validity. Revise until the music and the score both satisfy the request.
-- RESPONSE: return only the repaired JSON object required by the opening
-  FINAL RESPONSE CONTRACT. Do not output this checklist or describe compliance.
+TECHNICAL VALIDATION — required for every score:
+- JSON.parse() succeeds. Fields, types, ranges and symbols match this guide;
+  top-level glue is not nested under mix. No invented aliases or placeholders.
+- Factory instruments are referenced by name. Custom ex_/exd_ definitions use
+  supported architectures, fields and modulation routes; rs_ captures resolve.
+- Pattern, motif, harmony, arrangement and routing references resolve. Inheritance,
+  capture and bus dependencies obey the documented constraints; routing is acyclic.
+- Direct-track times and durations use seconds; pattern/motif/arrangement timing
+  uses beats. Account for tempoMap, repeats, tails and durationSec.
+- Effects, controls, automation targets, units and persistent values are legal.
+  Sends and sidechains resolve. An ex_ bass's "bus":"bass" belongs on its
+  Track/Pattern, not inside the synth definition; named buses follow G.4.
+- Observe the limits in C.4 and the response contract in A.1.
+
+When available, use Beatlab's generated docs/music-score.schema.json for
+structural checks and the actual score compiler for semantic checks such as
+symbol resolution and routing cycles. Schema validity alone is insufficient.
+These tools are optional aids to this self-contained specification; never
+pretend to have run a validator or renderer that is not accessible.
+
+MUSICAL EVALUATION — judge against the requested style and intention:
+- IDENTITY: a groove, motif, performance or sound field gives the piece character.
+  Factory and custom voices are equally valid; choose and shape them purposefully.
+- RELATIONSHIPS: bass and drums form an intentional composite rhythm; foreground
+  and accompaniment leave each other useful space. Routing supports their roles.
+- DEVELOPMENT: repetition builds recognition; changes preserve or deliberately
+  interrupt it. Later events develop, answer or recontextualize earlier material.
+- FORM: transitions and contrasts serve the listening experience. Hypnotic holds,
+  sparse forms and dramatic drops need different judgments; none is compulsory.
+- SOUND: envelopes, register, low-end balance, depth and stereo make the intended
+  relationships audible. Remove layers that obscure the main idea.
+- ENDING: the final gesture is intentional and fulfills or deliberately leaves
+  open the musical expectation established by the piece.
+
+When rendering or audio analysis is available, check the heard result: groove,
+section contrast, spectral balance, foreground and ending. Otherwise inspect
+the written relationships and avoid unsupported claims about the actual sound.
+Revise specific weaknesses and revalidate changed syntax. Artistic departures
+may override musical heuristics; they never excuse invalid JSON or unsupported
+engine features. Return only the repaired JSON object, without review reports.
 
 ### I.2 A COMPLETE 60-SECOND SCORE
 

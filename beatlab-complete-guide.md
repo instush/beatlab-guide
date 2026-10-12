@@ -19,11 +19,23 @@ HOW THE PARTS RELATE
   capability that Part 1 does not list, Part 1 wins: translate the intention
   into supported fields instead of inventing one.
 - An explicit user instruction overrides every default in Parts 2-4.
+- Musical heuristics in Part 1 are advisory too; its executable syntax and
+  engine limits remain strict. A musical exception never authorizes a new field.
 - Reading order: Part 1 before writing any JSON. Then Part 3 for what the
-  requested style must get right, Part 2 for how to build and mix the sounds
-  it needs, and Part 4 for how the material develops into a piece.
+  requested style commonly emphasizes, Part 2 for sound and mix, and Part 4
+  for development. Use the relevant advice; do not apply every genre's defaults.
 - Each part keeps its own numbering and cross-references; a reference to
   "the score guide" or "music-guide.md" means Part 1.
+
+WORKING PATH
+
+  intent → musical idea + sound → development and form → executable score
+         → technical validation + musical evaluation → revision → JSON only
+
+Part 1 B.5 is the working procedure; move between idea, sound and form as needed.
+Part 4 section 11 expands its creative decisions, and section 15 helps diagnose
+weak results. Finish with Part 1 I.1's two separate checks. All planning and
+review stay internal; the JSON-only contract applies when generating music.
 
 
 ===============================================================================
@@ -41,8 +53,9 @@ to realize it. Treat the task as compilation:
 
   musical intent → composition decisions → executable Beatlab score JSON
 
-Do not explain, summarize, quote, or evaluate this specification. Do not report
-research, planning, patch selection, or validation. Perform that work silently.
+When generating music, do not report research, planning, patch selection or
+validation. Perform that work silently and return only the score. Requests to
+review or edit this documentation instead receive the requested review or edits.
 
 ## A. THE CONTRACT — HOW TO RESPOND
 
@@ -123,8 +136,8 @@ the complete engine palette below unless the request specifies them.
   augmentation, diminution, arpeggiation, strumming and bounded voice leading.
 - TIME AND FEEL: BPM and tempo maps; swing; seeded humanization; named groove
   maps; probability; per-note offsets; flam, roll, gate and density changes.
-- SOUND SOURCES: the exact pitched-instrument and drum catalogs below; compact
-  and dual-oscillator ex_ synthesis; five exd_ drum synthesis models.
+- SOUND SOURCES: the exact pitched-instrument and drum catalogs below; compact,
+  dual-oscillator and FM-operator ex_ synthesis; five exd_ drum synthesis models.
 - PERFORMANCE: velocity layers; round robins; generic and instrument-specific
   articulations; expression lanes; bow and release choices; per-note timbre,
   tuning, dynamics, pan and control overrides.
@@ -179,25 +192,34 @@ original is your half of that contract.
 
 ### B.5 SILENT COMPILATION WORKFLOW — BEFORE WRITING NOTES
 
-1. If the style is unfamiliar, current, or easy to confuse with a neighbouring
-   genre, RESEARCH its present-day tempo, drum language, bass role, arrangement
-   and typical foreground sounds. Do not infer a genre from its name alone.
-2. If reference audio is supplied, inspect its tempo, section changes, density,
-   low/mid/high balance and foreground-vs-groove relationship. Borrow those
-   production principles only — never its melody or signature riff.
-3. Map the requested duration into sections and write an energy number for each.
-   At every boundary, decide whether material enters, leaves, transforms, or
-   intentionally holds. Unchanged is a valid decision when it serves the form.
-4. Audit the factory catalog below. Every synth exposes its exact [DNA]. Choose
-   the closest proven patch for each role. A factory patch is selected by name;
-   its DNA is reference information and is NOT copied into the score. Only when
-   creating an ex_ sound should you copy the nearest DNA and modify it.
-5. Decide the relevant mix roles before notes: for example bass, foreground,
-   bed, percussion, and transition FX. A sound name is not a role; routing and
-   arrangement make it one, and a piece need not contain every role.
-6. Compile the piece, validate it silently, and revise any weak musical or
-   technical decision before returning the JSON. Valid syntax is the start of
-   composition quality, not the finish.
+1. UNDERSTAND THE INTENT. Extract the requested style, duration, mood, energy,
+   foreground and exclusions. If the style is unfamiliar, current, or easy to
+   confuse with a neighbour, research its groove, sound hierarchy and form when
+   research tools are available. Do not infer a genre from its name alone.
+   Inspect supplied audio when accessible; borrow production principles, never
+   its melody or signature riff. Do not claim research or listening you cannot do.
+2. DEVELOP MATERIAL AND SOUND TOGETHER. Invent a distinctive groove, phrase,
+   harmonic relationship or timbral gesture. Test its identity in a short passage
+   with its intended accompaniment. A sound's envelope can change the rhythm;
+   revise notes and sound together before extending a weak idea across minutes.
+3. CHOOSE THE PALETTE AND ROLES. Audit the catalog and its exact [DNA]. Select a
+   factory patch by name when it fits; its DNA is reference, not score data.
+   For an ex_ sound, adapt the nearest factory DNA or architecture-specific
+   starter. Use custom synthesis when it serves the idea, not as an originality
+   requirement. Decide which voices provide foundation, foreground, response,
+   atmosphere or punctuation; a piece need not contain every role.
+4. DEVELOP THE FORM. Map the duration into phrases or scenes. Decide what stays
+   recognizable, what changes, and how the ending relates to earlier material.
+   Plan contrast through rhythm, harmony, density, timbre, space and level;
+   one energy number is only shorthand. Repetition, irregular boundaries and
+   nearly static forms are valid when intentional. Sound and form may revise
+   the initial idea; these stages are iterative, not a fixed arrangement template.
+5. COMPILE AND CHECK. Express those decisions using the documented JSON. Apply
+   the technical validation and musical evaluation in I.1 separately. Use the
+   compiler and renderer when available; otherwise inspect the score conservatively.
+6. REVISE AND RETURN. Correct errors and the most consequential musical weakness,
+   then re-check anything affected. Return only the final JSON. Valid syntax
+   establishes executability; it does not establish that the music is compelling.
 
 ## C. THE SCORE JSON — SHAPE, MODEL AND LIMITS
 
@@ -1428,6 +1450,8 @@ closest named character first, then bend it:
   The definition is compiled once and reused by every hit. This is sound design,
   not a license to add layers automatically: use it only when the custom voice
   gives the composition a clearer rhythmic fingerprint than a factory choice.
+  Custom-drum unknown/wrong-model fields are compile errors; use only the common
+  fields and the fields documented for the selected model.
 
 #### FIVE MODELS
 
@@ -2309,28 +2333,25 @@ numbers):
       pattern · atBeat · repeat · vol · volFrom · volTo · transpose · motifTransform · groove
       transform · condition · variations
     on an AUTOMATION entry:
-      track OR bus · knob OR param · optional effect/send · points OR lfo · res
+      track OR pattern OR instrument OR bus · knob OR param · optional effect/send · points OR lfo · res
     on a NOTE (object form):
       t/b · note · dur/durB · vol · volTo · pan · p · c · slide · flam
       roll · off · art · expr · sampleStart · reverse · damp · stretch · bow · release ·
       region · granular · chord · octave · voicing · strumMs · arp · voiceLead · range · maxLeap
     at TOP LEVEL:
-      bpm · tempoMap · seed · durationSec · swing · humanize · groove · grooves ·
+      bpm · tempoMap · seed · durationSec · swing · humanize · ceilingDbtp · groove · grooves ·
       glue · synths · drumSynths · buses · resamples · harmony · motifs · patterns · arrangement ·
-      automation · master · tracks
-  Anything not on the pattern/track/note lists is IGNORED SILENTLY — it will not raise an error,
-  so a misspelled key simply does nothing. Check spelling against this list.
-  Exception: custom-definition fields obey their own contracts above. Compact synth
-  definitions ignore unknown keys;
-  dual-oscillator synth and custom-drum unknown/wrong-model fields are errors specifically
-  to prevent inaudible sound-design instructions.
+      automation · master · tracks · triggers
+  These lists locate fields; their detailed sections define legal combinations,
+  types and ranges. Unknown score, track, pattern, note and custom-patch fields
+  are compile errors. Check spelling and location; never rely on a key being ignored.
   - EVOLUTION with "extends": a pattern may inherit another and only ADD:
     "KIT2":{"extends":"KIT","notes":["0.25 e_hat_closed 0.35", ...]} is KIT
     plus extra hats. Chain them (KIT → KIT2 → KIT3) and arrange
     KIT ×8 → KIT2 ×8 → KIT3 ×16 — the track GROWS while you only write the
-    additions. Combine with staggered track entries (bass enters at beat 32,
-    pads at 64, lead at 96) — that entrance staircase IS the arrangement of
-    real techno/house.
+    additions. Staggered entries (bass at beat 32, pads at 64, lead at 96) are
+    one possible club arrangement. Use subtraction or transformation when the
+    next passage needs a different relationship rather than greater density.
     THINNING with "omit" / "only" — the subtractive half. "extends" adds
     notes; these two take them away, BY BEAT, after the merge:
     "STAB":{"extends":"CHD","only":[0]}      = the chord, downbeat only
@@ -2683,26 +2704,23 @@ numbers):
   transpose +5 on a later return; place a fill before, or an impact on, a
   selected section boundary. Choose the moves that belong to the style.
 
-#### LAYER COUNT ALONE DOES NOT RAISE MEASURED LEVEL
+#### LAYER COUNT DOES NOT GUARANTEE SECTION CONTRAST
 
-  LAYER COUNT ALONE DOES NOT RAISE MEASURED LEVEL — read this with "glue"
-  below. More layers hit the glue compressor harder, so it clamps harder, and
-  a section can end up LESS dynamic as it gets denser: the arc you wrote is
-  real in the score and cancelled in the render. What actually moves level
-  across sections is arrangement "vol" creep, transpose, and register — so
-  pair every staircase of entrances with a vol step, and keep the thin
-  sections genuinely thin (fewer layers, not quieter ones) so the dense ones
-  have somewhere to arrive.
+  More layers can drive the rhythm-bus glue compressor harder, reducing the
+  dynamic contrast of drums and bass. Other buses and subsequent processing
+  also affect the result. Judge density, register, rhythm and level separately:
+  a new layer may add intensity without raising measured loudness. Do not
+  automatically add a volume step to every entrance or transpose to raise level.
 
 #### HOW BIG A VOL STEP
 
-  HOW BIG A VOL STEP: above its threshold the glue compressor divides written
-  section contrast by (1.5 + 0.25 x glue). So at a common glue 4 that is
-  2.5:1 — a 2 dB step in arrangement "vol" arrives as 0.8 dB, which nobody
-  hears. To land ABOUT 2 dB of real separation between sections, step "vol"
-  by roughly x1.3 (e.g. 0.7 → 0.9 → 1.0), not x1.05. At glue 8 you need
-  ~x1.5. If you want the arc to survive untouched, keep glue at 0-2 and
-  separate the sections by arrangement instead.
+  HOW BIG A VOL STEP: the glue ratio parameter is (1.5 + 0.25 x glue), but this
+  engine applies it to envelope amplitude above threshold, not to a constant
+  dB slope. Do not divide a written dB contrast by that number to predict output.
+  A gain multiplier of x1.3 is about 2.3 dB before compression. Envelopes,
+  velocity-dependent timbre, routing and mastering prevent a universal score-
+  volume-to-output formula. Keep glue low when preserving rhythm dynamics
+  matters, and check section contrast in the render when available.
   OPTIONS FOR DROPPING energy: remove the selected pump-source notes (pumped layers then stop
   breathing automatically — the release the dancefloor feels); keep pads +
   one melodic element; noise_fall as the exhale; thin drums to ticks/shaker.
@@ -2725,8 +2743,9 @@ numbers):
     crash, wide detune, arc rising to 10.
   nostalgic/lofi — crush + vinyl_crackle, swing 3-5, mellow 7th chords.
   dreamy — chorus + reverb 6+, whole-note pads, humanize 3, soft vol.
-  The strongest emotional tool is SPACE — what you leave OUT: fear and
-  longing live in rests and low density; joy lives in rhythmic density.
+  SPACE — what you leave OUT — can make a gesture intimate, tense or joyful.
+  Neither density nor mode fixes an emotion; their relationship to the phrase,
+  sound and preceding section determines the effect.
 
 ### H.10 COMPOSITION PRACTICE — MUSICAL JUDGMENT INSIDE THE CONTRACT
 
@@ -2768,13 +2787,12 @@ numbers):
 ### H.11 LONG-FORM MOTION — REPEAT WITH PURPOSE
 
 - Repetition creates identity and hypnosis; change creates direction. Decide
-  which one the request needs. When a section should evolve, every 4-8 bars use
-  one meaningful move: change voicing, remove the pattern for a bar, automate
-  the filter, change arrangement "vol", transpose an instance, or alter rhythm.
-  In deliberately minimal music, an unchanged pattern may be the concept—but
-  surrounding entrances, exits, space, and timbre must make that choice legible.
-- Two or three variants of the same pattern (CHORD_A / CHORD_B) alternating
-  costs almost nothing in tokens and is the whole difference.
+  which one the request needs. At a useful phrase boundary, consider a change
+  of voicing, a rest, filter motion, arrangement "vol", transposition or rhythm.
+  Four to eight bars is one review interval, not a deadline for a new event.
+  In deliberately minimal music, sustaining an unchanged pattern may be the point.
+- Two or three related patterns (CHORD_A / CHORD_B) can express development
+  economically. Give each variant a musical reason and an audible relationship.
 
 - Repetition is FREE via patterns — keep the UNIQUE notes you write to ~2000;
   the expanded total (patterns × repeats) may be far larger. For long pieces
@@ -2784,41 +2802,46 @@ numbers):
 
 ### I.1 SILENT PRE-OUTPUT VALIDATION — REPAIR BEFORE RETURNING THE SCORE
 
-- CONTRACT: JSON.parse() succeeds; every name resolves in its closed symbol
-  table; only documented keys are present; top-level glue is not nested under
-  mix; pattern timing is in beats and direct-track timing is in seconds; the
-  deliberate ending lands inside durationSec.
-- SOUND: factory instruments are referenced by name, not copied into "synths".
-  Every ex_ patch has a factory-DNA starting point and intentional changes.
-  Every dual-oscillator ex_ patch starts from the closest dual-oscillator role
-  blueprint and uses that topology because the sound needs it, not merely to
-  look sophisticated.
-  Every exd_ drum starts from the closest engine starter DNA, uses the right
-  model/bus/choke role, and changes only parameters with a musical purpose.
-- STYLE: an unfamiliar/current genre has been researched and translated into
-  groove, arrangement, sound hierarchy, and production—not merely named.
-- TASTE: no keyboard, square/FM, toy, retro, bagpipe, or orchestral
-  voice leads unless the request or musical concept calls for that character.
-- ROLES: bass, foreground identity, beds, percussion, and transitions are
-  distinct. Every ex_ bass declares "bus":"bass"; only a genuine foreground
-  part declares "bus":"lead"; routing, depth, and level do not overstate it.
-- ROUTING: every named bus has a deliberate role and ordered rack; every send,
-  effect automation selector, and sidechain source resolves; the graph is
-  acyclic. Parallel buses preserve the dry identity intentionally rather than
-  duplicating sound by accident. Exact automation uses native parameter units.
-- ARC: the requested form is audible. Where a boundary should change energy,
-  entry, exit, density, filter, width, rhythm, register, or silence carries the
-  change; a riser alone does not substitute for arrangement.
-- MOTIF: any foreground hook has intentional rhythm, contour, recurrence, and
-  space rather than filler notes or an aimless walk across a keyboard.
-- MIX: low-frequency ownership is intentional; competing parts are separated;
-  stereo has a coherent centre and sides; textures and full-density passages
-  have the lifecycle the concept requires rather than running by default.
-- VERIFY: when rendering or audio analysis is available, use it. Check section
-  contrast, spectral balance, foreground dominance, ending, and technical
-  validity. Revise until the music and the score both satisfy the request.
-- RESPONSE: return only the repaired JSON object required by the opening
-  FINAL RESPONSE CONTRACT. Do not output this checklist or describe compliance.
+TECHNICAL VALIDATION — required for every score:
+- JSON.parse() succeeds. Fields, types, ranges and symbols match this guide;
+  top-level glue is not nested under mix. No invented aliases or placeholders.
+- Factory instruments are referenced by name. Custom ex_/exd_ definitions use
+  supported architectures, fields and modulation routes; rs_ captures resolve.
+- Pattern, motif, harmony, arrangement and routing references resolve. Inheritance,
+  capture and bus dependencies obey the documented constraints; routing is acyclic.
+- Direct-track times and durations use seconds; pattern/motif/arrangement timing
+  uses beats. Account for tempoMap, repeats, tails and durationSec.
+- Effects, controls, automation targets, units and persistent values are legal.
+  Sends and sidechains resolve. An ex_ bass's "bus":"bass" belongs on its
+  Track/Pattern, not inside the synth definition; named buses follow G.4.
+- Observe the limits in C.4 and the response contract in A.1.
+
+When available, use Beatlab's generated docs/music-score.schema.json for
+structural checks and the actual score compiler for semantic checks such as
+symbol resolution and routing cycles. Schema validity alone is insufficient.
+These tools are optional aids to this self-contained specification; never
+pretend to have run a validator or renderer that is not accessible.
+
+MUSICAL EVALUATION — judge against the requested style and intention:
+- IDENTITY: a groove, motif, performance or sound field gives the piece character.
+  Factory and custom voices are equally valid; choose and shape them purposefully.
+- RELATIONSHIPS: bass and drums form an intentional composite rhythm; foreground
+  and accompaniment leave each other useful space. Routing supports their roles.
+- DEVELOPMENT: repetition builds recognition; changes preserve or deliberately
+  interrupt it. Later events develop, answer or recontextualize earlier material.
+- FORM: transitions and contrasts serve the listening experience. Hypnotic holds,
+  sparse forms and dramatic drops need different judgments; none is compulsory.
+- SOUND: envelopes, register, low-end balance, depth and stereo make the intended
+  relationships audible. Remove layers that obscure the main idea.
+- ENDING: the final gesture is intentional and fulfills or deliberately leaves
+  open the musical expectation established by the piece.
+
+When rendering or audio analysis is available, check the heard result: groove,
+section contrast, spectral balance, foreground and ending. Otherwise inspect
+the written relationships and avoid unsupported claims about the actual sound.
+Revise specific weaknesses and revalidate changed syntax. Artistic departures
+may override musical heuristics; they never excuse invalid JSON or unsupported
+engine features. Return only the repaired JSON object, without review reports.
 
 ### I.2 A COMPLETE 60-SECOND SCORE
 
@@ -2906,6 +2929,10 @@ differently, or a deliberate aesthetic choice.
 Every numeric value here is a *starting point with a reason attached*. Prefer the
 reasoning to the number: when a rule says "107 ms", what it means is "one sixteenth
 note at 140 BPM" — recompute it for the actual tempo rather than copying the figure.
+Numbers from a measured demonstration describe that signal and processing chain;
+they do not predict the same result for another sound. Use audio and meters when
+available. Without them, reason from envelopes, timing and routing, and do not
+claim to have measured a mix or auditioned playback systems.
 
 **Scope and bias.** Derived from a techno-centric body of instructional material
 (see [Provenance](#provenance)). Rules marked `[techno]` are style-specific;
@@ -2917,8 +2944,9 @@ beyond. Where a claim rests on a single measured demonstration it is marked
 
 ## 1. Tempo and genre frame {#tempo}
 
-Tempo is the first decision because it sets every time-derived value downstream —
-envelope decays, delay times, compressor releases, choke lengths.
+Choose a working tempo early because it relates rhythmic spacing to envelope
+decays, delay times, compressor releases and choke lengths. A musical idea or
+sound may come first; revise the time-dependent settings if the tempo changes.
 
 | Genre | BPM | Signature traits |
 |---|---|---|
@@ -2943,9 +2971,9 @@ disguise.
 
 ## 2. The kick {#kick}
 
-In four-on-the-floor genres the kick is not one element among many — it is the
-track's spine, its loudest event, and the thing every other low-frequency decision
-is made relative to. Build it deliberately.
+In many four-on-the-floor tracks the kick anchors the pulse and low-end decisions.
+Build it in relation to the bass and intended groove; being the anchor does not
+require it to be the loudest event in every section.
 
 ### 2.1 Synthesis from first principles
 
@@ -2971,11 +2999,11 @@ genre:**
 
 - `hold 25 ms, decay 100 ms` — techno. Short, punchy, leaves the bar open for a
   bassline. `[techno]`
-- `decay 550 ms` — 808-style. Long, boomy, *becomes* the bassline and therefore
-  forbids a separate one in the same register.
+- `decay 550 ms` — 808-style. Long, boomy, may *become* the bassline. Another
+  part in the same register needs deliberate timing or spectral separation.
 
-This is the single most consequential kick parameter. Choosing a 550 ms decay is
-choosing not to have an independent bass part below ~80 Hz.
+Decay strongly affects how much room remains for an independent bass part.
+Choose it with the bass rhythm, not in isolation.
 
 In this engine an `exd_` kick body is exactly this envelope: `attackMs` (0–50,
 default 0 = instant), `holdMs` (0–250) and `bodyDecay` (seconds). The pitch sweep,
@@ -2991,8 +3019,8 @@ click and noise keep their own timing, so a hold never blunts the transient. Mak
 
 ### 2.3 Layering: three bands, three jobs
 
-Rather than one synthesized kick, build three layers that each own a frequency band
-and a slice of time:
+If one kick cannot supply the intended shape, try layers with distinct frequency
+and timing roles. A single well-shaped kick is equally valid:
 
 | Layer | Band | Role | Typical level |
 |---|---|---|---|
@@ -3011,16 +3039,19 @@ same punch with a different tail is, perceptually, a different kick.
 
 ### 2.4 Tuning the kick to the track
 
-A kick is a pitched event, and if its pitch disagrees with the bass root the two
-*beat* against each other — the low end audibly swings in level while the bass note
-sustains, which reads as an uneven, amateurish bottom end.
+A long, tonal kick tail can interact strongly with sustained bass. If the overlap
+sounds uneven or harmonically distracting, investigate pitch, phase and timing.
+Short or noisy kicks may have no stable musical pitch worth matching.
 
 **Procedure:**
 1. **Find** — the kick's pitch is the strongest spectral peak of its body in the
    25–120 Hz band.
 2. **Compare** — against the bass root, or the track's key.
-3. **Tune** — retune the kick to the bass root.
-4. **Check polarity** — after tuning, flip the phase and keep whichever is louder.
+3. **Compare tuning** — try the root or another compatible pitch, then judge
+   the whole bass phrase rather than one isolated note.
+4. **Check interaction** — audition timing and, in tools that expose it, polarity.
+   Keep the version whose attack and body serve the mix, not simply the louder one.
+   Beat Lab has no documented polarity-invert field; do not invent one.
 
 Worked example `[measured]`: a kick ringing at 50.8 Hz (G♯1) against a 55 Hz (A1)
 bass sits 1.4 semitones out. Level-matched, the low-end swing across the bass note
@@ -3030,8 +3061,9 @@ pair moved the low end by 12.5 dB — worth one A/B every time.
 Side effect to anticipate: pitching a kick up shortens it. Two semitones up ended
 the kick about 8% sooner (400 → 368 ms), while the click barely moved.
 
-Three valid fixes, in order of preference: retune the kick, choose a kick that
-already fits, or retune the bass.
+Possible fixes include shortening or separating overlapping notes, retuning the
+kick, or choosing another kick. Change the bass's pitch only if the composition
+benefits; a mix issue should not automatically rewrite the harmonic idea.
 
 ### 2.5 Processing for hard genres `[techno]`
 
@@ -3095,17 +3127,18 @@ gain only, so it cannot place a move at a frequency; reach for `bell`:
 
 ## 3. The low end: kick versus bass {#low-end}
 
-Kick and bass both want roughly 80 Hz. Unmanaged, they mask each other and the mix
-turns to mush. Five rules resolve nearly all of it.
+Kick and bass can compete in the low end. Inspect their timing and envelopes
+before processing, then select the strategies the actual overlap needs.
 
-**1. Split them with EQ.** Decide which source owns the sub. Typically the kick
-owns it; carve the bass at the kick's fundamental (e.g. −14 dB, Q 1.4, at 80 Hz).
-Ownership is a decision, not a compromise — refusing to decide is what creates mud.
+**1. Allocate space.** Decide whether kick or bass carries the deepest sustained
+energy. If EQ is needed, carve the competing part near the overlap; the source's
+−14 dB, Q 1.4 cut at 80 Hz is a substantial intervention, not a default to apply
+blindly. Note length, register and rests may solve the conflict more musically.
 
-**2. Sidechain the bass to the kick.** Fast attack (~1 ms), short release (~90 ms),
-6–8 dB of reduction. The critical constraint: **the bass must be back up before the
-next note.** Ducking is a timing tool, not a loudness tool. A release that outlasts
-the gap between hits stops the groove breathing.
+**2. Duck overlapping bass when useful.** Fast attack (~1 ms), short release
+(~90 ms), and 6–8 dB reduction describe one pronounced pumping treatment.
+Recover in time for the bass events that need emphasis; use less depth, another
+release shape or no ducking when the rhythm already provides space.
 
 **3. Keep the sub mono.** Crossover at 120 Hz: mono below, stereo above. Wide low
 frequencies partially cancel on mono playback (club subs, phone speakers) and the
@@ -3127,10 +3160,10 @@ pan is not width, and the crossover does not undo it.
 **4. Saturate the bass** for the same reason as the kick (§2.6). Keep the clean sub;
 blend harmonics on top.
 
-**5. Check three systems** — headphones, monitors, phone. Each lies differently:
-headphones exaggerate bass by around +5 dB with no room contribution; rooms distort
-the low end most of all. The phone check is not optional, it is where most listening
-happens.
+**5. Check available playback systems** — headphones, monitors and a phone can
+reveal different balances. Headphone response, room acoustics and small-speaker
+extension vary. When playback access is unavailable, do not claim these checks;
+preserve a clear low-end rhythm and useful upper harmonics as a starting strategy.
 
 ---
 
@@ -3138,10 +3171,11 @@ happens.
 
 ### 4.1 Build order
 
-Introduce elements one lane at a time, each establishing before the next arrives:
+For a conventional house/techno sketch, try introducing one lane at a time:
 **kick → hats → clap → percussion.** A four-on-the-floor kick with slightly more
 weight on beat 1; hats carrying speed; clap on 2 and 4 as the backbone; percussion
-last, as detail.
+last, as detail. This is a drafting method, not a required entrance order in the
+finished track. A bass, melody or percussion conversation can initiate the groove.
 
 ### 4.2 The off-beat grid
 
@@ -3179,14 +3213,15 @@ highest-yield single edit.
 
 ### 5.1 Key and progression defaults
 
-A minor is the default working key for this idiom, with two progressions covering
-most ground: **Am–F–C–G** (open, anthemic) and **Am–Dm–E–Am** (i–iv–V–i, darker and
-more resolved).
+A minor makes the following examples easy to read: **Am–F–C–G** (open, anthemic)
+and **Am–Dm–E–Am** (i–iv–V–i, darker and more resolved). Choose a key, mode or
+harmonic absence for the requested music and instrument registers; these examples
+are not default progressions to reuse in every score.
 
-**Harmonic minor is the main lever.** Raising the 7th (G → G♯ in A minor) turns the
+**One lever is harmonic minor.** Raising the 7th (G → G♯ in A minor) turns the
 v chord from Em into **E major**, creating a true leading tone and a strong pull home.
-This single accidental is responsible for most of the "dark electronic" harmonic
-flavour.
+Use that pull when it suits the phrase; dark character can also come from voicing,
+register, timbre, rhythm or unresolved modal relationships.
 
 **Deceptive cadence:** build the pull with E major, then land on F instead of Am. The
 expectation is created and deliberately not satisfied, so the track keeps moving —
@@ -3199,7 +3234,8 @@ Same roots, different extensions, different mood:
 - Root position — plain, stable
 - Voice leading — move the nearest note, not the whole shape
 - Seventh chords — jazzier, more tension
-- **Add9 voicings** (Am9, Fadd9, Cadd9, Gadd9) with the 9th on top — wide, emotional
+- **Add9 voicings** (Am(add9), Fadd9, Cadd9, Gadd9) with the 9th on top — added color;
+  Am9 also includes the seventh, G, so choose that extra tension deliberately
 - Spread voicing — more space between voices, bigger
 - Off-beat stabs — short chords on steps 3/7/11/15, one step long
 
@@ -3222,10 +3258,10 @@ Five archetypes: root notes, off-beat, rolling, octave, groove.
 
 ### 5.4 Melody and lead
 
-- **Contour: one peak per phrase.** An arch shape with a single highest note. Two
-  peaks read as two competing melodies.
-- **Place the climax in bar 3** of a 4-bar phrase — roughly three-quarters through,
-  not at the start and not at the very end.
+- **Try a clear focal point.** An arch with one highest note is easy to follow;
+  repeated peaks, falls, narrow orbits and interrupted contours serve other ideas.
+- **Try the climax in bar 3** of a 4-bar phrase, leaving room for a response.
+  Earlier, delayed or withheld arrivals create different expectations.
 - Call and response, a repeating motif, landing on chord tones, and leaving space
   are the remaining levers.
 - **Repeat, then change:** play the phrase twice and alter only the last beat.
@@ -3289,14 +3325,15 @@ sine pair with a ratio, an index and an index decay that always falls to zero;
 the operator architecture (`ops` + `routes`) is the DX7 / Operator model, and it
 is the one to reach for when any of the points below matter.
 
-- **Ratio** determines harmonicity. Integer ratios (1:1, 2:1, 0.5:1) give
-  pitched, musical tones; non-integer ratios (1.41, 3.5, 7.01) give bells and
-  metal; a ratio of 10 or more on a modulator with a 50–150 ms envelope is a
-  click or a tine, not a tone.
+- **Ratio** sets the spacing of the sidebands. Simple relationships such as
+  1:1, 2:1 and 0.5:1 are useful for clear pitch; less simple relationships can
+  create clangorous colors. Non-integer does not automatically mean inharmonic:
+  3.5:1 is 7:2. A high-ratio modulator with a short envelope can add a tine-like
+  attack; ratio alone does not determine the sound.
 - **Index** determines how much spectrum is generated. Roughly: 0.3–1.5 adds
   warmth, 2–4 is a bright keyboard or bass, 5–8 is bells and metal, 9–12 is
-  noise-like. Index is a radian value, so the same number means the same
-  brightness at any ratio.
+  noise-like in some patches. These are starting regions, not timbre guarantees:
+  ratio, routing, waveforms and envelopes change the result at the same index.
 - **Envelope the index — and give it a floor.** A falling index (peak ~5.9,
   decaying over 70 ms, resting at 0.4) gives a bright attack settling into a
   purer sustain; the rest value is the sustain of the *modulator's own* envelope.
@@ -3317,7 +3354,9 @@ is the one to reach for when any of the points below matter.
   formant that stays at 640 Hz across a chord, or a 3 Hz operator used as an
   extra slow modulator on a modulator.
 
-See the syntax guide for the field names, limits and the route rules.
+See the syntax guide for the field names, limits and the route rules. For the
+general interaction of modulator level and frequency ratio, see the
+[Ableton Operator reference](https://www.ableton.com/en/live-manual/12/live-instrument-reference/#operator).
 
 ---
 
@@ -3335,11 +3374,9 @@ See the syntax guide for the field names, limits and the route rules.
 amount knobs (0–10) with the decisions already made inside: `squash` (fast,
 aggressive), `smooth` (slow program-dependent leveling), `glue` (one mix-bus
 compressor over drums + percussion + bass together), `punch` (transient
-enhancement) and `pump` (onset-triggered ducking). That is a deliberate design,
-not a missing feature: a threshold in dB is meaningless without hearing the signal
-level, so a value guessed blind either does nothing or destroys the take, whereas
-every value of an amount knob yields a sane result. Read §7.1 to understand what
-the knobs are doing; reach for the knobs to do it.
+enhancement) and `pump` (onset-triggered ducking). Their bounded controls simplify
+authoring, but a legal amount can still overprocess a particular signal. Judge
+the result in context; do not infer gain reduction from the knob value alone.
 
 ### 7.2 Attack and release are the whole instrument
 
@@ -3348,22 +3385,22 @@ catches the very first click, shrinking the transient — the drum becomes softe
 rounder. On drums, start between **10 and 30 ms** and deliberately let the transient
 through, compressing what follows it.
 
-**Release must resolve before the next hit.** A 700 ms release at 140 BPM never
-recovers between hits and the groove stops breathing; ~110 ms (one sixteenth at that
-tempo) tracks the groove. Release is a tempo value, not a taste value.
+**Relate release to the groove.** At 140 BPM, ~110 ms is roughly a sixteenth,
+while 700 ms spans more than a quarter note. Short recovery can preserve the
+next attack; longer recovery can deliberately connect hits or sustain pumping.
+Choose by the intended envelope rather than assuming every hit needs full recovery.
 
-This engine agrees with that second rule to the point of enforcing it: the only
-release control it exposes, `pumpRelease`, is specified **in beats** (0.15–1.5),
-not milliseconds, so a duck cannot drift out of time when the tempo changes. For
-attack there is no parameter — `punch` adds transient rather than letting you
-choose how much to eat, which is the same decision from the other side.
+In this engine the track control `pumpRelease` is a **0–10 knob**, mapped to a
+tempo-relative recovery; it is not a literal beat or millisecond value. Track
+`pumpHold` and `pumpShape` also shape that envelope. A custom bus's `sidechain`
+instead exposes `attackMs` and `releaseMs` in milliseconds. Keep these interfaces
+distinct and use the score guide's ranges. `punch` shapes transients separately.
 
 ### 7.3 Always compare level-matched
 
-Compression lowers peaks; makeup raises everything. Compared un-matched, compression
-always sounds "better" because it is simply louder. Level-matched, the honest
-description is: *same loudness, but the quiet detail steps forward.* Judge it that
-way or you are not judging compression at all.
+Compression changes the envelope; makeup can raise the result. A louder processed
+version can seem preferable for that reason alone. Compare at similar loudness
+to judge attack, sustain, pumping and detail rather than the gain difference.
 
 ### 7.4 Compressor character
 
@@ -3427,7 +3464,9 @@ naming that id as the automation target — `freq`, `gain` and `q` all move:
 
 Two of the moves need a specific engine form. The **noise riser** is a bus
 `filter` in `bandpass` mode with its `cutoff` swept (an `ex_` noise patch can use
-its own `filter.mode` instead); the volume lane is the bus `fader`. The **reverb
+its own `filter.mode` instead); a bus `fader` uses linear 0–1 values, not the
+demonstration's dB numbers. Rescale the intended rise within that range and check
+the result rather than entering a positive dB value as a fader. The **reverb
 throw** is a `send` whose `amount` is automated with a `step` keyframe — and only
 custom-bus sends automate, so route the track to a custom bus with a send to
 `hall` (or to a reverb return bus) and sweep that send. The per-track `reverb` and
@@ -3465,11 +3504,11 @@ One routing fact makes this work here: the built-in role buses (`kit`, `bass`,
 bus with `"role":"kit"` that the drum tracks route to, and the music bus likewise.
 Only declared buses have an `effects` rack, and only those can be swept.
 
-Why this matters beyond the trick: **it separates arrangement from composition.**
-The material stays fixed and only mixer state moves. For generative or live use that
-is the cheaper and safer axis — a parameter move cannot produce a wrong note, a
-truncated tail, or a seam, and a section can be rewritten without regenerating any
-musical content.
+Why this matters beyond the trick: **processing can develop fixed note material.**
+The written notes stay fixed while the audible hierarchy changes. That can be a
+compositional choice in itself. Check the result: abrupt parameter changes can
+still expose seams or suppress tails, and a filter sweep cannot repair every weak
+phrase. Choose note development, processing or both according to the idea.
 
 ---
 
@@ -3490,22 +3529,24 @@ DROP 2           variation, not repetition
 OUTRO            strip back to kick + hats for the next DJ
 ```
 
-### 9.2 The governing rule
+### 9.2 Phrase-scale decisions
 
-**Reset the ear every 16 bars.** Something must change on each 16-bar boundary — an
-element enters or leaves, a filter opens, a variation appears. Attention decays on
-roughly that cycle, and a drop that sounds identical for 32 bars stops functioning
-as a drop.
+**Review what a phrase teaches the listener.** At a useful boundary, decide whether
+to sustain, remove, answer or transform material. Sixteen bars is a common club
+phrase length, not a universal attention span or deadline for change. A repeated
+passage may deepen the groove; a pickup or unexpected silence may justify a change
+before the boundary. Judge development by what becomes audible and meaningful.
 
 ### 9.3 Section craft
 
-- **Intro:** restraint is functional, not stylistic — it exists so the track can be
-  beat-matched.
+- **Intro:** in a DJ-oriented track, restraint leaves room for beat-matching;
+  other openings can establish a motif, space or immediate full groove.
 - **Build:** add movement, not sounds. Filter sweeps, velocity ramps, risers,
   snare rolls. Pulling the kick out lets the loop float and makes the return land.
 - **Drop:** vary it internally — polyrhythms, automation, percussion changes.
-- **Outro:** mirror the intro. Descending pitch (tom fills walking down) and
-  thinning texture signal the end and hand the mix cleanly to the next track.
+- **Outro:** mirroring the intro and thinning texture can support a DJ handoff.
+  A cadence, transformed return, sustained tail or deliberate cut may better serve
+  a listening piece. Compose that choice inside the score's duration.
 
 ---
 
@@ -3514,11 +3555,11 @@ as a drop.
 ### 10.1 Mix
 
 1. **Gain stage first.** Every channel to around −10 dBFS before any processing.
-2. **High-pass everything that isn't kick or bass.** Only those two are allowed below
-   100 Hz; everything else gets a high-pass at ~150 Hz with a 24 dB/oct slope.
-   This one move resolves most low-mid congestion.
+2. **Remove low end that masks another role.** A high-pass at ~150 Hz with a
+   24 dB/oct slope is one starting point for supporting parts that need no body
+   there. Preserve intentional low notes and warmth; choose the cutoff per sound.
    *Here:* `{"id":"hp","type":"filter","mode":"highpass","slope":24,"cutoff":150}`
-   on each bus that is not the kick's or the bass's.
+   on a bus whose low end actually needs that cut.
 3. **Duck the reverb return from the kick** (−8.5 dB, 160 ms release), not only the
    bass. Keeps the space without smearing the transient.
    *Here:* a custom return bus holding `reverb` at `mix` 1, with a `sidechain` from
@@ -3550,19 +3591,21 @@ Choose the target by destination, because platforms normalize on playback:
 | EBU R128 broadcast | −23 LUFS | — |
 | Apple, YouTube, Tidal, Amazon, Deezer | no published music figure | — |
 
-Mastering a streaming release to −8 LUFS buys nothing but distortion: the platform
-turns it down to −14 anyway, and you arrive quieter *and* more squashed than a
-master made for the target. Chase a master that sounds good, not a number.
+Normalization changes playback level; it does not undo compression or distortion
+already printed into the master. Choose the dynamics that serve the music and
+compare level-matched. Spotify recommends −14 LUFS and below −1 dBTP, or below
+−2 dBTP for masters louder than −14 LUFS; its settings and playback devices can
+change normalization behavior. [Spotify's delivery guidance](https://support.spotify.com/us/artists/article/loudness-normalization/)
 
-*Platform figures checked 11 Oct 2026; these policies change, so verify before
-relying on them.*
+*Spotify guidance checked 12 Oct 2026. Other platform figures are inherited
+references; verify the destination's current requirements before delivery.*
 
 **In this engine you can set the ceiling but not read the loudness.** Top-level
 `ceilingDbtp` (−9..0) sets the true-peak ceiling of the finished master; omit it
 and the master soft-clips to wherever it lands, near −3 dBFS, which is not a
-delivery spec. There is no loudness readout, so the LUFS targets above are
-something to *compose toward* — arrangement density, how hard the bus is driven,
-how much the limiter is asked to do — not a number you can check and correct.
+delivery spec. There is no loudness readout or LUFS target field. Verify the
+exported WAV with an external meter when a delivery target matters. Score values,
+arrangement density and a true-peak ceiling alone cannot establish integrated LUFS.
 
 Use true peak, not sample peak, as the ceiling: a render can sit at −3.0 dBFS by
 sample and still reach −2.2 dBTP between samples, and it is the inter-sample
@@ -3585,13 +3628,13 @@ KICK        sine ~50 Hz; pitch 150->50 Hz over 50 ms; attack 0.8 ms
             decay 550 ms               [808]
             this engine: exd_ kick attackMs / holdMs / bodyDecay
             click: HP 2.5 kHz, 30 ms, -16 dB under
-            layers overlap ~7 ms (never gap)
-            tune body to the bass root; then check polarity
+            compare layer handoff; ~7 ms overlap in the measured example
+            compare tonal tail with bass; adjust overlap or tuning if needed
             EQ: -4 dB@320, +3 dB@4.5k, +2.5 dB shelf@60
             hard genres: send -> filter highpass slope 24 -> drive, -9 dB
 
-LOW END     kick owns sub; carve bass -14 dB Q1.4 at kick fundamental
-            sidechain: 1 ms attack, 90 ms release, 6-8 dB
+LOW END     choose kick/bass ownership; resolve overlap with timing, envelope or EQ
+            pronounced duck example: 1 ms attack, 90 ms release, 6-8 dB
             mono below 120 Hz   (this engine: width monoBelowHz 120)
             saturate for speakers that can't reproduce the fundamental
               (this engine: drive amount 7.5 mix 0.25)
@@ -3602,10 +3645,10 @@ GROOVE      off-beat = steps 3, 7, 11, 15
             open hat tail = one 1/16
             3-over-4 realigns every 3 bars
 
-HARMONY     A minor; Am-F-C-G or Am-Dm-E-Am
+HARMONY     examples in A minor: Am-F-C-G or Am-Dm-E-Am; choose your own material
             harmonic minor: G -> G#, v -> V (E major)
             deceptive: E major -> F
-            melody: one peak, in bar 3
+            melody: contour, focal event, phrasing and space
 
 COMPRESS    drums: attack 10-30 ms, release = one 1/16
             parallel: 20:1, 0.5 ms, blend 35%
@@ -3614,7 +3657,8 @@ COMPRESS    drums: attack 10-30 ms, release = one 1/16
             this engine: amounts 0-10, not threshold/ratio
               squash = fast+aggressive   smooth = slow leveling
               glue = mix bus             punch = add transient
-              pump + pumpRelease (BEATS) = ducking
+              pump + pumpRelease (0-10 knobs) = tempo-relative ducking
+              custom-bus sidechain: attackMs / releaseMs in milliseconds
 
 EQ          this engine: bell {freq, gain, q} and shelf {mode, freq, gain}
             chained on a bus; the 3-band "eq" cannot target a frequency
@@ -3628,16 +3672,17 @@ AUTOMATE    (parameter, start, end, bars, curve)
               noise riser = filter bandpass cutoff sweep;
               throws = custom-bus send amount with a step keyframe
 
-ARRANGE     16-bar intro, 32-bar drop, reset the ear every 16 bars
+ARRANGE     choose form for the request; sustain, answer, subtract or transform
+            16-bar intro / 32-bar drop is one DJ-oriented option
 
-MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
+MIX         level references require meters; remove masking low end selectively
+            example HP: 150 Hz 24 dB/oct when that preserves the intended body
               (this engine: filter highpass slope 24 cutoff 150)
             pre-master -6 dBFS / -18 LUFS
             master -1 dBTP ceiling, -8 LUFS club / -14 LUFS streaming
             dB = peak, LUFS = felt loudness; they are not interchangeable
             this engine: "ceilingDbtp" sets the true-peak ceiling;
-              there is no loudness readout, so compose toward the
-              LUFS target rather than measuring against it
+              no LUFS readout/target field; measure the exported WAV externally
 ```
 
 ---
@@ -3677,27 +3722,26 @@ Standalone file: electronic-music-genres.md
 
 ## How to use this — read this part first {#how-to-use}
 
-**This document deliberately does not tell you which sounds to use.** It gives,
-per genre, the small number of things that must be true, and leaves everything
-else to you. That is not an omission:
+**Use these entries as stylistic clues, not exhaustive genre definitions.**
+They summarize one producer's tutorial practice. All source counts refer to
+videos from that same producer, not independent authorities; 45 genres have
+only one video. The reported tempos and techniques describe that corpus.
+See Provenance for how captions were interpreted and what they cannot establish.
 
-- **Name no patch, build the sound.** The score guide's workflow is to read the
-  nearest factory DNA as *reference*, then author an `ex_` or `exd_` voice and
-  change it on purpose. A genre entry here tells you what the sound must *do*
-  — "plucked and pitched, sliding up into each downbeat", "clipped, mono,
-  brutal" — so you can synthesise toward that target. Picking a factory patch
-  because a document named it is how every track in a genre ends up identical.
+- **Choose sounds by function.** An entry describes a role — "plucked and
+  pitched, sliding up into each downbeat", "clipped, mono, brutal" — rather
+  than prescribing a patch. Use a factory voice when it fits, or adapt the
+  nearest documented DNA/starter into an `ex_` or `exd_` voice when useful.
+  Originality can come from phrasing, interaction and form with either choice.
 - **Tempo is a range because the sources disagree.** Where this says
   `110–128 · centre 125 · 19 sources`, nineteen tutorials were examined and they
-  chose values across that whole span. Treat the range as the genre's real
-  freedom and the centre as a default, not a rule.
-- **Two or three constraints, then invent.** A genre is defined by a handful of
-  invariants — usually something about the groove, and which element is allowed
-  to be the protagonist. Satisfy those and the track will read as the genre no
-  matter how unfamiliar the individual sounds are. That is the whole point: the
-  constraints are what let you be strange safely.
-- **`≠` lines are confusion guards.** Several genres share a tempo and differ by
-  one decision. Those lines name the decision.
+  chose values across that span. The centre is an optional starting point;
+  neither endpoint defines the limits of the genre.
+- **Choose a few defining relationships, then invent.** Consider the groove,
+  bass role, foreground and production character together. They help establish
+  identity without fixing the melody, sound palette or arrangement.
+- **`≠` lines highlight contrasts in these examples.** They are useful checks
+  against confusing neighbouring styles, not complete definitions of either.
 
 **What a genre entry does not constrain**, unless it says so: the melody, the
 chord progression, the specific timbres, the instrument count, the arrangement
@@ -3706,36 +3750,38 @@ musical choice; accidental sameness is not.
 
 ---
 
-## The shared form {#form}
+## A common form in the tutorial corpus {#form}
 
-Nearly every genre below is built on one structure. It is worth knowing because
-it is *assembly order*, not content — it constrains nothing about how a track
-sounds.
+The following workflow recurs in the tutorials, especially the club-oriented
+examples. It is one way to build a track. Form affects musical identity, so
+choose it deliberately rather than assuming every genre needs the same arc.
 
-**Build the loudest section first.** Across the corpus the order is: the drop's
+**Try the main section first.** Across the corpus the order is often: the drop's
 drums → bass → chords/pads → leads → ear candy and FX; *then* the intro and
 build-up, assembled by subtracting and filtering what already exists; *then* the
-breakdown and second section, made by varying the first. Writing front-to-back
-tends to invent intro material that never pays off.
+breakdown and second section, made by varying the first. This helps establish
+material worth returning to. A melodic or timbral idea may instead come first;
+the main section need not be the loudest or contain all these roles.
 
-**Sixteen bars is the unit.** Elements enter on 8- or 16-bar boundaries, never
-mid-phrase. A main section is typically two 16-bar halves, and **the second half
-adds** rather than replaces — one more percussion layer, a counter-melody, an
-answering voice. `[291 of 303 sources]` This is the most universal practice
-observed, more consistent than sidechaining. Two identical halves read as
-unfinished.
+**Phrase boundaries establish expectations.** Entries on 8- or 16-bar boundaries
+and additions in a main section's second half are frequent in this corpus
+`[291 of 303 sources]`. Use that regularity when it serves the groove or DJ form.
+Pickups, mid-phrase answers, irregular lengths, subtraction and unchanged repeats
+are also choices. A later passage can change meaning without adding a layer.
 
 **Section markers.** A cymbal on the downbeat of each 8-bar phrase is the
-default `[24 sources say 8 bars; 3 say 4; 1 says 16]`. Risers into a section,
-falls out of one, and a short noise gesture whenever a new element enters.
+common device `[24 sources say 8 bars; 3 say 4; 1 says 16]`. Risers, falls and
+noise gestures can mark selected turns. Leave other boundaries unmarked when
+continuity or the musical phrase itself supplies the transition.
 
-**The breakdown is defined by the absence of ducking.** Same material, no
-kick, no duck. That contrast *is* the section.
+**One breakdown contrast is the absence of ducking.** Removing the kick can
+let previously ducked material sustain, provided that kick was its pump source.
+Other breakdowns change harmony, rhythm, space or focus; a breakdown is optional.
 
 ### Six ways to make a repeated part survive 32 bars {#movement}
 
-Genres differ in which of these they favour; all are cheaper than new material,
-and all are parameter movement rather than notes:
+These moves develop existing material through performance and processing.
+Combine them with note or phrase changes when useful:
 
 1. **A filter sweep across the whole section** — the most common by far.
 2. **Velocity driving the filter** — write accents, and the accents open the
@@ -3746,33 +3792,37 @@ and all are parameter movement rather than notes:
 5. **A volume shape per bar** — this is what makes big chord stacks breathe.
 6. **Automating a send** — delay or reverb amount as an arrangement curve.
 
-### The low end, which every genre agrees on {#low-end}
+### Recurring low-end strategies {#low-end}
 
-- **One element per band.** The split between the main bass and the sub sits
-  near **60–70 Hz**: high-pass the bass there and let the sub own below it.
-- **Mono below ~200 Hz.** Width down there costs rather than pays.
+- **Assign low-end roles.** When separate main-bass and sub layers are useful,
+  a split near **60–70 Hz** is one starting point. A single bass may already
+  cover both jobs; do not add a sub merely because a tutorial uses two parts.
+- **Check low-end mono compatibility.** A crossover near **200 Hz** is a
+  conservative starting point in these examples, not a universal cutoff.
 - **Duck depth is a per-element decision, not a global setting** — and this is
   the single most consequential mix choice in these styles. Three tiers recur:
-  **deep** for bass and sub (they must vacate completely); **shallow** for
+  **deep** for overlapping bass and sub; **shallow** for
   chords, pianos and pads (they should stay present and merely breathe); and
   **barely anything** for a fast lead, which a full duck would erase. Using one
   depth everywhere is the commonest way a mix in these genres goes flat.
   One source states the reasoning for the shallow case exactly: *"I don't want
   the kick to duck so much of the piano… a really minimal sidechain effect keeps
   the piano prominent."*
-- **Prefer sends to inserts** for reverb and delay on ducked material, or the
-  duck eats the tail and the space disappears.
+- **Place ambience deliberately.** A separate return can preserve a tail
+  while the dry part ducks, or be ducked independently. Insert/send choice
+  alone does not determine this; processing order and routing do.
 
-Nothing in the corpus ever changes key or tempo mid-track. All variation is by
-element, register, filter and rhythm.
+The corpus reports no mid-track key or tempo changes. That describes the
+examples, not a prohibition: Beat Lab supports deliberate harmonic and tempo
+development through the syntax guide's documented features.
 
 ---
 
 # HOUSE {#house}
 
-The family the others borrow from. Four-on-the-floor, 110–128, minor, swung.
-**What distinguishes a house sub-genre is almost never the drums — it is which
-element is allowed to be the protagonist, and how hard the kick ducks the rest.**
+The house examples emphasize four-on-the-floor, 110–128, minor and swing.
+Their foreground choice and ducking help distinguish sub-genres; inspect the
+drum articulation and pocket too rather than assuming their grooves are identical.
 
 ### House {#house-core}
 `125` · minor · **1 source** · the baseline the rest are variations on.
@@ -3782,8 +3832,8 @@ closed hats as the pulse, shaker and percussion for texture. Swing on.
 
 ### Deep house {#deep-house}
 `110–128` · centre **125** · minor · **19 sources** — the best-attested genre here.
-**Groove** — **a soft kick, never punchy**; this single choice separates it from
-tech house more than tempo does. Claps often held back to the ninth bar. Two
+**Groove** — **a softer kick** than the tech-house examples at similar tempos.
+Claps often held back to the ninth bar. Two
 bass parts. Percussion deliberately lazy and behind the beat.
 **Carries it** — **the chords**, with the root doubled an octave down for weight.
 **Feel** — warm, unhurried, late-night, vocal-led, spacious.
@@ -3795,8 +3845,9 @@ bass parts. Percussion deliberately lazy and behind the beat.
 *"if we increase the swing we get that perfect tech house groove."* Hats in
 several layers including a quiet "filler" layer. A rolling, repetitive bass whose
 **pitch bends** rather than sweeps.
-**Carries it** — the hi-hat groove, plus **ear candy as a requirement**: many
-small odd sounds, each panned differently, all sharing one delay return.
+**Carries it** — the hi-hat groove, with **ear candy as a recurring technique**:
+small odd sounds, panned differently, sharing a delay return. Keep only details
+that reinforce the pocket or answer another voice.
 *"Tech house uses a lot of ear candy to keep the listener hooked."*
 **Feel** — dry, bouncy, percussive, witty.
 
@@ -3993,14 +4044,15 @@ builds its interest from parameter movement rather than parts.
 
 ### Techno {#techno-core}
 `126–134` · centre **126** · minor · **6 sources**
-**Groove** — **the low end is two parts, not one.** A continuous sub-bed derived
+**Groove** — **a layered low-end approach in these examples.** A sub-bed derived
 from the kick's own tail, ducked by the very kick that produced it, so the kick
 punches through something otherwise unbroken; and above it a **mono mid-bass with
 its lows removed**, because the kick and the bed already own them. *"Techno
-usually has two types of bass."* Strict 8-bar entry ladder. A second, much
+usually has two types of bass."* An 8-bar entry ladder. A second, much
 quieter hat layer for character. Reverb-drenched clap "fills" that blend rather
 than read as a backbeat.
-**Carries it** — **two leads answering each other**, never one line.
+**Carries it** — **two leads answering each other** in these examples; one
+evolving line or texture can carry another interpretation.
 **Feel** — relentless, mechanical, dark, physical.
 **Note on ducking** — techno often locks the duck to the *tempo* rather than to
 the kick signal, for a stated reason: the long kick tail would otherwise
@@ -4118,8 +4170,9 @@ sketch**. **Liminal techno** — the creator's own coinage · **1 source**.
 
 # TRANCE AND PSY {#trance}
 
-128–150, minor without exception, and **138 is the single most common tempo in
-the whole corpus** (15 sources across six sub-genres). Long sections: *"usually a
+The trance/psy examples use 128–150 and minor throughout, and **138 is the single
+most common tempo in the whole corpus** (15 sources across six sub-genres).
+Long sections: *"usually a
 trance track has long drops like 32 bars."* Two bass parts are standard — one
 supplying 16th-note motion, one supplying weight.
 
@@ -4180,11 +4233,10 @@ and groove, trance melodic content and section lengths · **1 source**.
 
 # BASS, BREAKS AND GLOBAL GROOVES {#bass-breaks}
 
-**These are the genres that are not four-on-the-floor, and that changes
-everything.** In house, every sub-genre shares a kick pattern and differs in its
-lead. Here **the kick pattern *is* the identity** — get it wrong and no amount of
-correct instrumentation rescues it. Ducking also matters less, because a sparse
-kick leaves less overlap to clear. And two genres have no drop at all.
+**These examples emphasize breaks, syncopation or half-time relationships.**
+Inspect the composite kick, snare, bass and subdivision pattern: a matching
+instrument palette cannot establish the groove by itself. Sparse kick patterns
+may need less ducking where overlaps are fewer. Some examples omit a drop.
 
 ### Drum & bass {#drum-and-bass}
 `165–175` · centre **170** · minor · **5 sources**
@@ -4431,10 +4483,11 @@ ranges here are measured, not estimated.
 
 **The videos themselves were not watched.** Captions carry what was *said*; the
 piano roll, the plugin windows and every numeric value were *shown*. So this
-document is reliable about **what a genre contains, in what order, and what must
-be true of its groove**, and carries **no note-level material and no parameter
-values** — those were on screen. When a source says "add some EQ to take off the
-lows", the frequency is not recoverable here. For numbers, use
+document reports **the creator's stated elements, order and groove advice**,
+and carries **no note-level material and no parameter values** — those were on
+screen. Captions alone do not verify the audible result or establish genre-wide
+rules. When a source says "add some EQ to take off the lows", the frequency is
+not recoverable here. For numbers, use
 `electronic-music-principles.md`, which was read from on-screen slides and is
 strong exactly where this is weak.
 
@@ -4449,8 +4502,8 @@ strong exactly where this is weak.
 - Five videos have no captions and are marked as sketches.
 
 **This document describes conventions, not requirements.** It is strongest used
-as a check — "does my track satisfy the two or three things that make this genre
-recognisable?" — and weakest used as a specification. Where it and a specific
+as a check — "which relationships give this interpretation its stylistic
+identity?" — and weakest used as a specification. Where it and a specific
 instruction disagree, the instruction wins.
 
 
@@ -5241,74 +5294,47 @@ made a final compositional decision.
 11. CREATIVE COMPOSITION PROCEDURE FOR AN AI
 ===============================================================================
 
-This is a reusable method, not a rigid production checklist. Internally plan,
-then output only what the authoritative Beat Lab score contract permits.
+Use this as a creative expansion of the score guide's B.5 workflow, not a second
+checklist to complete. Revisit decisions when sound, phrase or form suggests a
+better direction. All planning stays internal; the music response is JSON only.
 
-PASS 1 - DEFINE THE REQUEST
-  Extract explicit style, duration, mood, rhythmic language, sound references,
-  foreground expectations, and exclusions. Translate artist references into
-  abstract attributes rather than copying recognizable work.
+1. INTENT AND CONTRAST
+   Extract style, duration, mood, references and exclusions. Translate references
+   into musical attributes. Choose a guiding relationship such as mechanical /
+   human, tender / ominous or repetitive / evolving. Section 1's blueprint is an
+   optional aid; fill only the slots that clarify the idea.
 
-PASS 2 - DECIDE THE DRIVING CONTRAST
-  Choose a productive tension: mechanical/human, dense/spacious, tender/ominous,
-  dry/remote, static/unstable, repetitive/evolving. A track can have several
-  contrasts, but select one that guides its identity.
+2. MATERIAL WITH ITS SOUND
+   Invent a recognizable rhythmic, pitched, harmonic or timbral seed, or a few
+   related seeds when needed. Decide what anchors the music and what can mutate.
+   Try the main relationship in a short passage, often 2-4 bars for groove music.
+   Revise timing, gaps, envelopes and interaction together. A drone may need a
+   longer listening window; no universal loop length or number of seeds applies.
 
-PASS 3 - INVENT THREE DISTINCT SEEDS
-  Invent one rhythmic seed, one pitched/harmonic seed, and one timbral seed.
-  They may be interrelated, but each should have a recognizable silhouette.
-  Reject generic placeholders such as continuous root-eighth bass notes unless
-  repetition itself is a deliberate aesthetic decision.
+3. DEVELOPMENT AND PAYOFF
+   Explore variants with audible preserved traits: an answering rhythm, thinned
+   fragment, new harmony, timbral fracture or completed ending. Keep only useful
+   variants. If a late payoff suggests itself first, compose it and work backward
+   to what would make it meaningful; otherwise let the material suggest the form.
 
-PASS 4 - CHOOSE AN ANCHOR AND A PROTAGONIST
-  Decide what the listener can rely on and what has permission to mutate.
-  Determine whether the bass, break, melody, harmony, or sound field leads.
+4. SCENES AND FOCUS
+   Map the duration into scenes, identifying what remains recognizable and what
+   changes. At an entrance, consider whether another voice should leave or recede.
+   Ask why the next scene follows this one: extension, contrast, resolution,
+   delayed reply, intentional hold or rupture. Choose an ending rather than
+   letting the repeat count decide it. No fixed scene count or drop is required.
 
-PASS 5 - TEST TWO BARS BEFORE ARRANGING EVERYTHING
-  Write a compelling 2- to 4-bar combination containing the main relationship.
-  If it is weak, revise the timing, gaps, interaction, or motif. Do not hide a
-  weak loop behind 20 layers or elaborate mastering.
+5. REALIZATION
+   Translate the plan through the score guide's exact syntax. Use the conceptual
+   crosswalk in Section 16; it does not authorize additional fields. Check that
+   timing, sound and orchestration actually expose the intended relationships.
 
-PASS 6 - MAKE A TRANSFORMATION LIBRARY
-  Create 3-6 meaningful variants with known preserved traits:
-    A0 - unmistakable seed;
-    A1 - rhythmic response;
-    A2 - fragile, thinned variation;
-    A3 - harmonic reinterpretation;
-    A4 - timbrally fragmented variation;
-    A5 - returning seed with one changed ending.
-  Use only variants that serve the eventual form.
-
-PASS 7 - PLAN THE SCENES
-  Map time into scenes. For each, name protagonist, harmonic state, rhythmic
-  state, novelty, memory, transition mechanism, and reason it belongs.
-  Ensure something develops in the middle; do not simply save everything
-  interesting for an ending.
-
-PASS 8 - WRITE THE BIGGEST PAYOFF FIRST IF USEFUL
-  Decide what late return, resolution, or transformation is worth earning.
-  Place the preceding scenes to establish its significance.
-
-PASS 9 - ARRANGE WITH FOCUS
-  At each entrance, decide what leaves or becomes quieter. Reserve a space for
-  one-off events and let looped material sustain the musical grammar. Do not
-  add an instrument merely to signal the start of another 8-bar block.
-
-PASS 10 - VERIFY MUSICAL CAUSALITY
-  For each section boundary, ask: "Because of what the listener just heard,
-  why should this be the next event?" The answer may be contrast, extension,
-  resolution, a delayed reply, or purposeful rupture.
-
-PASS 11 - COMPOSE A TRUE END
-  Select completion, dissolution, interruption, or a return with changed
-  meaning. Do not let a pattern simply stop due to durationSec.
-
-PASS 12 - RENDER, LISTEN, AND REVISE
-  Schema validity is necessary, not sufficient. When audio preview is possible,
-  listen without looking at the score. Diagnose the felt result, then make
-  specific changes (see Section 15). If no renderer is accessible, inspect
-  onsets, phrase spans, harmonic motion, and energy distribution conservatively.
-  Do not claim a listening test you did not perform.
+6. REVIEW AND REVISION
+   Apply technical validation separately from musical evaluation (Section 20;
+   score guide I.1). With playback, listen without looking and diagnose the felt
+   result using Section 15. Without it, inspect onsets, phrase spans, harmonic
+   motion and density conservatively. Fix a specific weakness, then re-check the
+   affected passage and boundaries. Never claim a listening test you did not do.
 
 ===============================================================================
 12. CONTROLLED SURPRISE: A DECISION FRAMEWORK, NOT RANDOMNESS
@@ -5739,6 +5765,52 @@ STUDY C: AMBIENT, "AN OBJECT MOVES THROUGH SPACE"
   Payoff: the same gesture is heard at a changed distance. Form is built from
   attention and spatial memory rather than beats, drops, or chords.
 
+18.1 EXECUTABLE MINIATURE: TEACH A GAP, THEN ANSWER IT
+
+This 12-second study isolates Study B's gap-and-answer relationship. It is not a
+complete tech-house production or a template for its section lengths. At 120 BPM,
+each four-beat pattern lasts two seconds. Local beat 3 means the fourth beat.
+
+  Beats 0-8:   A repeats twice; hats answer its empty fourth beat.
+  Beats 8-12:  the bass repeats, but the hat answer disappears.
+  Beats 12-16: FILLED preserves A and adds a bass note in the learned gap.
+  Beats 16-20: the original bass gap and hat answer return.
+  Beat 20:    one root and kick close the study; the remaining time lets them decay.
+
+```json
+{
+  "bpm":120,"durationSec":12,"seed":23,
+  "patterns":{
+    "KICK":{"instrument":"drums","lenBeats":4,
+      "notes":["0 e_kick 0.8","1 e_kick 0.8","2 e_kick 0.8","3 e_kick 0.8"]},
+    "A":{"instrument":"moog_bass","lenBeats":4,
+      "notes":["0 A1 0.5 0.8","0.75 C2 0.25 0.65","1.5 E2 0.5 0.75","2.5 A1 0.25 0.65"]},
+    "ANSWER":{"instrument":"drums","lenBeats":4,
+      "notes":["3 e_hat_closed 0.55","3.5 e_hat_closed 0.4"]},
+    "FILLED":{"extends":"A","notes":["3 A1 0.5 0.8"]},
+    "END":{"extends":"A","only":[0]},
+    "LAST_KICK":{"extends":"KICK","only":[0]}
+  },
+  "arrangement":[
+    {"pattern":"KICK","atBeat":0,"repeat":5},
+    {"pattern":"A","atBeat":0,"repeat":3},
+    {"pattern":"ANSWER","atBeat":0,"repeat":2},
+    {"pattern":"FILLED","atBeat":12},
+    {"pattern":"A","atBeat":16},
+    {"pattern":"ANSWER","atBeat":16},
+    {"pattern":"END","atBeat":20},
+    {"pattern":"LAST_KICK","atBeat":20}
+  ]
+}
+```
+
+The new bass event is deterministic and placed once; adding it to A itself would
+erase the earlier absence that gives it meaning. The return restores the gap
+without adding another instrument. With playback, compare against a version
+using A at beat 12 too: does the single changed note register as an answer?
+If the relationship is weak, adjust the phrase, register or envelope before
+adding effects. Write new material for the user's piece; reuse the method.
+
 ===============================================================================
 19. CONCISE CREATIVE RULES TO REMEMBER WHILE GENERATING
 ===============================================================================
@@ -5768,6 +5840,17 @@ STUDY C: AMBIENT, "AN OBJECT MOVES THROUGH SPACE"
 20. FINAL SILENT SELF-REVIEW BEFORE EMITTING A BEAT LAB SCORE
 ===============================================================================
 
+TECHNICAL VALIDATION — required independently of artistic intent:
+  [ ] Fields, values, symbols and references conform to the current score guide.
+  [ ] Pattern beats and direct-track seconds, repeats and duration are correct.
+  [ ] Custom sounds, routing, effects and automation satisfy their contracts.
+  [ ] The response is one valid JSON object, with no prose or invented features.
+
+Use the score guide's I.1 for the full technical check. Its documented language
+is authoritative; a schema or compiler is additional support when accessible.
+
+MUSICAL EVALUATION — use the relevant questions for the intended style:
+
 A. ORIGINALITY
   [ ] Material is newly composed; no recognizable melody/hook is copied.
   [ ] The piece has an identity more specific than a genre and BPM.
@@ -5794,14 +5877,15 @@ E. FORM
   [ ] At least one late moment rewards the listener's memory.
   [ ] The ending is intentional.
 
-F. EXECUTION
-  [ ] All score values and symbols conform to the current music-guide.txt.
-  [ ] Pattern beats versus direct-track seconds are handled correctly.
-  [ ] No guessed instruments, fields, plugins, or impossible transformations.
-  [ ] No essential payoff depends on unreliable probability.
-  [ ] The score is valid and its musical choices have been reviewed separately.
+F. REALIZATION
+  [ ] Sound, register, level and timing expose the relationships the plan describes.
+  [ ] Essential payoffs are deterministic unless chance itself is the concept.
+  [ ] Review is based on actual playback where available, with no invented
+      listening or measurement claims when only the score can be inspected.
 
-An item can intentionally be false. If so, know the artistic reason.
+Musical heuristics may be set aside for an artistic reason. Technical validity
+and the JSON-only response contract are never optional. Revise the most important
+weakness and re-check the result rather than maximizing every checklist item.
 
 ===============================================================================
 21. SOURCES, INFLUENCES, AND PROVENANCE
