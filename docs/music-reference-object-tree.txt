@@ -6,7 +6,7 @@ node scripts/generate-music-reference.mjs; never edit it by hand.
 
 Legend
 ------
-[#]  One of the 85 property-bearing object tables in music-reference.md,
+[#]  One of the 86 property-bearing object tables in music-reference.md,
      numbered in the order the reference renders them.
 ->   A property directly contains or references the child object.
 =>   A union selects one of the child object shapes.
@@ -30,25 +30,25 @@ numbered object with ↳.
 |-- tempoMap[] -> [#2] TempoPoint
 |
 |-- groove => GrooveBinding (union without properties)
-|   `-- [#75] GrooveUse
+|   `-- [#76] GrooveUse
 |
 |-- patterns{} -> [#6] Pattern
 |   |-- notes[] => NoteLine | Note
 |   |   `-- [#3] Note
 |   |       |-- arp -> [#5] Arp
 |   |       |-- expr -> [#4] Expression
-|   |       |-- granular -> [#46] Granular
-|   |       `-- c -> [#47] SynthControls
-|   |-- controls -> [#85] TrackControls
+|   |       |-- granular -> [#47] Granular
+|   |       `-- c -> [#48] SynthControls
+|   |-- controls -> [#86] TrackControls
 |   |   `-- pumpFrom[] => PumpSource (union without properties)
-|   |       |-- [#48] Track pump source             { track }
-|   |       |-- [#49] Pattern pump source           { pattern }
-|   |       |-- [#50] Instrument pump source        { instrument }
-|   |       |-- [#51] Drum-hit pump source          { drumHit }
-|   |       `-- [#52] Silent trigger pump source    { trigger }
+|   |       |-- [#49] Track pump source             { track }
+|   |       |-- [#50] Pattern pump source           { pattern }
+|   |       |-- [#51] Instrument pump source        { instrument }
+|   |       |-- [#52] Drum-hit pump source          { drumHit }
+|   |       `-- [#53] Silent trigger pump source    { trigger }
 |   |-- groove => GrooveBinding (union without properties)
-|   |   `-- ↳ [#75] GrooveUse
-|   |-- granular -> ↳ [#46] Granular
+|   |   `-- ↳ [#76] GrooveUse
+|   |-- granular -> ↳ [#47] Granular
 |   `-- motifTransform -> [#15] MotifTransform
 |
 |-- arrangement[] -> [#7] Placement
@@ -58,15 +58,15 @@ numbered object with ↳.
 |   |-- variations[] -> [#12] Variation
 |   |   `-- transform -> ↳ [#10] Transform
 |   `-- groove => GrooveBinding (union without properties)
-|       `-- ↳ [#75] GrooveUse
+|       `-- ↳ [#76] GrooveUse
 |
 |-- tracks[] -> [#13] Track
 |   |-- notes[] => NoteLine | Note
 |   |   `-- ↳ [#3] Note
-|   |-- controls -> ↳ [#85] TrackControls
+|   |-- controls -> ↳ [#86] TrackControls
 |   |-- groove => GrooveBinding (union without properties)
-|   |   `-- ↳ [#75] GrooveUse
-|   `-- granular -> ↳ [#46] Granular
+|   |   `-- ↳ [#76] GrooveUse
+|   `-- granular -> ↳ [#47] Granular
 |
 |-- triggers{} -> [#8] Trigger
 |   `-- placements[] -> [#9] TriggerPlacement
@@ -85,97 +85,98 @@ numbered object with ↳.
 |   |-- [#19] Sweep
 |   |   `-- lfo -> [#21] Lfo
 |   `-- [#20] BusSweep
-|       `-- lfo -> [#73] CenteredLfo
+|       `-- lfo -> [#74] CenteredLfo
 |
 |-- master[] -> [#22] MasterMove
 |
 |-- synths{} => SynthPatch (union without properties)
-|   |-- [#53] CompactSynthPatch
-|   |-- [#54] DualSynthPatch
+|   |-- [#54] CompactSynthPatch
+|   |-- [#55] DualSynthPatch
 |   |   |-- osc1 => Oscillator (union without properties)
-|   |   |   |-- [#57] sine oscillator
-|   |   |   |-- [#58] saw oscillator
-|   |   |   |-- [#59] square oscillator
-|   |   |   |-- [#60] triangle oscillator
-|   |   |   |-- [#61] noise oscillator
-|   |   |   `-- [#62] wavetable oscillator
+|   |   |   |-- [#58] sine oscillator
+|   |   |   |-- [#59] saw oscillator
+|   |   |   |-- [#60] square oscillator
+|   |   |   |-- [#61] triangle oscillator
+|   |   |   |-- [#62] noise oscillator
+|   |   |   `-- [#63] wavetable oscillator
 |   |   |-- osc2 => Oscillator (union without properties)
-|   |   |   |-- ↳ [#57] sine oscillator
-|   |   |   |-- ↳ [#58] saw oscillator
-|   |   |   |-- ↳ [#59] square oscillator
-|   |   |   |-- ↳ [#60] triangle oscillator
-|   |   |   |-- ↳ [#61] noise oscillator
-|   |   |   `-- ↳ [#62] wavetable oscillator
-|   |   |-- filter -> [#55] filter
-|   |   |-- amp -> [#83] SynthEnvelope
-|   |   |-- env2 -> ↳ [#83] SynthEnvelope
-|   |   |-- lfo1 -> [#84] SynthLfo
-|   |   |-- lfo2 -> ↳ [#84] SynthLfo
-|   |   |-- mod[] -> [#76] ModRoute
-|   |   `-- macros -> [#56] macros
-|   `-- [#63] FmSynthPatch
-|       |-- ops[] -> [#65] FmOperator
-|       |   `-- env -> ↳ [#83] SynthEnvelope
-|       |-- routes[] -> [#66] FmRoute
-|       |-- filter -> [#64] filter
-|       |-- amp -> ↳ [#83] SynthEnvelope
-|       |-- env2 -> ↳ [#83] SynthEnvelope
-|       |-- lfo1 -> ↳ [#84] SynthLfo
-|       |-- lfo2 -> ↳ [#84] SynthLfo
-|       `-- mod[] -> [#67] FmModRoute
+|   |   |   |-- ↳ [#58] sine oscillator
+|   |   |   |-- ↳ [#59] saw oscillator
+|   |   |   |-- ↳ [#60] square oscillator
+|   |   |   |-- ↳ [#61] triangle oscillator
+|   |   |   |-- ↳ [#62] noise oscillator
+|   |   |   `-- ↳ [#63] wavetable oscillator
+|   |   |-- filter -> [#56] filter
+|   |   |-- amp -> [#84] SynthEnvelope
+|   |   |-- env2 -> ↳ [#84] SynthEnvelope
+|   |   |-- lfo1 -> [#85] SynthLfo
+|   |   |-- lfo2 -> ↳ [#85] SynthLfo
+|   |   |-- mod[] -> [#77] ModRoute
+|   |   `-- macros -> [#57] macros
+|   `-- [#64] FmSynthPatch
+|       |-- ops[] -> [#66] FmOperator
+|       |   `-- env -> ↳ [#84] SynthEnvelope
+|       |-- routes[] -> [#67] FmRoute
+|       |-- filter -> [#65] filter
+|       |-- amp -> ↳ [#84] SynthEnvelope
+|       |-- env2 -> ↳ [#84] SynthEnvelope
+|       |-- lfo1 -> ↳ [#85] SynthLfo
+|       |-- lfo2 -> ↳ [#85] SynthLfo
+|       `-- mod[] -> [#68] FmModRoute
 |
 |-- drumSynths{} => CustomDrumPatch (union without properties)
-|   |-- [#68] KickDrumPatch
-|   |-- [#69] MembraneDrumPatch
-|   |-- [#70] ClapDrumPatch
-|   |-- [#71] NoiseDrumPatch
-|   `-- [#72] MetalDrumPatch
+|   |-- [#69] KickDrumPatch
+|   |-- [#70] MembraneDrumPatch
+|   |-- [#71] ClapDrumPatch
+|   |-- [#72] NoiseDrumPatch
+|   `-- [#73] MetalDrumPatch
 |
 |-- buses{} -> [#23] Bus
 |   |-- effects[] => BusEffect (union without properties)
-|   |   |-- [#24] Eq bus effect         type: "eq"
-|   |   |-- [#25] Bell bus effect       type: "bell"
-|   |   |-- [#26] Shelf bus effect      type: "shelf"
-|   |   |-- [#27] Drive bus effect      type: "drive"
-|   |   |-- [#28] Crush bus effect      type: "crush"
-|   |   |-- [#29] Tape bus effect       type: "tape"
-|   |   |-- [#30] Chorus bus effect     type: "chorus"
-|   |   |-- [#31] Phaser bus effect     type: "phaser"
-|   |   |-- [#32] Delay bus effect      type: "delay"
-|   |   |-- [#33] Reverb bus effect     type: "reverb"
-|   |   |-- [#34] Filter bus effect     type: "filter"
-|   |   |-- [#35] Width bus effect      type: "width"
-|   |   `-- [#36] Tremolo bus effect    type: "tremolo"
-|   |-- sends[] -> [#37] Send
-|   `-- sidechain -> [#38] Sidechain
+|   |   |-- [#24] Eq bus effect          type: "eq"
+|   |   |-- [#25] Bell bus effect        type: "bell"
+|   |   |-- [#26] Shelf bus effect       type: "shelf"
+|   |   |-- [#27] Drive bus effect       type: "drive"
+|   |   |-- [#28] Crush bus effect       type: "crush"
+|   |   |-- [#29] Tape bus effect        type: "tape"
+|   |   |-- [#30] Compress bus effect    type: "compress"
+|   |   |-- [#31] Chorus bus effect      type: "chorus"
+|   |   |-- [#32] Phaser bus effect      type: "phaser"
+|   |   |-- [#33] Delay bus effect       type: "delay"
+|   |   |-- [#34] Reverb bus effect      type: "reverb"
+|   |   |-- [#35] Filter bus effect      type: "filter"
+|   |   |-- [#36] Width bus effect       type: "width"
+|   |   `-- [#37] Tremolo bus effect     type: "tremolo"
+|   |-- sends[] -> [#38] Send
+|   `-- sidechain -> [#39] Sidechain
 |       `-- from[] => SidechainSource (union without properties)
-|           |-- [#39] Track sidechain source             { track }
-|           |-- [#40] Pattern sidechain source           { pattern }
-|           |-- [#41] Instrument sidechain source        { instrument }
-|           |-- [#42] Drum-hit sidechain source          { drumHit }
-|           |-- [#43] Silent Trigger sidechain source    { trigger }
-|           `-- [#44] Custom Bus sidechain source        { bus }
+|           |-- [#40] Track sidechain source             { track }
+|           |-- [#41] Pattern sidechain source           { pattern }
+|           |-- [#42] Instrument sidechain source        { instrument }
+|           |-- [#43] Drum-hit sidechain source          { drumHit }
+|           |-- [#44] Silent Trigger sidechain source    { trigger }
+|           `-- [#45] Custom Bus sidechain source        { bus }
 |
-`-- resamples{} -> [#45] Resample
+`-- resamples{} -> [#46] Resample
     |-- source => ResampleSource (union without properties)
-    |   |-- [#81] Track capture source    { track }
-    |   `-- [#82] Bus capture source      { bus }
+    |   |-- [#82] Track capture source    { track }
+    |   `-- [#83] Bus capture source      { bus }
     `-- slices => ResampleSlices (union without properties)
-        |-- [#77] Grid slices         { gridBeats }
-        |-- [#78] Explicit regions    { regions }
-        `-- [#79] Transient slices    { transients }
-            `-- transients -> [#80] transients
+        |-- [#78] Grid slices         { gridBeats }
+        |-- [#79] Explicit regions    { regions }
+        `-- [#80] Transient slices    { transients }
+            `-- transients -> [#81] transients
 
 REACHED ONLY THROUGH RELATED LINKS
 ==================================
 
 These tables are rendered by the reference but no property contains them;
 they are specializations named by another object's Related list.
-  [#74] CompactLfo
+  [#75] CompactLfo
 
 COUNT CHECK
 ===========
 
-Property-bearing objects shown in the tree: 84
+Property-bearing objects shown in the tree: 85
 Shown only under related links: 1
 Missing object numbers: none

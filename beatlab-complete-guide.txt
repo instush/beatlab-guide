@@ -1466,10 +1466,19 @@ closest named character first, then bend it:
   MODEL FIELDS — only write fields belonging to that model:
   * kick: tuneHz 20-300 · pitchStartHz 20-3000 · pitchDecay 0.001-1 sec ·
     body/click/noise 0-1 · bodyDecay/noiseDecay 0.003-4 sec ·
+    attackMs 0-50 · holdMs 0-250 ·
     clickHz 100-16000 · noiseColor "dark"|"white"|"bright" ·
     pitchVarCents 0-100 (uniform ± cents on the body pitch).
+    The body is an attack-hold-decay envelope: a linear rise over attackMs
+    (0 = instant), full level for holdMs, then bodyDecay. Hold and decay
+    are the genre dial — holdMs 25 with bodyDecay 0.1 is a tight techno
+    kick that leaves room for a bassline; holdMs 0 with bodyDecay 0.55 is
+    an 808 that IS the bassline. The pitch sweep, click and noise keep
+    their own timing, so the hold never blunts the transient. Make sure
+    duration covers attack + hold + decay.
   * membrane: tuneHz 20-2000 · pitchStartHz 20-4000 · pitchDecay 0.001-1 ·
     body/click/noise 0-1 · bodyDecay/noiseDecay 0.003-4 · damping 0-1 ·
+    attackMs 0-50 · holdMs 0-250 (same attack-hold-decay body as kick) ·
     clickHz 100-16000 · noiseColor "dark"|"white"|"bright" ·
     pitchVarCents 0-100.
   * clap: bursts 1-8 · spacingMs 1-40 · spread 0-1 (after the first burst,
@@ -1822,13 +1831,32 @@ closest named character first, then bend it:
     drive    amount 0..10, mix 0..1
     crush    amount 0..10, mix 0..1
     tape     amount 0..10, mix 0..1
-    chorus   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
+    compress mode "squash"|"smooth", amount 0..10, mix 0..1
+             The track squash (fast, aggressive, saturating) and smooth (slow
+             programme-dependent levelling) knobs as a bus insert; amount 0
+             bypasses. The wet path is level-matched to its input, so mix
+             below 1 IS parallel compression: {"id":"par","type":"compress",
+             "amount":8,"mix":0.35} keeps the dry transient and adds the
+             squashed density under it. amount and mix automate; mode is static.
     phaser   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
     delay    timeBeats 0.0625..4, feedback 0..0.92, mix 0..1
     reverb   size 0..1, damping 0..1, tone -1..1, mix 0..1
-    filter   mode "lowpass"|"highpass", cutoff 30..16000 Hz,
-             resonance 0..0.9, mix 0..1
-    width    amount 0..2 (0=mono, 1=unchanged, 2=double side; no mix field)
+    filter   mode "lowpass"|"highpass"|"bandpass"|"notch", slope 12|24,
+             cutoff 30..16000 Hz, resonance 0..0.9, mix 0..1
+             One state-variable stage at slope 12 (dB/oct); slope 24 runs two
+             in series, which is the "high-pass everything but kick and bass
+             at 150 Hz, 24 dB/oct" rule in one effect. bandpass with a cutoff
+             sweep is a noise riser on a bus; notch removes a band. cutoff,
+             resonance and mix automate; mode and slope are static.
+    width    amount 0..2 (0=mono, 1=unchanged, 2=double side; no mix field),
+             monoBelowHz 0..500 (static)
+             monoBelowHz above 0 sums everything below that crossover to
+             mono and applies amount only above it — a 24 dB/oct
+             Linkwitz-Riley split that recombines flat, so the sub cannot
+             cancel on a mono system and the highs keep their width.
+             {"id":"img","type":"width","amount":1.4,"monoBelowHz":120}
+             is the "mono below 120 Hz" rule on a music or master-style bus;
+             0 (the default) is the old broadband width.
     tremolo  rateHz 0.01..20, depth 0..1, mix 0..1
   Unknown effect fields are errors. Use modest wet levels on a serial music
   bus; use a send plus a quieter parallel bus when the dry identity must remain.
@@ -2942,6 +2970,18 @@ genre:**
 This is the single most consequential kick parameter. Choosing a 550 ms decay is
 choosing not to have an independent bass part below ~80 Hz.
 
+In this engine an `exd_` kick body is exactly this envelope: `attackMs` (0–50,
+default 0 = instant), `holdMs` (0–250) and `bodyDecay` (seconds). The pitch sweep,
+click and noise keep their own timing, so a hold never blunts the transient. Make
+`duration` cover attack + hold + decay:
+
+```json
+"exd_techno_kick":{"model":"kick","tuneHz":50,"pitchStartHz":150,"pitchDecay":0.03,
+  "holdMs":25,"bodyDecay":0.1,"duration":0.3},
+"exd_808_kick":{"model":"kick","tuneHz":48,"pitchStartHz":120,"pitchDecay":0.04,
+  "bodyDecay":0.55,"duration":1.4}
+```
+
 ### 2.3 Layering: three bands, three jobs
 
 Rather than one synthesized kick, build three layers that each own a frequency band
@@ -3000,6 +3040,13 @@ kick into distortion and leave the sub dry.**
 - Past roughly +27 dB drive the punch is gone. Distortion trades transient for
   density; past a point there is no transient left to trade.
 
+*Here:* give the kick its own bus and a post-fader `send` to a second bus whose
+rack is `{"type":"filter","mode":"highpass","slope":24,"cutoff":150}` followed by
+`{"type":"drive","amount":7}`; set that bus's `fader` about 9 dB under (≈0.35).
+"EQ before the clipper" is a `bell` placed earlier in the same `effects` array,
+"after" is one placed later. `drive` is a soft saturator rather than a hard
+clipper, so push `amount` instead of expecting a flat top.
+
 ### 2.6 Making a kick survive small speakers
 
 Phone and laptop speakers reproduce almost nothing below ~130–150 Hz. A pure sub
@@ -3010,6 +3057,9 @@ cutoff. A 50 Hz fundamental driven ~9.5 dB produces partials at 150, 250 and 350
 — the listener's ear reconstructs the missing fundamental from the harmonic series.
 Keep the clean sub underneath and blend a saturated copy (around 75% drive,
 25% blend) rather than distorting the whole kick.
+
+*Here:* `{"type":"drive","amount":7.5,"mix":0.25}` on the kick's (or bass's) bus
+is that recipe in one effect; the dry sub stays in the other 75%.
 
 ### 2.7 Kick EQ: three moves
 
@@ -3054,13 +3104,17 @@ frequencies partially cancel on mono playback (club subs, phone speakers) and th
 weight simply vanishes. Keep width high *above* the crossover — the rule costs
 nothing in perceived stereo image.
 
-This engine has **no frequency-dependent width**: the `width` effect is broadband
-(0 = mono, 1 = unchanged, 2 = double), and a bus split into a mono low path and a
-wide high path does not separate cleanly — a 12 dB/oct crossover leaks enough bass
-into the wide path to undo the point. So apply the rule at the source instead:
-leave low material centred. Don't pan kicks or sub basses, and don't put `width`
-above 1 on any bus carrying them. Widen the hats, percussion, pads and effects
-returns, where there is no weight to lose.
+In this engine the rule is one field: the `width` effect's `monoBelowHz`. Below
+that crossover the bus is summed to mono through a 24 dB/oct Linkwitz-Riley split
+that recombines flat, and `amount` applies only above it:
+
+```json
+{"id":"img","type":"width","amount":1.4,"monoBelowHz":120}
+```
+
+Put it on the bus that carries the low end (or on every music bus) and the rule is
+enforced rather than remembered. Still don't *pan* kicks and sub basses: a static
+pan is not width, and the crossover does not undo it.
 
 **4. Saturate the bass** for the same reason as the kick (§2.6). Keep the clean sub;
 blend harmonics on top.
@@ -3098,13 +3152,18 @@ highest-yield single edit.
   length is a grid value — one sixteenth (107 ms at 140 BPM), not a taste setting.
 - **Flam.** Layer a second clap 13 ms late. Under ~20 ms an offset reads as *width*,
   not as a separate rhythmic event. Above it, it becomes a double-hit.
+  *Here:* `flam` on the note with the lane's `flamMs` at 13.
 - **Velocity ramps.** Take a clap from velocity 36 to 124 over 4 bars. Tension
   entirely through dynamics, nothing added.
+  *Here:* `volFrom`/`volTo` on the Placement ramps across its whole repeat span;
+  `accent` in a `Transform` cycles a velocity pattern inside it.
 - **Three over four.** A hit every 3 sixteenths against a 4/4 grid: the accent walks
   and the cycle only realigns with the bar after 3 bars. The cheapest source of
   sustained motion in a loop, and it requires editing nothing after you place it.
 - **Tom fills.** Pitched percussion walking down (+7 to −5 semitones over 8 steps),
   placed in bar 4 of a 4-bar phrase. Descending pitch reads as falling energy.
+  *Here:* a lane whose instrument is one drum hit (a factory tom or an `exd_`
+  membrane) takes an absolute pitch per note, which retunes that hit.
 
 ---
 
@@ -3318,9 +3377,11 @@ Opto on the bus" means writing `smooth`.
 - **Parallel compression** — duplicate, crush the copy (20:1, 0.5 ms attack), blend
   it ~35% under the dry. Keeps the transient *and* adds weight, which serial
   compression cannot do simultaneously.
-  *Here:* send the source bus to a second bus (`"tap":"post"`), put `squash` high
-  on that return, and set the return's `fader` to the blend. The send amount and
-  the return fader together are the "35%".
+  *Here:* one effect. `{"id":"par","type":"compress","mode":"squash","amount":8,
+  "mix":0.35}` on the bus: the wet path is level-matched to its input, so `mix` is
+  the blend and the dry transient passes untouched. The send-and-return form also
+  works (a post send to a return bus holding `compress` at `mix` 1, the return's
+  `fader` as the blend) when the parallel copy needs its own EQ.
 - **Sidechain** — a compressor keyed from another track. Kick ducking a pad at 12:1
   with 200 ms release makes room rhythmically. See §3 for the bass case, and §9 for
   ducking reverb returns.
@@ -3356,6 +3417,14 @@ naming that id as the automation target — `freq`, `gain` and `q` all move:
 "automation":[{"bus":"music","effect":"sweep","param":"freq","points":[[0,200],[16,6000]]}]
 ```
 
+Two of the moves need a specific engine form. The **noise riser** is a bus
+`filter` in `bandpass` mode with its `cutoff` swept (an `ex_` noise patch can use
+its own `filter.mode` instead); the volume lane is the bus `fader`. The **reverb
+throw** is a `send` whose `amount` is automated with a `step` keyframe — and only
+custom-bus sends automate, so route the track to a custom bus with a send to
+`hall` (or to a reverb return bus) and sweep that send. The per-track `reverb` and
+`plate` knobs are static.
+
 Note the pattern: the *same* cutoff ramp is a groove element at one bar and a build
 at four. Length is what assigns meaning, which is why automation should be written
 against the arrangement, not against taste.
@@ -3382,6 +3451,11 @@ single note**: `[measured]`
 
 Both time values are grid values again: 214 ms is an eighth note at 140 BPM, 321 ms
 a dotted eighth. Same rule as §1 — recompute, don't copy.
+
+One routing fact makes this work here: the built-in role buses (`kit`, `bass`,
+`bed`…) take no effects and no automation. "The drum bus" means a declared custom
+bus with `"role":"kit"` that the drum tracks route to, and the music bus likewise.
+Only declared buses have an `effects` rack, and only those can be swept.
 
 Why this matters beyond the trick: **it separates arrangement from composition.**
 The material stays fixed and only mixer state moves. For generative or live use that
@@ -3435,8 +3509,12 @@ as a drop.
 2. **High-pass everything that isn't kick or bass.** Only those two are allowed below
    100 Hz; everything else gets a high-pass at ~150 Hz with a 24 dB/oct slope.
    This one move resolves most low-mid congestion.
+   *Here:* `{"type":"filter","mode":"highpass","slope":24,"cutoff":150}` on each
+   bus that is not the kick's or the bass's.
 3. **Duck the reverb return from the kick** (−8.5 dB, 160 ms release), not only the
    bass. Keeps the space without smearing the transient.
+   *Here:* a custom return bus holding `reverb` at `mix` 1, with a `sidechain` from
+   the kick and `releaseMs` 160. The built-in `hall` and `plate` cannot be ducked.
 4. **Target around −6 dBFS peaks and −18 LUFS** before mastering — leave the limiter
    something to work with.
 
@@ -3497,15 +3575,18 @@ tails, which is where it shows first.
 KICK        sine ~50 Hz; pitch 150->50 Hz over 50 ms; attack 0.8 ms
             hold 25 ms / decay 100 ms  [techno]
             decay 550 ms               [808]
+            this engine: exd_ kick attackMs / holdMs / bodyDecay
             click: HP 2.5 kHz, 30 ms, -16 dB under
             layers overlap ~7 ms (never gap)
             tune body to the bass root; then check polarity
             EQ: -4 dB@320, +3 dB@4.5k, +2.5 dB shelf@60
+            hard genres: send -> filter highpass slope 24 -> drive, -9 dB
 
 LOW END     kick owns sub; carve bass -14 dB Q1.4 at kick fundamental
             sidechain: 1 ms attack, 90 ms release, 6-8 dB
-            mono below 120 Hz
+            mono below 120 Hz   (this engine: width monoBelowHz 120)
             saturate for speakers that can't reproduce the fundamental
+              (this engine: drive amount 7.5 mix 0.25)
 
 GROOVE      off-beat = steps 3, 7, 11, 15
             ghost notes velocity 48-60
@@ -3520,6 +3601,7 @@ HARMONY     A minor; Am-F-C-G or Am-Dm-E-Am
 
 COMPRESS    drums: attack 10-30 ms, release = one 1/16
             parallel: 20:1, 0.5 ms, blend 35%
+              (this engine: bus compress mode squash, mix 0.35)
             always compare level-matched
             this engine: amounts 0-10, not threshold/ratio
               squash = fast+aggressive   smooth = slow leveling
@@ -3534,10 +3616,14 @@ AUTOMATE    (parameter, start, end, bars, curve)
             bus moves alone can carry a whole arrangement:
               grow = LP opens / build = HP up + reverb send up
               break = HP the drum bus / outro = LP closes
+            this engine: only declared custom buses take effects/automation;
+              noise riser = filter bandpass cutoff sweep;
+              throws = custom-bus send amount with a step keyframe
 
 ARRANGE     16-bar intro, 32-bar drop, reset the ear every 16 bars
 
 MIX         stage -10 dBFS; HP everything but kick/bass at 150 Hz 24 dB/oct
+              (this engine: filter highpass slope 24 cutoff 150)
             pre-master -6 dBFS / -18 LUFS
             master -1 dBTP ceiling, -8 LUFS club / -14 LUFS streaming
             dB = peak, LUFS = felt loudness; they are not interchangeable

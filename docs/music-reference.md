@@ -15,7 +15,7 @@ The canonical machine-readable form is [`music-score.schema.json`](./music-score
 
 ## Reference index
 
-[`Score`](#score) · [`TempoPoint`](#tempopoint) · [`Curve`](#curve) · [`Depth`](#depth) · [`Tone`](#tone) · [`NoteLine`](#noteline) · [`PitchToken`](#pitchtoken) · [`AbsolutePitch`](#absolutepitch) · [`ScaleDegreePitch`](#scaledegreepitch) · [`ChordVoicing`](#chordvoicing) · [`StretchMode`](#stretchmode) · [`BowDirection`](#bowdirection) · [`ReleaseMode`](#releasemode) · [`ResampleRegion`](#resampleregion) · [`Note`](#note) · [`ExpressionPoint`](#expressionpoint) · [`Expression`](#expression) · [`ArpOrder`](#arporder) · [`Arp`](#arp) · [`Pattern`](#pattern) · [`Placement`](#placement) · [`Trigger`](#trigger) · [`TriggerPlacement`](#triggerplacement) · [`Transform`](#transform) · [`Condition`](#condition) · [`RepeatParity`](#repeatparity) · [`Variation`](#variation) · [`Track`](#track) · [`Motif`](#motif) · [`MotifTransform`](#motiftransform) · [`Harmony`](#harmony) · [`ScaleName`](#scalename) · [`Chord`](#chord) · [`Groove`](#groove) · [`MeterDenominator`](#meterdenominator) · [`GrooveBinding`](#groovebinding) · [`Sweep`](#sweep) · [`SweepKnob`](#sweepknob) · [`FilterSweepKnob`](#filtersweepknob) · [`LfoSweepKnob`](#lfosweepknob) · [`BusSweep`](#bussweep) · [`BusSweepParam`](#bussweepparam) · [`Keyframe`](#keyframe) · [`AutomationCurve`](#automationcurve) · [`Lfo`](#lfo) · [`TrackParam`](#trackparam) · [`MasterMove`](#mastermove) · [`MasterMoveEffect`](#mastermoveeffect) · [`Bus`](#bus) · [`BusRole`](#busrole) · [`BusEffect`](#buseffect) · [`BusFilterMode`](#busfiltermode) · [`Send`](#send) · [`SendTarget`](#sendtarget) · [`BuiltInReturn`](#builtinreturn) · [`SendTap`](#sendtap) · [`Sidechain`](#sidechain) · [`SidechainSource`](#sidechainsource) · [`Resample`](#resample) · [`Granular`](#granular) · [`GranularWindow`](#granularwindow) · [`SynthControls`](#synthcontrols) · [`PumpSource`](#pumpsource) · [`SynthPatch`](#synthpatch) · [`CompactSynthPatch`](#compactsynthpatch) · [`CompactOscillatorType`](#compactoscillatortype) · [`SynthNoiseColor`](#synthnoisecolor) · [`CompactLfoShape`](#compactlfoshape) · [`DualSynthPatch`](#dualsynthpatch) · [`Oscillator`](#oscillator) · [`OscillatorPhase`](#oscillatorphase) · [`SynthLfoShape`](#synthlfoshape) · [`ModulationSource`](#modulationsource) · [`ModulationTarget`](#modulationtarget) · [`SynthFilterMode`](#synthfiltermode) · [`FmSynthPatch`](#fmsynthpatch) · [`FmOperator`](#fmoperator) · [`FmOperatorWave`](#fmoperatorwave) · [`FmRoute`](#fmroute) · [`FmModRoute`](#fmmodroute) · [`FmModulationTarget`](#fmmodulationtarget) · [`CustomDrumPatch`](#customdrumpatch) · [`KickDrumPatch`](#kickdrumpatch) · [`MembraneDrumPatch`](#membranedrumpatch) · [`ClapDrumPatch`](#clapdrumpatch) · [`NoiseDrumPatch`](#noisedrumpatch) · [`MetalDrumPatch`](#metaldrumpatch) · [`DrumChokeMode`](#drumchokemode) · [`DrumModel`](#drummodel) · [`DrumBus`](#drumbus) · [`DrumNoiseColor`](#drumnoisecolor) · [`PitchedInstrumentName`](#pitchedinstrumentname) · [`FactoryDrumHitName`](#factorydrumhitname) · [`Automation`](#automation) · [`BusShelfMode`](#busshelfmode) · [`CenteredLfo`](#centeredlfo) · [`CompactLfo`](#compactlfo) · [`DrumHitName`](#drumhitname) · [`GranularCurve`](#granularcurve) · [`GranularCurvePoint`](#granularcurvepoint) · [`GrooveUse`](#grooveuse) · [`InstrumentName`](#instrumentname) · [`KnobKeyframe`](#knobkeyframe) · [`ModRoute`](#modroute) · [`PitchRange`](#pitchrange) · [`RegionRange`](#regionrange) · [`ResampleSlices`](#resampleslices) · [`ResampleSource`](#resamplesource) · [`SynthEnvelope`](#synthenvelope) · [`SynthLfo`](#synthlfo) · [`TrackBusName`](#trackbusname) · [`TrackControls`](#trackcontrols)
+[`Score`](#score) · [`TempoPoint`](#tempopoint) · [`Curve`](#curve) · [`Depth`](#depth) · [`Tone`](#tone) · [`NoteLine`](#noteline) · [`PitchToken`](#pitchtoken) · [`AbsolutePitch`](#absolutepitch) · [`ScaleDegreePitch`](#scaledegreepitch) · [`ChordVoicing`](#chordvoicing) · [`StretchMode`](#stretchmode) · [`BowDirection`](#bowdirection) · [`ReleaseMode`](#releasemode) · [`ResampleRegion`](#resampleregion) · [`Note`](#note) · [`ExpressionPoint`](#expressionpoint) · [`Expression`](#expression) · [`ArpOrder`](#arporder) · [`Arp`](#arp) · [`Pattern`](#pattern) · [`Placement`](#placement) · [`Trigger`](#trigger) · [`TriggerPlacement`](#triggerplacement) · [`Transform`](#transform) · [`Condition`](#condition) · [`RepeatParity`](#repeatparity) · [`Variation`](#variation) · [`Track`](#track) · [`Motif`](#motif) · [`MotifTransform`](#motiftransform) · [`Harmony`](#harmony) · [`ScaleName`](#scalename) · [`Chord`](#chord) · [`Groove`](#groove) · [`MeterDenominator`](#meterdenominator) · [`GrooveBinding`](#groovebinding) · [`Sweep`](#sweep) · [`SweepKnob`](#sweepknob) · [`FilterSweepKnob`](#filtersweepknob) · [`LfoSweepKnob`](#lfosweepknob) · [`BusSweep`](#bussweep) · [`BusSweepParam`](#bussweepparam) · [`Keyframe`](#keyframe) · [`AutomationCurve`](#automationcurve) · [`Lfo`](#lfo) · [`TrackParam`](#trackparam) · [`MasterMove`](#mastermove) · [`MasterMoveEffect`](#mastermoveeffect) · [`Bus`](#bus) · [`BusRole`](#busrole) · [`BusEffect`](#buseffect) · [`BusFilterMode`](#busfiltermode) · [`BusFilterSlope`](#busfilterslope) · [`BusCompressorMode`](#buscompressormode) · [`Send`](#send) · [`SendTarget`](#sendtarget) · [`BuiltInReturn`](#builtinreturn) · [`SendTap`](#sendtap) · [`Sidechain`](#sidechain) · [`SidechainSource`](#sidechainsource) · [`Resample`](#resample) · [`Granular`](#granular) · [`GranularWindow`](#granularwindow) · [`SynthControls`](#synthcontrols) · [`PumpSource`](#pumpsource) · [`SynthPatch`](#synthpatch) · [`CompactSynthPatch`](#compactsynthpatch) · [`CompactOscillatorType`](#compactoscillatortype) · [`SynthNoiseColor`](#synthnoisecolor) · [`CompactLfoShape`](#compactlfoshape) · [`DualSynthPatch`](#dualsynthpatch) · [`Oscillator`](#oscillator) · [`OscillatorPhase`](#oscillatorphase) · [`SynthLfoShape`](#synthlfoshape) · [`ModulationSource`](#modulationsource) · [`ModulationTarget`](#modulationtarget) · [`SynthFilterMode`](#synthfiltermode) · [`FmSynthPatch`](#fmsynthpatch) · [`FmOperator`](#fmoperator) · [`FmOperatorWave`](#fmoperatorwave) · [`FmRoute`](#fmroute) · [`FmModRoute`](#fmmodroute) · [`FmModulationTarget`](#fmmodulationtarget) · [`CustomDrumPatch`](#customdrumpatch) · [`KickDrumPatch`](#kickdrumpatch) · [`MembraneDrumPatch`](#membranedrumpatch) · [`ClapDrumPatch`](#clapdrumpatch) · [`NoiseDrumPatch`](#noisedrumpatch) · [`MetalDrumPatch`](#metaldrumpatch) · [`DrumChokeMode`](#drumchokemode) · [`DrumModel`](#drummodel) · [`DrumBus`](#drumbus) · [`DrumNoiseColor`](#drumnoisecolor) · [`PitchedInstrumentName`](#pitchedinstrumentname) · [`FactoryDrumHitName`](#factorydrumhitname) · [`Automation`](#automation) · [`BusShelfMode`](#busshelfmode) · [`CenteredLfo`](#centeredlfo) · [`CompactLfo`](#compactlfo) · [`DrumHitName`](#drumhitname) · [`GranularCurve`](#granularcurve) · [`GranularCurvePoint`](#granularcurvepoint) · [`GrooveUse`](#grooveuse) · [`InstrumentName`](#instrumentname) · [`KnobKeyframe`](#knobkeyframe) · [`ModRoute`](#modroute) · [`PitchRange`](#pitchrange) · [`RegionRange`](#regionrange) · [`ResampleSlices`](#resampleslices) · [`ResampleSource`](#resamplesource) · [`SynthEnvelope`](#synthenvelope) · [`SynthLfo`](#synthlfo) · [`TrackBusName`](#trackbusname) · [`TrackControls`](#trackcontrols)
 
 ## Rejected forms
 
@@ -1336,8 +1336,8 @@ Native-unit automation of one declared custom bus, effect, or send property.
 - bus must resolve to a declared custom Bus. effect and send ids resolve only inside that Bus. All references are case-sensitive; an unresolved reference is an error.
 - Bus properties: fader 0..1; pan -1..1; sidechain.amount 0..10, only when that Bus declares sidechain.
 - Send property: amount 0..1 is the only automatable send property.
-- Effect properties: eq low/mid/high -12..12 dB and mix 0..1; drive/crush/tape amount 0..10 and mix 0..1; chorus/phaser rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, and mix 0..1; delay timeBeats 0.0625..4, feedback 0..0.92, and mix 0..1; reverb size/damping/mix 0..1 and tone -1..1; filter cutoff 30..16000 Hz, resonance 0..0.9, and mix 0..1; width amount 0..2; tremolo rateHz 0.01..20 and depth/mix 0..1.
-- Only an existing numeric property may move. Routing, ids, effect types, and filter mode remain static.
+- Effect properties: eq low/mid/high -12..12 dB and mix 0..1; drive/crush/tape/compress amount 0..10 and mix 0..1; chorus/phaser rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, and mix 0..1; delay timeBeats 0.0625..4, feedback 0..0.92, and mix 0..1; reverb size/damping/mix 0..1 and tone -1..1; filter cutoff 30..16000 Hz, resonance 0..0.9, and mix 0..1; width amount 0..2; tremolo rateHz 0.01..20 and depth/mix 0..1.
+- Only an existing numeric property may move. Routing, ids, effect types, filter mode and slope, and the width monoBelowHz crossover remain static.
 - Before the earliest keyframe, the selected property's configured value remains active. After the latest keyframe, its value holds.
 - Several BusSweep entries for the same property merge into one time-sorted envelope. Values interpolate across a gap; to hold across it, begin the later entry at the held value.
 - Conflicting points at the same beat are errors; automation array order has no effect.
@@ -1443,7 +1443,7 @@ String enum selecting the numeric custom-Bus, effect, or send property moved by 
 | `fader` | Bus property only; 0..1 |
 | `pan` | Bus property only; -1..1 |
 | `sidechain.amount` | Bus property only; 0..10; the selected Bus must declare sidechain |
-| `amount` | Send 0..1; drive/crush/tape effect 0..10; width effect 0..2 |
+| `amount` | Send 0..1; drive/crush/tape/compress effect 0..10; width effect 0..2 |
 | `low` | eq effect only; -12..12 dB |
 | `mid` | eq effect only; -12..12 dB |
 | `high` | eq effect only; -12..12 dB |
@@ -1666,12 +1666,13 @@ Strict discriminated bus insert. The type selects the legal parameter set.
 | { "id": …, "type": …, ["amount": …], ["mix": …] }
 | { "id": …, "type": …, ["amount": …], ["mix": …] }
 | { "id": …, "type": …, ["amount": …], ["mix": …] }
+| { "id": …, "type": …, ["mode": …], ["amount": …], ["mix": …] }
 | { "id": …, "type": …, ["rateHz": …], ["depth": …], ["feedback": …], ["mix": …] }
 | { "id": …, "type": …, ["rateHz": …], ["depth": …], ["feedback": …], ["mix": …] }
 | { "id": …, "type": …, ["timeBeats": …], ["feedback": …], ["mix": …] }
 | { "id": …, "type": …, ["size": …], ["damping": …], ["tone": …], ["mix": …] }
-| { "id": …, "type": …, ["mode": …], ["cutoff": …], ["resonance": …], ["mix": …] }
-| { "id": …, "type": …, ["amount": …] }
+| { "id": …, "type": …, ["mode": …], ["slope": …], ["cutoff": …], ["resonance": …], ["mix": …] }
+| { "id": …, "type": …, ["amount": …], ["monoBelowHz": …] }
 | { "id": …, "type": …, ["rateHz": …], ["depth": …], ["mix": …] }
 ```
 
@@ -1797,6 +1798,26 @@ Tape color.
 | `amount` | `number` | no | `0` | ≥ 0; ≤ 10 — Tape amount. |
 | `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
 
+#### Compress bus effect
+
+Compressor insert with the character of the track squash and smooth knobs. The wet path is level-matched to its input, so mix below 1 is parallel compression in one effect.
+
+##### Syntax
+
+```text
+{ "id": …, "type": …, ["mode": …], ["amount": …], ["mix": …] }
+```
+
+##### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `id` | `string` | yes |  | pattern `^[a-z][a-z0-9_]{0,31}$` — Unique effect id inside this bus. |
+| `type` | `"compress"` | yes |  | Effect discriminator. |
+| `mode` | `BusCompressorMode` | no | `"squash"` |  |
+| `amount` | `number` | no | `4` | ≥ 0; ≤ 10 — Compression amount; 0 bypasses. |
+| `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
+
 #### Chorus bus effect
 
 Tempo-independent chorus.
@@ -1882,12 +1903,12 @@ Algorithmic reverb.
 
 #### Filter bus effect
 
-Static low-pass or high-pass filter.
+State-variable filter: low-pass, high-pass, band-pass or notch at 12 or 24 dB per octave. cutoff, resonance and mix automate; mode and slope are static.
 
 ##### Syntax
 
 ```text
-{ "id": …, "type": …, ["mode": …], ["cutoff": …], ["resonance": …], ["mix": …] }
+{ "id": …, "type": …, ["mode": …], ["slope": …], ["cutoff": …], ["resonance": …], ["mix": …] }
 ```
 
 ##### Properties
@@ -1897,18 +1918,19 @@ Static low-pass or high-pass filter.
 | `id` | `string` | yes |  | pattern `^[a-z][a-z0-9_]{0,31}$` — Unique effect id inside this bus. |
 | `type` | `"filter"` | yes |  | Effect discriminator. |
 | `mode` | `BusFilterMode` | no | `"lowpass"` |  |
+| `slope` | `BusFilterSlope` | no | `12` | Rolloff in dB per octave. |
 | `cutoff` | `number` | no | `3000` | ≥ 30; ≤ 16000 — Cutoff in Hz. |
 | `resonance` | `number` | no | `0.1` | ≥ 0; ≤ 0.9 — Filter resonance. |
 | `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
 
 #### Width bus effect
 
-Stereo width processor.
+Stereo width processor: scales the side signal. With monoBelowHz above 0 the band below that crossover is summed to mono through a Linkwitz-Riley 4th-order split (flat recombination) and amount applies only above it.
 
 ##### Syntax
 
 ```text
-{ "id": …, "type": …, ["amount": …] }
+{ "id": …, "type": …, ["amount": …], ["monoBelowHz": …] }
 ```
 
 ##### Properties
@@ -1918,6 +1940,7 @@ Stereo width processor.
 | `id` | `string` | yes |  | pattern `^[a-z][a-z0-9_]{0,31}$` — Unique effect id inside this bus. |
 | `type` | `"width"` | yes |  | Effect discriminator. |
 | `amount` | `number` | no | `1` | ≥ 0; ≤ 2 — 0 mono, 1 unchanged, 2 extra-wide. |
+| `monoBelowHz` | `number` | no | `0` | ≥ 0; ≤ 500 — Crossover in Hz below which the image is mono; 0 keeps the width broadband. Static. |
 
 #### Tremolo bus effect
 
@@ -1947,21 +1970,72 @@ Tempo-independent amplitude modulation.
 
 ### Related
 
-[`BusShelfMode`](#busshelfmode) · [`BusFilterMode`](#busfiltermode)
+[`BusShelfMode`](#busshelfmode) · [`BusCompressorMode`](#buscompressormode) · [`BusFilterMode`](#busfiltermode) · [`BusFilterSlope`](#busfilterslope)
 
 ## BusFilterMode
 
-String enum selecting a custom-Bus filter direction.
+String enum selecting a custom-Bus filter response.
 
 ### Syntax
 
 ```text
-"lowpass" | "highpass"
+"lowpass" | "highpass" | "bandpass" | "notch"
 ```
 
 ### Values
 
-`"lowpass"` · `"highpass"`
+`"lowpass"` · `"highpass"` · `"bandpass"` · `"notch"`
+
+### Value ranges
+
+| Value / target | Range |
+|---|---|
+| `lowpass` | keeps everything below cutoff |
+| `highpass` | keeps everything above cutoff |
+| `bandpass` | keeps a band around cutoff; resonance narrows it |
+| `notch` | removes a band around cutoff; resonance narrows it |
+
+## BusFilterSlope
+
+Numeric enum selecting a custom-Bus filter rolloff in dB per octave.
+
+### Syntax
+
+```text
+12 | 24
+```
+
+### Values
+
+`12` · `24`
+
+### Value ranges
+
+| Value / target | Range |
+|---|---|
+| `12` | one state-variable stage |
+| `24` | two identical stages in series; the rolloff and any resonance peak both double in dB |
+
+## BusCompressorMode
+
+String enum selecting the character of a custom-Bus compress effect; the same two characters as the track squash and smooth knobs.
+
+### Syntax
+
+```text
+"squash" | "smooth"
+```
+
+### Values
+
+`"squash"` · `"smooth"`
+
+### Value ranges
+
+| Value / target | Range |
+|---|---|
+| `squash` | fast and aggressive: 0.3 ms attack, 60 ms release, 8:1 above a threshold that falls from -8 to -22 dBFS as amount rises, with saturation |
+| `smooth` | slow program-dependent levelling: 12 ms attack, 2:1 to 3.5:1, release lengthening from 0.25 s to about 1.1 s with depth |
 
 ## Send
 
@@ -3046,7 +3120,7 @@ Bounded deterministic kick drum voice.
 ### Syntax
 
 ```text
-{ "model": …, ["bus": …], ["duration": …], ["gain": …], ["drive": …], ["highpassHz": …], ["lowpassHz": …], ["decayVar": …], ["toneVar": …], ["pitchVarCents": …], ["tuneHz": …], ["pitchStartHz": …], ["pitchDecay": …], ["body": …], ["bodyDecay": …], ["click": …], ["clickHz": …], ["noise": …], ["noiseColor": …], ["noiseDecay": …] }
+{ "model": …, ["bus": …], ["duration": …], ["gain": …], ["drive": …], ["highpassHz": …], ["lowpassHz": …], ["decayVar": …], ["toneVar": …], ["pitchVarCents": …], ["tuneHz": …], ["pitchStartHz": …], ["pitchDecay": …], ["body": …], ["bodyDecay": …], ["attackMs": …], ["holdMs": …], ["click": …], ["clickHz": …], ["noise": …], ["noiseColor": …], ["noiseDecay": …] }
 ```
 
 ### Properties
@@ -3068,6 +3142,8 @@ Bounded deterministic kick drum voice.
 | `pitchDecay` | `number` | no | `0.035` | ≥ 0.001; ≤ 1 — Exponential pitch-sweep time constant in seconds. After this time, 36.8% of the initial distance from tuneHz remains. |
 | `body` | `number` | no | `1` | ≥ 0; ≤ 1 — Tonal body level. |
 | `bodyDecay` | `number` | no | `0.22` | ≥ 0.003; ≤ 4 — Body decay in seconds. |
+| `attackMs` | `number` | no | `0` | ≥ 0; ≤ 50 — Linear body rise in milliseconds before the hold; 0 is the instantaneous onset. The pitch sweep, click and noise keep their own timing. |
+| `holdMs` | `number` | no | `0` | ≥ 0; ≤ 250 — Milliseconds the body stays at full level after the attack before bodyDecay begins; 0 starts the decay at the onset. |
 | `click` | `number` | no | `0.25` | ≥ 0; ≤ 1 — Transient click level. |
 | `clickHz` | `number` | no | `3500` | ≥ 100; ≤ 16000 — Click frequency. |
 | `noise` | `number` | no | `0.08` | ≥ 0; ≤ 1 — Noise level. |
@@ -3093,7 +3169,7 @@ Bounded deterministic membrane drum voice.
 ### Syntax
 
 ```text
-{ "model": …, ["bus": …], ["duration": …], ["gain": …], ["drive": …], ["highpassHz": …], ["lowpassHz": …], ["decayVar": …], ["toneVar": …], ["pitchVarCents": …], ["tuneHz": …], ["pitchStartHz": …], ["pitchDecay": …], ["body": …], ["bodyDecay": …], ["damping": …], ["click": …], ["clickHz": …], ["noise": …], ["noiseColor": …], ["noiseDecay": …] }
+{ "model": …, ["bus": …], ["duration": …], ["gain": …], ["drive": …], ["highpassHz": …], ["lowpassHz": …], ["decayVar": …], ["toneVar": …], ["pitchVarCents": …], ["tuneHz": …], ["pitchStartHz": …], ["pitchDecay": …], ["body": …], ["bodyDecay": …], ["attackMs": …], ["holdMs": …], ["damping": …], ["click": …], ["clickHz": …], ["noise": …], ["noiseColor": …], ["noiseDecay": …] }
 ```
 
 ### Properties
@@ -3115,6 +3191,8 @@ Bounded deterministic membrane drum voice.
 | `pitchDecay` | `number` | no | `0.06` | ≥ 0.001; ≤ 1 — Exponential pitch-sweep time constant in seconds. After this time, 36.8% of the initial distance from tuneHz remains. |
 | `body` | `number` | no | `0.9` | ≥ 0; ≤ 1 — Tonal body level. |
 | `bodyDecay` | `number` | no | `0.35` | ≥ 0.003; ≤ 4 — Body decay in seconds. |
+| `attackMs` | `number` | no | `0` | ≥ 0; ≤ 50 — Linear body rise in milliseconds before the hold; 0 is the instantaneous onset. The pitch sweep, click and noise keep their own timing. |
+| `holdMs` | `number` | no | `0` | ≥ 0; ≤ 250 — Milliseconds the body stays at full level after the attack before bodyDecay begins; 0 starts the decay at the onset. |
 | `damping` | `number` | no | `0.35` | ≥ 0; ≤ 1 — Suppresses and shortens the membrane's two higher modes; 0 preserves them most and 1 damps them most. |
 | `click` | `number` | no | `0.08` | ≥ 0; ≤ 1 — Transient click level. |
 | `clickHz` | `number` | no | `1800` | ≥ 100; ≤ 16000 — Click frequency. |

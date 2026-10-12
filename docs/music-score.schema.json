@@ -528,7 +528,7 @@
         "fader": "Bus property only; 0..1",
         "pan": "Bus property only; -1..1",
         "sidechain.amount": "Bus property only; 0..10; the selected Bus must declare sidechain",
-        "amount": "Send 0..1; drive/crush/tape effect 0..10; width effect 0..2",
+        "amount": "Send 0..1; drive/crush/tape/compress effect 0..10; width effect 0..2",
         "low": "eq effect only; -12..12 dB",
         "mid": "eq effect only; -12..12 dB",
         "high": "eq effect only; -12..12 dB",
@@ -577,13 +577,49 @@
     },
     "BusFilterMode": {
       "title": "BusFilterMode",
-      "description": "String enum selecting a custom-Bus filter direction.",
+      "description": "String enum selecting a custom-Bus filter response.",
       "type": "string",
       "enum": [
         "lowpass",
-        "highpass"
+        "highpass",
+        "bandpass",
+        "notch"
       ],
-      "x-beatlab-syntax": "\"lowpass\" | \"highpass\""
+      "x-beatlab-syntax": "\"lowpass\" | \"highpass\" | \"bandpass\" | \"notch\"",
+      "x-beatlab-values": {
+        "lowpass": "keeps everything below cutoff",
+        "highpass": "keeps everything above cutoff",
+        "bandpass": "keeps a band around cutoff; resonance narrows it",
+        "notch": "removes a band around cutoff; resonance narrows it"
+      }
+    },
+    "BusFilterSlope": {
+      "title": "BusFilterSlope",
+      "description": "Numeric enum selecting a custom-Bus filter rolloff in dB per octave.",
+      "type": "integer",
+      "enum": [
+        12,
+        24
+      ],
+      "x-beatlab-syntax": "12 | 24",
+      "x-beatlab-values": {
+        "12": "one state-variable stage",
+        "24": "two identical stages in series; the rolloff and any resonance peak both double in dB"
+      }
+    },
+    "BusCompressorMode": {
+      "title": "BusCompressorMode",
+      "description": "String enum selecting the character of a custom-Bus compress effect; the same two characters as the track squash and smooth knobs.",
+      "type": "string",
+      "enum": [
+        "squash",
+        "smooth"
+      ],
+      "x-beatlab-syntax": "\"squash\" | \"smooth\"",
+      "x-beatlab-values": {
+        "squash": "fast and aggressive: 0.3 ms attack, 60 ms release, 8:1 above a threshold that falls from -8 to -22 dBFS as amount rises, with saturation",
+        "smooth": "slow program-dependent levelling: 12 ms attack, 2:1 to 3.5:1, release lengthening from 0.25 s to about 1.1 s with depth"
+      }
     },
     "BusShelfMode": {
       "title": "BusShelfMode",
@@ -5601,8 +5637,8 @@
         "bus must resolve to a declared custom Bus. effect and send ids resolve only inside that Bus. All references are case-sensitive; an unresolved reference is an error.",
         "Bus properties: fader 0..1; pan -1..1; sidechain.amount 0..10, only when that Bus declares sidechain.",
         "Send property: amount 0..1 is the only automatable send property.",
-        "Effect properties: eq low/mid/high -12..12 dB and mix 0..1; drive/crush/tape amount 0..10 and mix 0..1; chorus/phaser rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, and mix 0..1; delay timeBeats 0.0625..4, feedback 0..0.92, and mix 0..1; reverb size/damping/mix 0..1 and tone -1..1; filter cutoff 30..16000 Hz, resonance 0..0.9, and mix 0..1; width amount 0..2; tremolo rateHz 0.01..20 and depth/mix 0..1.",
-        "Only an existing numeric property may move. Routing, ids, effect types, and filter mode remain static.",
+        "Effect properties: eq low/mid/high -12..12 dB and mix 0..1; drive/crush/tape/compress amount 0..10 and mix 0..1; chorus/phaser rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, and mix 0..1; delay timeBeats 0.0625..4, feedback 0..0.92, and mix 0..1; reverb size/damping/mix 0..1 and tone -1..1; filter cutoff 30..16000 Hz, resonance 0..0.9, and mix 0..1; width amount 0..2; tremolo rateHz 0.01..20 and depth/mix 0..1.",
+        "Only an existing numeric property may move. Routing, ids, effect types, filter mode and slope, and the width monoBelowHz crossover remain static.",
         "Before the earliest keyframe, the selected property's configured value remains active. After the latest keyframe, its value holds.",
         "Several BusSweep entries for the same property merge into one time-sorted envelope. Values interpolate across a gap; to hold across it, begin the later entry at the held value.",
         "Conflicting points at the same beat are errors; automation array order has no effect.",
@@ -5955,6 +5991,45 @@
         },
         {
           "type": "object",
+          "title": "Compress bus effect",
+          "description": "Compressor insert with the character of the track squash and smooth knobs. The wet path is level-matched to its input, so mix below 1 is parallel compression in one effect.",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]{0,31}$",
+              "description": "Unique effect id inside this bus."
+            },
+            "type": {
+              "const": "compress",
+              "description": "Effect discriminator."
+            },
+            "mode": {
+              "$ref": "#/$defs/BusCompressorMode",
+              "default": "squash"
+            },
+            "amount": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10,
+              "description": "Compression amount; 0 bypasses.",
+              "default": 4
+            },
+            "mix": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Dry/wet mix.",
+              "default": 1
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
           "title": "Chorus bus effect",
           "description": "Tempo-independent chorus.",
           "properties": {
@@ -6145,7 +6220,7 @@
         {
           "type": "object",
           "title": "Filter bus effect",
-          "description": "Static low-pass or high-pass filter.",
+          "description": "State-variable filter: low-pass, high-pass, band-pass or notch at 12 or 24 dB per octave. cutoff, resonance and mix automate; mode and slope are static.",
           "properties": {
             "id": {
               "type": "string",
@@ -6159,6 +6234,11 @@
             "mode": {
               "$ref": "#/$defs/BusFilterMode",
               "default": "lowpass"
+            },
+            "slope": {
+              "$ref": "#/$defs/BusFilterSlope",
+              "default": 12,
+              "description": "Rolloff in dB per octave."
             },
             "cutoff": {
               "type": "number",
@@ -6191,7 +6271,7 @@
         {
           "type": "object",
           "title": "Width bus effect",
-          "description": "Stereo width processor.",
+          "description": "Stereo width processor: scales the side signal. With monoBelowHz above 0 the band below that crossover is summed to mono through a Linkwitz-Riley 4th-order split (flat recombination) and amount applies only above it.",
           "properties": {
             "id": {
               "type": "string",
@@ -6208,6 +6288,13 @@
               "maximum": 2,
               "description": "0 mono, 1 unchanged, 2 extra-wide.",
               "default": 1
+            },
+            "monoBelowHz": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 500,
+              "description": "Crossover in Hz below which the image is mono; 0 keeps the width broadband. Static.",
+              "default": 0
             }
           },
           "required": [
@@ -8107,6 +8194,20 @@
           "description": "Body decay in seconds.",
           "default": 0.22
         },
+        "attackMs": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50,
+          "description": "Linear body rise in milliseconds before the hold; 0 is the instantaneous onset. The pitch sweep, click and noise keep their own timing.",
+          "default": 0
+        },
+        "holdMs": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 250,
+          "description": "Milliseconds the body stays at full level after the attack before bodyDecay begins; 0 starts the decay at the onset.",
+          "default": 0
+        },
         "click": {
           "type": "number",
           "minimum": 0,
@@ -8257,6 +8358,20 @@
           "maximum": 4,
           "description": "Body decay in seconds.",
           "default": 0.35
+        },
+        "attackMs": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50,
+          "description": "Linear body rise in milliseconds before the hold; 0 is the instantaneous onset. The pitch sweep, click and noise keep their own timing.",
+          "default": 0
+        },
+        "holdMs": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 250,
+          "description": "Milliseconds the body stays at full level after the attack before bodyDecay begins; 0 starts the decay at the onset.",
+          "default": 0
         },
         "damping": {
           "type": "number",
@@ -8811,6 +8926,8 @@
     "BusRole",
     "BusEffect",
     "BusFilterMode",
+    "BusFilterSlope",
+    "BusCompressorMode",
     "Send",
     "SendTarget",
     "BuiltInReturn",

@@ -1433,10 +1433,19 @@ closest named character first, then bend it:
   MODEL FIELDS — only write fields belonging to that model:
   * kick: tuneHz 20-300 · pitchStartHz 20-3000 · pitchDecay 0.001-1 sec ·
     body/click/noise 0-1 · bodyDecay/noiseDecay 0.003-4 sec ·
+    attackMs 0-50 · holdMs 0-250 ·
     clickHz 100-16000 · noiseColor "dark"|"white"|"bright" ·
     pitchVarCents 0-100 (uniform ± cents on the body pitch).
+    The body is an attack-hold-decay envelope: a linear rise over attackMs
+    (0 = instant), full level for holdMs, then bodyDecay. Hold and decay
+    are the genre dial — holdMs 25 with bodyDecay 0.1 is a tight techno
+    kick that leaves room for a bassline; holdMs 0 with bodyDecay 0.55 is
+    an 808 that IS the bassline. The pitch sweep, click and noise keep
+    their own timing, so the hold never blunts the transient. Make sure
+    duration covers attack + hold + decay.
   * membrane: tuneHz 20-2000 · pitchStartHz 20-4000 · pitchDecay 0.001-1 ·
     body/click/noise 0-1 · bodyDecay/noiseDecay 0.003-4 · damping 0-1 ·
+    attackMs 0-50 · holdMs 0-250 (same attack-hold-decay body as kick) ·
     clickHz 100-16000 · noiseColor "dark"|"white"|"bright" ·
     pitchVarCents 0-100.
   * clap: bursts 1-8 · spacingMs 1-40 · spread 0-1 (after the first burst,
@@ -1789,13 +1798,32 @@ closest named character first, then bend it:
     drive    amount 0..10, mix 0..1
     crush    amount 0..10, mix 0..1
     tape     amount 0..10, mix 0..1
-    chorus   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
+    compress mode "squash"|"smooth", amount 0..10, mix 0..1
+             The track squash (fast, aggressive, saturating) and smooth (slow
+             programme-dependent levelling) knobs as a bus insert; amount 0
+             bypasses. The wet path is level-matched to its input, so mix
+             below 1 IS parallel compression: {"id":"par","type":"compress",
+             "amount":8,"mix":0.35} keeps the dry transient and adds the
+             squashed density under it. amount and mix automate; mode is static.
     phaser   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
     delay    timeBeats 0.0625..4, feedback 0..0.92, mix 0..1
     reverb   size 0..1, damping 0..1, tone -1..1, mix 0..1
-    filter   mode "lowpass"|"highpass", cutoff 30..16000 Hz,
-             resonance 0..0.9, mix 0..1
-    width    amount 0..2 (0=mono, 1=unchanged, 2=double side; no mix field)
+    filter   mode "lowpass"|"highpass"|"bandpass"|"notch", slope 12|24,
+             cutoff 30..16000 Hz, resonance 0..0.9, mix 0..1
+             One state-variable stage at slope 12 (dB/oct); slope 24 runs two
+             in series, which is the "high-pass everything but kick and bass
+             at 150 Hz, 24 dB/oct" rule in one effect. bandpass with a cutoff
+             sweep is a noise riser on a bus; notch removes a band. cutoff,
+             resonance and mix automate; mode and slope are static.
+    width    amount 0..2 (0=mono, 1=unchanged, 2=double side; no mix field),
+             monoBelowHz 0..500 (static)
+             monoBelowHz above 0 sums everything below that crossover to
+             mono and applies amount only above it — a 24 dB/oct
+             Linkwitz-Riley split that recombines flat, so the sub cannot
+             cancel on a mono system and the highs keep their width.
+             {"id":"img","type":"width","amount":1.4,"monoBelowHz":120}
+             is the "mono below 120 Hz" rule on a music or master-style bus;
+             0 (the default) is the old broadband width.
     tremolo  rateHz 0.01..20, depth 0..1, mix 0..1
   Unknown effect fields are errors. Use modest wet levels on a serial music
   bus; use a send plus a quieter parallel bus when the dry identity must remain.
