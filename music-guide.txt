@@ -124,7 +124,7 @@ back to a basic note list merely because it appears before advanced sections.
 ### B.3 THE CREATIVE FIELD
 
 Beatlab is not a genre template. It is an instrument and production system:
-recorded acoustic and world instruments, electronic drums, 131 factory synths,
+recorded acoustic and world instruments, electronic drums, 134 factory synths,
 custom melodic and drum synthesis, microtiming, probability, pattern transformation, automation,
 spatial placement, shared buses, and whole-mix transitions. A strict score can
 still produce radically different music because originality comes from how
@@ -294,6 +294,13 @@ PITCHED-INSTRUMENT PALETTE (use exact names; stay inside each range):
       lists only non-zero musical macros. Wavetable values inside table[...] are
       the exact single-cycle waveform. These are still read-only factory DNA,
       not fields to copy into the score unless authoring a new ex_ patch.
+    A line beginning "fm" exposes an FM operator patch: each opN lists wave,
+      rRatio or fixHz (fixed frequency), c±cents, lvl (audible level; absent =
+      pure modulator), its own env a/d/s/r, vel (velocity sensitivity) and fb
+      (feedback); "routes from>to iIndex" is the algorithm written out; the
+      remaining fields are the same filter/amp/env2/lfo/mod/output segments as
+      dual DNA. Read the routes first: they say which operator you hear and
+      which one shapes it.
   Use the DNA to make an informed selection: a patch with sustain 0 cannot hold
   a chord, while a cutoff already at 4000 may not need extra brightness.
   SAMPLED instruments (every entry WITHOUT a synth patch) carry [env a/b/e]
@@ -393,7 +400,9 @@ PITCHED-INSTRUMENT PALETTE (use exact names; stay inside each range):
       the chorus/phaser pedals (give sustained sounds one of those or they
       sit dead). Resonance squelches hard by 0.7+, never self-oscillates.
       drive = tanh soft-clip (warm, never fuzzy). fm = clean 2-operator sine
-      FM (DX7-class bells, EPs, glass).
+      FM (DX7-class bells, EPs, glass); the full operator graph — more
+      operators, feedback, fixed frequencies, an index that settles to a
+      floor — is the "ops" architecture in section F.3.
     Voicing: unison voices spread constant-power across the stereo field, so
       supersaws and pads are BORN wide while sub and noise stay center (bass
       mono, the mix rule). 24 dB/oct filter — a dark, aggressive slope.
@@ -569,6 +578,12 @@ PITCHED-INSTRUMENT PALETTE (use exact names; stay inside each range):
       [square x3 det10 | cut1600 env+1200>0.08s res0.4 | adsr 0.002/0.2/0/0.12]
   - "ep_keys" (C2..C6) — synth: FM e-piano — DX7 ballad keys
       [fm r1 i1.5>0.8s | cut5000 | adsr 0.002/0.8/0.3/0.4]
+  - "op_tine_piano" (C2..C6) — synth: FM operator e-piano — two tine stacks, velocity opens the click
+      [fm op1 sine r1 lvl1 env 0.002/2.4/0.2/0.5 + op2 sine r1 env 0.002/1.6/0.25/0.3 vel0.6 + op3 sine r1 c+4 lvl0.55 env 0.002/1.8/0.15/0.5 + op4 sine r14 env 0.001/0.12/0/0.1 vel0.8 | routes 2>1 i1.6,4>3 i0.9 | uni1 det0 stereo0 sub0 noise0 | lowpass cut9000 res0 key0 | amp 0.002/2.5/0.25/0.45 | env2 0.002/0.4/0/0.1 | lfo1 sine0.2Hz ph0 | lfo2 triangle0.1Hz ph0.25 | drv1 gain0.7]
+  - "op_feedback_bass" (C1..C4) — synth: feedback FM bass — self-modulating operator with a saw edge over a sine sub
+      [fm op1 sine r1 lvl1 env 0.002/0.5/0.6/0.15 fb0.55 + op2 sine r1 env 0.002/0.18/0.3/0.1 vel0.7 + op3 sine r0.5 lvl0.5 | routes 2>1 i2.4 | uni1 det0 stereo0 sub0 noise0 | lowpass cut2600 res0.1 key0.3 | amp 0.002/0.4/0.75/0.15 | env2 0.002/0.4/0/0.1 | lfo1 sine0.2Hz ph0 | lfo2 triangle0.1Hz ph0.25 | drv1.6 gain0.75]
+  - "op_glass_bell" (C3..C7) — synth: FM operator bell — 3.5:1 inharmonic stack over a detuned octave partial
+      [fm op1 sine r1 lvl1 + op2 sine r3.5 env 0.001/0.9/0.08/0.5 vel0.5 + op3 sine r2 c+6 lvl0.4 env 0.001/1.4/0/0.6 + op4 sine r7.01 env 0.001/0.25/0/0.2 | routes 2>1 i4.2,4>3 i1.2 | uni1 det0 stereo0 sub0 noise0 | lowpass cut16000 res0 key0 | amp 0.001/2.2/0/1 | env2 0.002/0.4/0/0.1 | lfo1 sine0.2Hz ph0 | lfo2 triangle0.1Hz ph0.25 | drv1 gain0.6]
   - "organ_keys" (C2..C6) — synth: synth organ — sustained drawbar-ish tone
       [sine sub0.8 noise0.02 | cut6000 | adsr 0.005/0.1/1/0.08]
   - "clav_keys" (C2..C6) — synth: funky clav — snappy filtered bite
@@ -1072,8 +1087,9 @@ closest named character first, then bend it:
 
 ### F.2 DUAL-OSCILLATOR SYNTHESIS — USE A NEW TOPOLOGY, NOT MORE RANDOM NUMBERS
 
-  The compact shape above is the right tool for one-oscillator subtractive/FM
-  sounds. Factory sounds whose [DNA] begins "dual" use the expanded architecture
+  The compact shape above is the right tool for one-oscillator subtractive
+  sounds and the simplest two-operator FM (one ratio, one index, one decay;
+  more than that is section F.3). Factory sounds whose [DNA] begins "dual" use the expanded architecture
   below internally. Use this shape only when the musical idea specifically needs
   two oscillator identities, sync, ring modulation, a non-low-pass filter, an
   authored wavetable, multiple modulators or coordinated macro movement. Define
@@ -1210,7 +1226,7 @@ closest named character first, then bend it:
       "macros":{"inharmonicity":0.72},"gain":0.62}
 
   The same 16 track controls and per-note "c" overrides documented above work
-  on dual-oscillator patches: cutoff/resonance, ADSR, envMod, drive, detune,
+  on dual-oscillator and FM operator patches: cutoff/resonance, ADSR, envMod, drive, detune,
   sub/noise, LFO rate, wobble, vibrato, sweep and pitchDrop. Pedal effects and
   automation remain outside the voice for every synth shape. Dual-oscillator
   and compact definitions both reject unknown fields. Dual definitions also
@@ -1227,7 +1243,148 @@ closest named character first, then bend it:
   - Do not stack a factory unison patch, maximum detune and heavy chorus by
     reflex. The 2020 voice is already stereo; extra widening can smear attacks.
 
-### F.3 CUSTOM DRUM SYNTHESIS — DESIGN THE TRACK'S RHYTHMIC IDENTITY
+### F.3 FM OPERATOR SYNTHESIS — WRITE THE ALGORITHM, NOT A PRESET NUMBER
+
+  The compact "fm" oscillator is one fixed pair: a sine modulating a sine with
+  one ratio, one index and one index decay that always falls to zero. When
+  the sound needs more — an index that settles to a floor instead of dying, a
+  second stack for a tine click, feedback edge, a fixed-frequency formant,
+  saw or square operators, velocity opening the brightness — define "ops"
+  inside the same top-level "synths" bank. Presence of ops selects this
+  architecture; the track still uses its ex_ name. Compact, dual and operator
+  patches may coexist in one score. This is the DX7 / Operator model: every
+  classic "algorithm" is one particular route list below, written out so the
+  model can read which operator is heard and which one shapes it.
+
+#### OPERATOR SHAPE
+
+  OPERATOR SHAPE (ops is required; everything else has safe defaults):
+    {"ops":[{...},{...}],"routes":[{"from":2,"to":1,"index":3}],
+     "filter":{...},"amp":{...},"env2":{...},
+     "lfo1":{...},"lfo2":{...},"mod":[...]}
+
+#### EACH OPERATOR (1..6, numbered by array position starting at 1)
+
+    wave "sine"|"triangle"|"saw"|"square" (default sine; a saw or square
+      modulator is already rich, so keep its index low) ·
+    ratio 0.125..32 = frequency as a multiple of the note (default 1), OR
+    fixedHz 0.1..20000 = an absolute frequency that ignores the note, slide,
+      vibrato and every pitch envelope (formants, sub-audio modulators that
+      act as extra LFOs, inharmonic clang). ratio and fixedHz are mutually
+      exclusive on one operator ·
+    detuneCents -100..100 (two carriers 4-8 cents apart = chorus) ·
+    level 0..1 = how much of this operator reaches the audio output (default
+      0: a pure modulator). An operator may both sound and modulate ·
+    env {"attack","decay","sustain","release"} = this operator's OWN
+      envelope. It multiplies both its audible level and its modulation
+      strength, so an envelope on a modulator IS the index envelope. Omitted
+      = constant. A partial object inherits attack 0.002, decay 0.3,
+      sustain 0, release 0.2 ·
+    velocity 0..1 = how much note volume ("vol") scales this operator
+      (0 = none). On a modulator, louder notes get brighter — the DX7 feel ·
+    feedback 0..1 = self phase modulation: 0.2-0.4 thickens a sine, 0.5-0.7
+      turns it saw-like, 0.9+ is harsh noise-edge.
+
+#### ROUTES — THE ALGORITHM, WRITTEN EXPLICITLY
+
+    {"from":<modulator op>,"to":<carrier op>,"index":0..12}  (up to 12)
+    The graph must be acyclic: 3>2 plus 2>1 is a stack, 2>1 plus 3>1 is a
+    parallel pair into one carrier, two independent pairs are two stacks
+    summed at the output. A cycle is a compile error, a self-route is a
+    compile error (use feedback), and an operator with level 0 that is not
+    the "from" of any route is a compile error — it would be silent for no
+    reason. index is the modulator's peak phase deviation in radians when its
+    envelope is at 1:
+      0.3-1.5 warmth and body · 2-4 bright keys and basses ·
+      5-8 bells, tines and metal · 9-12 noise-like.
+    Ratio decides character: integer ratios (1, 2, 3, 0.5) are harmonic and
+    pitched; non-integer (1.41, 3.5, 7.01) are bells and metal; a ratio of
+    10 or more on a modulator with a 50-150 ms envelope is a click or tine.
+    Array order does not matter; the compiler sorts the graph.
+
+#### POST CHAIN — THE SAME FIELDS AS A DUAL PATCH
+
+    sub 0..1 · noise 0..1 · unison integer 1..4 · detuneCents 0..100 ·
+    stereo 0..1 · drive 1..8 · gain 0..1 · cutoffRise · pitchDropSemis +
+    pitchDropSec · pitchRiseSemis ·
+    filter {"mode","cutoff","res","keytrack"} defaults to lowpass at
+      16000 Hz, res 0 — OPEN, because operators make their own brightness.
+      Lower it only to tame a bright stack or for a deliberate filter move ·
+    amp = whole-voice ADSR (defaults 0.005/0.3/0.7/0.2); operator envelopes
+      shape timbre inside it · env2 (0.005/0.3/0/0.2) is a modulation source
+      and does nothing until routed · lfo1/lfo2 as in dual patches.
+    Operators run 2x oversampled, feedback is averaged for stability, and the
+    final attenuation-only peak guard catches extreme valid combinations.
+
+#### COMPILER-ACCEPTED MODULATION MATRIX — maximum 8 routes
+
+    {"source":"env2"|"lfo1"|"lfo2",
+     "target":"pitch"|"index"|"feedback"|"cutoff"|"resonance"|"pan",
+     "amount":<signed depth>}
+    pitch ±48 SEMITONES moves every ratio operator together (fixedHz ones
+    stay) · index ±1 scales EVERY route index (+1 doubles, -1 silences the
+    modulators): lfo1>index is timbral wobble, env2>index is one global
+    brightness envelope on top of the per-operator ones · feedback ±1 ·
+    cutoff ±12000 HZ · resonance ±0.9 · pan ±1. Values add, then clamp.
+    "amplitude", "volume" and "gain" are not targets here either; use the
+    operators' own env, the amp envelope, or a track tremolo.
+
+#### ENGINE STARTER DNA FOR FM OPERATOR SYNTHS
+
+  ENGINE STARTER DNA FOR FM OPERATOR SYNTHS — the factory op_ sounds are the
+  reference graphs (read their [DNA]); the blueprints below show the moves,
+  not registered sounds. Rename and change on purpose:
+    "ex_op_epiano":{
+      "ops":[
+        {"ratio":1,"level":1,"env":{"attack":0.002,"decay":2.4,"sustain":0.2,"release":0.5}},
+        {"ratio":1,"env":{"attack":0.002,"decay":1.6,"sustain":0.25,"release":0.3},"velocity":0.6},
+        {"ratio":1,"detuneCents":4,"level":0.55,"env":{"attack":0.002,"decay":1.8,"sustain":0.15,"release":0.5}},
+        {"ratio":14,"env":{"attack":0.001,"decay":0.12,"sustain":0,"release":0.1},"velocity":0.8}],
+      "routes":[{"from":2,"to":1,"index":1.6},{"from":4,"to":3,"index":0.9}],
+      "amp":{"attack":0.002,"decay":2.5,"sustain":0.25,"release":0.45},"gain":0.7}
+    "ex_op_settling_bass":{
+      "ops":[
+        {"ratio":1,"level":1,"feedback":0.4},
+        {"ratio":1,"env":{"decay":0.07,"sustain":0.4,"release":0.1},"velocity":0.7},
+        {"ratio":0.5,"level":0.45}],
+      "routes":[{"from":2,"to":1,"index":5.9}],
+      "filter":{"cutoff":3200,"keytrack":0.3},
+      "amp":{"attack":0.002,"decay":0.3,"sustain":0.8,"release":0.12},"drive":1.5,"gain":0.75}
+    "ex_op_formant_pad":{
+      "ops":[
+        {"ratio":1,"level":0.9},
+        {"ratio":2,"detuneCents":-6,"level":0.6},
+        {"fixedHz":640,"env":{"attack":1.2,"decay":2,"sustain":0.7,"release":1.5}},
+        {"fixedHz":3.1,"env":{"attack":0.6,"decay":1,"sustain":1,"release":1}}],
+      "routes":[{"from":3,"to":1,"index":1.4},{"from":3,"to":2,"index":0.8},{"from":4,"to":3,"index":0.6}],
+      "unison":3,"detuneCents":12,"stereo":0.9,
+      "amp":{"attack":0.9,"decay":1,"sustain":0.85,"release":1.4},"gain":0.55}
+    "ex_op_metal_pluck":{
+      "ops":[
+        {"ratio":1,"level":1,"env":{"attack":0.001,"decay":0.6,"sustain":0,"release":0.3}},
+        {"ratio":3.5,"env":{"attack":0.001,"decay":0.35,"sustain":0,"release":0.2},"velocity":0.5},
+        {"wave":"saw","ratio":1.41,"env":{"attack":0.001,"decay":0.09,"sustain":0,"release":0.05}}],
+      "routes":[{"from":2,"to":1,"index":4.5},{"from":3,"to":2,"index":1.1}],
+      "lfo1":{"shape":"sine","rateHz":5.5,"phase":0},
+      "mod":[{"source":"lfo1","target":"pitch","amount":0.08}],
+      "amp":{"attack":0.001,"decay":0.7,"sustain":0,"release":0.3},"gain":0.7}
+    The second blueprint is the two-sine lesson with the missing piece: the
+    modulator's env (decay 0.07, sustain 0.4) makes every note start bright
+    and SETTLE to 40% of index 5.9 instead of fading to a pure sine.
+    The third shows what fixedHz is for: operator 3 is a 640 Hz formant that
+    stays put while the chord moves, and operator 4 at 3.1 Hz is sub-audio,
+    so it slowly wobbles that formant's depth like a third LFO.
+
+  The same 16 track controls and per-note "c" overrides work on operator
+  patches (vibrato lands on the shared pitch target). Exact automation
+  synth.cutoff/resonance/drive works; synth.index 0..4 is operator-only and
+  multiplies every route index while notes are held. The dual-only
+  automation targets (blend/sync/ring/shape/pitch1/pitch2) are compile errors
+  on operator patches. Unknown fields, cycles, self-routes, duplicate routes,
+  a silent patch and more than 6 operators, 12 routes or 8 matrix routes are
+  all compile errors, never silent repairs.
+
+### F.4 CUSTOM DRUM SYNTHESIS — DESIGN THE TRACK'S RHYTHMIC IDENTITY
 
   Factory drums are finished voices selected by name. When none has the needed
   body, transient, dirt, material or decay, define a bounded electronic drum
@@ -1330,7 +1487,7 @@ closest named character first, then bend it:
   themselves are fixed for the score; make a second intentional definition for another drum
   character, and use track effects/automation for arrangement-scale motion.
 
-### F.4 INTERNAL RESAMPLING — TURN THIS COMPOSITION INTO ITS OWN INSTRUMENT
+### F.5 INTERNAL RESAMPLING — TURN THIS COMPOSITION INTO ITS OWN INSTRUMENT
 
   A top-level "resamples" definition makes a bounded temporary recording of
   material already authored in the same score. Its name MUST start with rs_.
@@ -1377,7 +1534,7 @@ closest named character first, then bend it:
   an rs_ note enters the same sampled-note performance layer. This is authored
   transformation, not an automatic remix.
 
-### F.5 GRANULAR rs_ NOTES — SCAN, FREEZE, AND SCATTER A CAPTURE
+### F.6 GRANULAR rs_ NOTES — SCAN, FREEZE, AND SCATTER A CAPTURE
 
   Put "granular" on an rs_ track/pattern as its default, or on one note as an
   override. Every granular note needs explicit positive dur/durB; do NOT add
@@ -2298,9 +2455,11 @@ numbers):
       synth.cutoff 30..16000 Hz · synth.resonance 0..0.9 · synth.drive 1..8
       dual-oscillator only: synth.blend/sync/ring/shape 0..1,
                             synth.pitch1/synth.pitch2 -48..48 semitones
+      FM operator only: synth.index 0..4 (1 = as written; multiplies every
+                            route index)
     Dual-oscillator-only targets require every note on that target to use an ex_
-    patch with osc1 and osc2; they change oscillator topology continuously WHILE
-    a note is held.
+    patch with osc1 and osc2; synth.index requires an ex_ patch with ops. They
+    change oscillator topology continuously WHILE a note is held.
   - Exact bus params without an effect/send selector: fader 0..1, pan -1..1,
     sidechain.amount 0..10 (only when that bus declares a sidechain).
     With "send", the only param is amount 0..1. With "effect", use a parameter

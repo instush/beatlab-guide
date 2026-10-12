@@ -1,7 +1,13 @@
 # Beat Lab — four AI music guides
 
 Public guides for composing music with the Beat Lab engine. Each guide is
-available as Markdown and plain text through GitHub Pages:
+available as Markdown and plain text through GitHub Pages.
+
+**One file instead of four:** the complete guide is the four guides below
+concatenated in reading order behind a cover that says which part is
+authoritative — [Markdown](https://instush.github.io/beatlab-guide/beatlab-complete-guide.md) · [Plain text](https://instush.github.io/beatlab-guide/beatlab-complete-guide.txt).
+It is about 350 KB (roughly 87k tokens), so use the separate guides when a
+chat's context is tight.
 
 | Guide | Purpose | Files |
 |---|---|---|
@@ -17,8 +23,8 @@ Supporting documentation includes the [score-language reference](https://instush
 and [JSON Schema](https://instush.github.io/beatlab-guide/docs/music-score.schema.json).
 
 **Edit guide content in the Beat Lab app repository.** The score-language guide
-is generated there; the other three guides are maintained there as authored
-documents. Its `npm run publish-guide` command synchronizes the public copies,
+and the complete guide are generated there; the other three guides are
+maintained there as authored documents. Its `npm run publish-guide` command synchronizes the public copies,
 so edits to those copies here are overwritten on the next publish.
 
 Only guides and their supporting documentation are public. The engine source,

@@ -735,7 +735,7 @@
     },
     "SynthFilterMode": {
       "title": "SynthFilterMode",
-      "description": "String enum selecting the filter response of a DualSynthPatch.",
+      "description": "String enum selecting the filter response of a DualSynthPatch or FmSynthPatch.",
       "type": "string",
       "enum": [
         "lowpass",
@@ -744,6 +744,32 @@
         "notch"
       ],
       "x-beatlab-syntax": "\"lowpass\" | \"bandpass\" | \"highpass\" | \"notch\""
+    },
+    "FmOperatorWave": {
+      "title": "FmOperatorWave",
+      "description": "String enum selecting an FM operator's waveform.",
+      "type": "string",
+      "enum": [
+        "sine",
+        "triangle",
+        "saw",
+        "square"
+      ],
+      "x-beatlab-syntax": "\"sine\" | \"triangle\" | \"saw\" | \"square\""
+    },
+    "FmModulationTarget": {
+      "title": "FmModulationTarget",
+      "description": "String enum selecting the parameter moved by an FM operator patch modulation route.",
+      "type": "string",
+      "enum": [
+        "pitch",
+        "index",
+        "feedback",
+        "cutoff",
+        "resonance",
+        "pan"
+      ],
+      "x-beatlab-syntax": "\"pitch\" | \"index\" | \"feedback\" | \"cutoff\" | \"resonance\" | \"pan\""
     },
     "DrumChokeMode": {
       "title": "DrumChokeMode",
@@ -899,6 +925,9 @@
         "rave_stab",
         "house_stab",
         "ep_keys",
+        "op_tine_piano",
+        "op_feedback_bass",
+        "op_glass_bell",
         "organ_keys",
         "clav_keys",
         "music_box",
@@ -1250,6 +1279,9 @@
               "rave_stab",
               "house_stab",
               "ep_keys",
+              "op_tine_piano",
+              "op_feedback_bass",
+              "op_glass_bell",
               "organ_keys",
               "clav_keys",
               "music_box",
@@ -4296,7 +4328,8 @@
         "synth.ring",
         "synth.shape",
         "synth.pitch1",
-        "synth.pitch2"
+        "synth.pitch2",
+        "synth.index"
       ],
       "x-beatlab-values": {
         "track.fader": "0..1",
@@ -4309,11 +4342,13 @@
         "synth.ring": "0..1",
         "synth.shape": "0..1",
         "synth.pitch1": "-48..48 semitones",
-        "synth.pitch2": "-48..48 semitones"
+        "synth.pitch2": "-48..48 semitones",
+        "synth.index": "0..4 multiplier on every operator route index"
       },
       "x-beatlab-constraints": [
         "synth.* targets require a synthesized instrument.",
-        "blend/sync/ring/shape/pitch1/pitch2 require an ex_ dual-oscillator patch."
+        "blend/sync/ring/shape/pitch1/pitch2 require an ex_ dual-oscillator patch.",
+        "index requires an ex_ FM operator patch (ops)."
       ]
     },
     "Sweep": {
@@ -4914,6 +4949,45 @@
           "if": {
             "properties": {
               "param": {
+                "const": "synth.index"
+              }
+            },
+            "required": [
+              "param",
+              "points"
+            ]
+          },
+          "then": {
+            "properties": {
+              "points": {
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 4
+                    },
+                    {
+                      "$ref": "#/$defs/AutomationCurve",
+                      "default": "linear"
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "param": {
                 "const": "track.fader"
               }
             },
@@ -5320,6 +5394,44 @@
                         "type": "number",
                         "exclusiveMinimum": 0,
                         "maximum": 96
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "param": {
+                "const": "synth.index"
+              }
+            },
+            "required": [
+              "param",
+              "lfo"
+            ]
+          },
+          "then": {
+            "properties": {
+              "lfo": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/CenteredLfo"
+                  },
+                  {
+                    "properties": {
+                      "center": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 4
+                      },
+                      "depth": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 4
                       }
                     }
                   }
@@ -7188,7 +7300,7 @@
     "SynthEnvelope": {
       "type": "object",
       "title": "SynthEnvelope",
-      "description": "ADSR envelope in seconds plus normalized sustain. It has no universal defaults: DualSynthPatch.amp and DualSynthPatch.env2 each document the defaults inherited by omitted fields.",
+      "description": "ADSR envelope in seconds plus normalized sustain. It has no universal defaults: DualSynthPatch.amp, DualSynthPatch.env2, FmSynthPatch.amp, FmSynthPatch.env2 and FmOperator.env each document the defaults inherited by omitted fields.",
       "properties": {
         "attack": {
           "type": "number",
@@ -7220,7 +7332,7 @@
     "SynthLfo": {
       "type": "object",
       "title": "SynthLfo",
-      "description": "Free-running patch LFO. It has no universal defaults: DualSynthPatch.lfo1 and DualSynthPatch.lfo2 each document the defaults inherited by omitted fields.",
+      "description": "Free-running patch LFO. It has no universal defaults: DualSynthPatch.lfo1, DualSynthPatch.lfo2, FmSynthPatch.lfo1 and FmSynthPatch.lfo2 each document the defaults inherited by omitted fields.",
       "properties": {
         "shape": {
           "$ref": "#/$defs/SynthLfoShape"
@@ -7541,15 +7653,351 @@
         "Pitch envelopes require at least one pitched oscillator; inharmonicity requires pitched osc2."
       ]
     },
+    "FmOperator": {
+      "type": "object",
+      "title": "FmOperator",
+      "description": "One FM operator: a bounded oscillator with its own frequency rule, envelope, velocity sensitivity and self-feedback. Operators are numbered by array position starting at 1.",
+      "properties": {
+        "wave": {
+          "$ref": "#/$defs/FmOperatorWave",
+          "default": "sine"
+        },
+        "ratio": {
+          "type": "number",
+          "minimum": 0.125,
+          "maximum": 32,
+          "description": "Frequency as a multiple of the note.",
+          "default": 1
+        },
+        "fixedHz": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 20000,
+          "description": "Absolute frequency that ignores the note, slide, vibrato and pitch envelopes. Mutually exclusive with ratio."
+        },
+        "detuneCents": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100,
+          "description": "Fine detune.",
+          "default": 0
+        },
+        "level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Audible output level; 0 is a pure modulator.",
+          "default": 0
+        },
+        "env": {
+          "$ref": "#/$defs/SynthEnvelope",
+          "description": "This operator's own envelope, scaling both its audible level and its modulation strength. Omitted means constant.",
+          "default": {
+            "attack": 0.002,
+            "decay": 0.3,
+            "sustain": 0,
+            "release": 0.2
+          }
+        },
+        "velocity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "How much note volume scales this operator.",
+          "default": 0
+        },
+        "feedback": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Self phase modulation.",
+          "default": 0
+        }
+      },
+      "additionalProperties": false,
+      "x-beatlab-constraints": [
+        "ratio and fixedHz are mutually exclusive.",
+        "An operator with level 0 must appear as the from of at least one route."
+      ]
+    },
+    "FmRoute": {
+      "type": "object",
+      "title": "FmRoute",
+      "description": "One phase-modulation cable from a modulator operator into a carrier operator.",
+      "properties": {
+        "from": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Modulator operator number."
+        },
+        "to": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6,
+          "description": "Carrier operator number."
+        },
+        "index": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12,
+          "description": "Peak phase deviation in radians at the modulator's full envelope."
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "index"
+      ],
+      "additionalProperties": false,
+      "x-beatlab-constraints": [
+        "from and to must be existing operator numbers and must differ; self-modulation is the operator's feedback field.",
+        "A from/to pair may appear once; the whole route graph must be acyclic."
+      ]
+    },
+    "FmModRoute": {
+      "type": "object",
+      "title": "FmModRoute",
+      "description": "One bounded FM operator patch modulation route.",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/ModulationSource"
+        },
+        "target": {
+          "$ref": "#/$defs/FmModulationTarget"
+        },
+        "amount": {
+          "type": "number",
+          "description": "Signed depth in target-native units."
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "amount"
+      ],
+      "additionalProperties": false,
+      "x-beatlab-values": {
+        "pitch": "-48..48 semitones",
+        "index": "-1..1 (scales every route index; +1 doubles)",
+        "feedback": "-1..1",
+        "cutoff": "-12000..12000 Hz",
+        "resonance": "-0.9..0.9",
+        "pan": "-1..1"
+      },
+      "x-beatlab-constraints": [
+        "amount must remain inside the selected target's documented range; out-of-range values are compile errors and are never clamped."
+      ]
+    },
+    "FmSynthPatch": {
+      "type": "object",
+      "title": "FmSynthPatch",
+      "description": "FM operator synth. Presence of ops identifies this architecture; there is no version field. routes are the algorithm, written explicitly.",
+      "properties": {
+        "ops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FmOperator"
+          },
+          "description": "Operators, numbered by position from 1.",
+          "minItems": 1,
+          "maxItems": 6
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FmRoute"
+          },
+          "description": "Acyclic modulator-to-carrier cables.",
+          "minItems": 0,
+          "maxItems": 12,
+          "default": []
+        },
+        "sub": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Sub-oscillator level.",
+          "default": 0
+        },
+        "noise": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Additional noise level.",
+          "default": 0
+        },
+        "unison": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "description": "Voices per operator bank.",
+          "default": 1
+        },
+        "detuneCents": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Unison spread.",
+          "default": 0
+        },
+        "stereo": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Unison stereo spread.",
+          "default": 0.8
+        },
+        "filter": {
+          "type": "object",
+          "title": "FmSynthFilter",
+          "description": "FM patch multimode filter; open by default because the operators make their own brightness.",
+          "properties": {
+            "mode": {
+              "$ref": "#/$defs/SynthFilterMode",
+              "default": "lowpass"
+            },
+            "cutoff": {
+              "type": "number",
+              "minimum": 30,
+              "maximum": 16000,
+              "description": "Cutoff in Hz.",
+              "default": 16000
+            },
+            "res": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.9,
+              "description": "Resonance.",
+              "default": 0
+            },
+            "keytrack": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Keyboard tracking.",
+              "default": 0
+            }
+          },
+          "additionalProperties": false,
+          "default": {
+            "mode": "lowpass",
+            "cutoff": 16000,
+            "res": 0,
+            "keytrack": 0
+          }
+        },
+        "amp": {
+          "$ref": "#/$defs/SynthEnvelope",
+          "description": "Whole-voice amplitude envelope.",
+          "default": {
+            "attack": 0.005,
+            "decay": 0.3,
+            "sustain": 0.7,
+            "release": 0.2
+          }
+        },
+        "env2": {
+          "$ref": "#/$defs/SynthEnvelope",
+          "description": "Modulation envelope.",
+          "default": {
+            "attack": 0.005,
+            "decay": 0.3,
+            "sustain": 0,
+            "release": 0.2
+          }
+        },
+        "lfo1": {
+          "$ref": "#/$defs/SynthLfo",
+          "default": {
+            "shape": "sine",
+            "rateHz": 0.5,
+            "phase": 0
+          }
+        },
+        "lfo2": {
+          "$ref": "#/$defs/SynthLfo",
+          "default": {
+            "shape": "triangle",
+            "rateHz": 0.13,
+            "phase": 0.25
+          }
+        },
+        "mod": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FmModRoute"
+          },
+          "description": "Ordered modulation routes.",
+          "minItems": 0,
+          "maxItems": 8,
+          "default": []
+        },
+        "drive": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Voice saturation; 1 is clean.",
+          "default": 1
+        },
+        "gain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Patch output gain.",
+          "default": 0.75
+        },
+        "cutoffRise": {
+          "type": "number",
+          "minimum": -12000,
+          "maximum": 12000,
+          "description": "Whole-note cutoff travel in Hz.",
+          "default": 0
+        },
+        "pitchDropSemis": {
+          "type": "number",
+          "minimum": -48,
+          "maximum": 48,
+          "description": "Attack pitch displacement.",
+          "default": 0
+        },
+        "pitchDropSec": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 0.5,
+          "description": "Pitch convergence time in seconds.",
+          "default": 0.08
+        },
+        "pitchRiseSemis": {
+          "type": "number",
+          "minimum": -48,
+          "maximum": 48,
+          "description": "Whole-note pitch travel.",
+          "default": 0
+        }
+      },
+      "required": [
+        "ops"
+      ],
+      "additionalProperties": false,
+      "x-beatlab-constraints": [
+        "All supplied numbers must remain inside their documented ranges; out-of-range values are compile errors and are never clamped.",
+        "At least one operator must have level > 0, or sub or noise must be > 0.",
+        "Fixed-frequency operators ignore pitch modulation, slide and pitch envelopes."
+      ]
+    },
     "SynthPatch": {
       "title": "SynthPatch",
-      "description": "A compact single-oscillator or expanded dual-oscillator ex_ patch.",
+      "description": "A compact single-oscillator, expanded dual-oscillator, or FM operator ex_ patch.",
       "oneOf": [
         {
           "$ref": "#/$defs/CompactSynthPatch"
         },
         {
           "$ref": "#/$defs/DualSynthPatch"
+        },
+        {
+          "$ref": "#/$defs/FmSynthPatch"
         }
       ]
     },
@@ -8307,7 +8755,7 @@
   },
   "x-beatlab-schema-kind": "compiler-edge-language",
   "x-beatlab-generated-catalogs": {
-    "pitchedInstruments": 211,
+    "pitchedInstruments": 214,
     "drums": 111
   },
   "x-beatlab-reference-order": [
@@ -8386,6 +8834,12 @@
     "ModulationSource",
     "ModulationTarget",
     "SynthFilterMode",
+    "FmSynthPatch",
+    "FmOperator",
+    "FmOperatorWave",
+    "FmRoute",
+    "FmModRoute",
+    "FmModulationTarget",
     "CustomDrumPatch",
     "KickDrumPatch",
     "MembraneDrumPatch",
@@ -8402,7 +8856,7 @@
   "x-beatlab-rejected-forms": [
     "Compact automation knobs fader and pan: use track.fader and track.pan exact params.",
     "Top-level era, Track era, and mix.glue: not language fields; use top-level glue.",
-    "Synth patch version: not a language field; osc or osc1+osc2 identifies the architecture.",
+    "Synth patch version: not a language field; osc, osc1+osc2, or ops identifies the architecture.",
     "Unknown compact-synth fields.",
     "Compiler-output fields fxAuto, automation on Track/Bus, and underscore-prefixed internal fields."
   ]

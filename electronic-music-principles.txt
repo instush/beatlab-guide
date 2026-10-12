@@ -357,15 +357,43 @@ See the syntax guide for the field names, limits and the modulation matrix.
 
 ### 6.3 FM
 
-One oscillator modulates another's pitch. Fast modulation creates **sidebands** —
-new partials above and below the carrier.
+One oscillator (the modulator) pushes the phase of another (the carrier). Below
+about 20 Hz that is vibrato; at audio rate it creates **sidebands** — new partials
+above and below the carrier — which is where bells, tines, FM basses and electric
+pianos come from. The engine has two ways in: the compact `fm` oscillator is one
+sine pair with a ratio, an index and an index decay that always falls to zero;
+the operator architecture (`ops` + `routes`) is the DX7 / Operator model, and it
+is the one to reach for when any of the points below matter.
 
-- **Ratio** determines harmonicity. Integer ratios (1:1, 2:1) give pitched, musical
-  tones; non-integer ratios give bells and metallic noise.
-- **Index** determines how much spectrum is generated.
-- **Envelope the index**, don't fix it: a falling index (peak ~5.9, decaying over
-  70 ms, resting at 0.4) gives a bright attack settling into a purer sustain. This
-  one trick is most of what makes FM basses, bells and electric pianos work.
+- **Ratio** determines harmonicity. Integer ratios (1:1, 2:1, 0.5:1) give
+  pitched, musical tones; non-integer ratios (1.41, 3.5, 7.01) give bells and
+  metal; a ratio of 10 or more on a modulator with a 50–150 ms envelope is a
+  click or a tine, not a tone.
+- **Index** determines how much spectrum is generated. Roughly: 0.3–1.5 adds
+  warmth, 2–4 is a bright keyboard or bass, 5–8 is bells and metal, 9–12 is
+  noise-like. Index is a radian value, so the same number means the same
+  brightness at any ratio.
+- **Envelope the index — and give it a floor.** A falling index (peak ~5.9,
+  decaying over 70 ms, resting at 0.4) gives a bright attack settling into a
+  purer sustain; the rest value is the sustain of the *modulator's own* envelope.
+  A floor of zero is a sine after the attack, which reads as a plink; a floor of
+  0.3–0.5 keeps a held note alive. This one trick is most of what makes FM
+  basses, bells and electric pianos work.
+- **Velocity on the modulator, not just the carrier.** Letting note volume scale
+  a modulator's output means accents get brighter rather than merely louder —
+  the thing that makes an FM electric piano feel played.
+- **Stacks and pairs are different sounds.** A→B→C (a modulator modulating a
+  modulator) sharpens into metal fast; two pairs summed at the output (the
+  electric-piano layout: a body pair plus a detuned pair with a tine click) stay
+  musical at higher total brightness. Two carriers 4–8 cents apart is the FM
+  chorus.
+- **Feedback** is a self-modulating operator: 0.2–0.4 thickens a sine, 0.5–0.7
+  turns it saw-like without a filter, 0.9 and above is a harsh edge.
+- **Fixed-frequency operators** hold an absolute pitch while the note moves: a
+  formant that stays at 640 Hz across a chord, or a 3 Hz operator used as an
+  extra slow modulator on a modulator.
+
+See the syntax guide for the field names, limits and the route rules.
 
 ---
 

@@ -15,13 +15,13 @@ The canonical machine-readable form is [`music-score.schema.json`](./music-score
 
 ## Reference index
 
-[`Score`](#score) · [`TempoPoint`](#tempopoint) · [`Curve`](#curve) · [`Depth`](#depth) · [`Tone`](#tone) · [`NoteLine`](#noteline) · [`PitchToken`](#pitchtoken) · [`AbsolutePitch`](#absolutepitch) · [`ScaleDegreePitch`](#scaledegreepitch) · [`ChordVoicing`](#chordvoicing) · [`StretchMode`](#stretchmode) · [`BowDirection`](#bowdirection) · [`ReleaseMode`](#releasemode) · [`ResampleRegion`](#resampleregion) · [`Note`](#note) · [`ExpressionPoint`](#expressionpoint) · [`Expression`](#expression) · [`ArpOrder`](#arporder) · [`Arp`](#arp) · [`Pattern`](#pattern) · [`Placement`](#placement) · [`Trigger`](#trigger) · [`TriggerPlacement`](#triggerplacement) · [`Transform`](#transform) · [`Condition`](#condition) · [`RepeatParity`](#repeatparity) · [`Variation`](#variation) · [`Track`](#track) · [`Motif`](#motif) · [`MotifTransform`](#motiftransform) · [`Harmony`](#harmony) · [`ScaleName`](#scalename) · [`Chord`](#chord) · [`Groove`](#groove) · [`MeterDenominator`](#meterdenominator) · [`GrooveBinding`](#groovebinding) · [`Sweep`](#sweep) · [`SweepKnob`](#sweepknob) · [`FilterSweepKnob`](#filtersweepknob) · [`LfoSweepKnob`](#lfosweepknob) · [`BusSweep`](#bussweep) · [`BusSweepParam`](#bussweepparam) · [`Keyframe`](#keyframe) · [`AutomationCurve`](#automationcurve) · [`Lfo`](#lfo) · [`TrackParam`](#trackparam) · [`MasterMove`](#mastermove) · [`MasterMoveEffect`](#mastermoveeffect) · [`Bus`](#bus) · [`BusRole`](#busrole) · [`BusEffect`](#buseffect) · [`BusFilterMode`](#busfiltermode) · [`Send`](#send) · [`SendTarget`](#sendtarget) · [`BuiltInReturn`](#builtinreturn) · [`SendTap`](#sendtap) · [`Sidechain`](#sidechain) · [`SidechainSource`](#sidechainsource) · [`Resample`](#resample) · [`Granular`](#granular) · [`GranularWindow`](#granularwindow) · [`SynthControls`](#synthcontrols) · [`PumpSource`](#pumpsource) · [`SynthPatch`](#synthpatch) · [`CompactSynthPatch`](#compactsynthpatch) · [`CompactOscillatorType`](#compactoscillatortype) · [`SynthNoiseColor`](#synthnoisecolor) · [`CompactLfoShape`](#compactlfoshape) · [`DualSynthPatch`](#dualsynthpatch) · [`Oscillator`](#oscillator) · [`OscillatorPhase`](#oscillatorphase) · [`SynthLfoShape`](#synthlfoshape) · [`ModulationSource`](#modulationsource) · [`ModulationTarget`](#modulationtarget) · [`SynthFilterMode`](#synthfiltermode) · [`CustomDrumPatch`](#customdrumpatch) · [`KickDrumPatch`](#kickdrumpatch) · [`MembraneDrumPatch`](#membranedrumpatch) · [`ClapDrumPatch`](#clapdrumpatch) · [`NoiseDrumPatch`](#noisedrumpatch) · [`MetalDrumPatch`](#metaldrumpatch) · [`DrumChokeMode`](#drumchokemode) · [`DrumModel`](#drummodel) · [`DrumBus`](#drumbus) · [`DrumNoiseColor`](#drumnoisecolor) · [`PitchedInstrumentName`](#pitchedinstrumentname) · [`FactoryDrumHitName`](#factorydrumhitname) · [`Automation`](#automation) · [`CenteredLfo`](#centeredlfo) · [`CompactLfo`](#compactlfo) · [`DrumHitName`](#drumhitname) · [`GranularCurve`](#granularcurve) · [`GranularCurvePoint`](#granularcurvepoint) · [`GrooveUse`](#grooveuse) · [`InstrumentName`](#instrumentname) · [`KnobKeyframe`](#knobkeyframe) · [`ModRoute`](#modroute) · [`PitchRange`](#pitchrange) · [`RegionRange`](#regionrange) · [`ResampleSlices`](#resampleslices) · [`ResampleSource`](#resamplesource) · [`SynthEnvelope`](#synthenvelope) · [`SynthLfo`](#synthlfo) · [`TrackBusName`](#trackbusname) · [`TrackControls`](#trackcontrols)
+[`Score`](#score) · [`TempoPoint`](#tempopoint) · [`Curve`](#curve) · [`Depth`](#depth) · [`Tone`](#tone) · [`NoteLine`](#noteline) · [`PitchToken`](#pitchtoken) · [`AbsolutePitch`](#absolutepitch) · [`ScaleDegreePitch`](#scaledegreepitch) · [`ChordVoicing`](#chordvoicing) · [`StretchMode`](#stretchmode) · [`BowDirection`](#bowdirection) · [`ReleaseMode`](#releasemode) · [`ResampleRegion`](#resampleregion) · [`Note`](#note) · [`ExpressionPoint`](#expressionpoint) · [`Expression`](#expression) · [`ArpOrder`](#arporder) · [`Arp`](#arp) · [`Pattern`](#pattern) · [`Placement`](#placement) · [`Trigger`](#trigger) · [`TriggerPlacement`](#triggerplacement) · [`Transform`](#transform) · [`Condition`](#condition) · [`RepeatParity`](#repeatparity) · [`Variation`](#variation) · [`Track`](#track) · [`Motif`](#motif) · [`MotifTransform`](#motiftransform) · [`Harmony`](#harmony) · [`ScaleName`](#scalename) · [`Chord`](#chord) · [`Groove`](#groove) · [`MeterDenominator`](#meterdenominator) · [`GrooveBinding`](#groovebinding) · [`Sweep`](#sweep) · [`SweepKnob`](#sweepknob) · [`FilterSweepKnob`](#filtersweepknob) · [`LfoSweepKnob`](#lfosweepknob) · [`BusSweep`](#bussweep) · [`BusSweepParam`](#bussweepparam) · [`Keyframe`](#keyframe) · [`AutomationCurve`](#automationcurve) · [`Lfo`](#lfo) · [`TrackParam`](#trackparam) · [`MasterMove`](#mastermove) · [`MasterMoveEffect`](#mastermoveeffect) · [`Bus`](#bus) · [`BusRole`](#busrole) · [`BusEffect`](#buseffect) · [`BusFilterMode`](#busfiltermode) · [`Send`](#send) · [`SendTarget`](#sendtarget) · [`BuiltInReturn`](#builtinreturn) · [`SendTap`](#sendtap) · [`Sidechain`](#sidechain) · [`SidechainSource`](#sidechainsource) · [`Resample`](#resample) · [`Granular`](#granular) · [`GranularWindow`](#granularwindow) · [`SynthControls`](#synthcontrols) · [`PumpSource`](#pumpsource) · [`SynthPatch`](#synthpatch) · [`CompactSynthPatch`](#compactsynthpatch) · [`CompactOscillatorType`](#compactoscillatortype) · [`SynthNoiseColor`](#synthnoisecolor) · [`CompactLfoShape`](#compactlfoshape) · [`DualSynthPatch`](#dualsynthpatch) · [`Oscillator`](#oscillator) · [`OscillatorPhase`](#oscillatorphase) · [`SynthLfoShape`](#synthlfoshape) · [`ModulationSource`](#modulationsource) · [`ModulationTarget`](#modulationtarget) · [`SynthFilterMode`](#synthfiltermode) · [`FmSynthPatch`](#fmsynthpatch) · [`FmOperator`](#fmoperator) · [`FmOperatorWave`](#fmoperatorwave) · [`FmRoute`](#fmroute) · [`FmModRoute`](#fmmodroute) · [`FmModulationTarget`](#fmmodulationtarget) · [`CustomDrumPatch`](#customdrumpatch) · [`KickDrumPatch`](#kickdrumpatch) · [`MembraneDrumPatch`](#membranedrumpatch) · [`ClapDrumPatch`](#clapdrumpatch) · [`NoiseDrumPatch`](#noisedrumpatch) · [`MetalDrumPatch`](#metaldrumpatch) · [`DrumChokeMode`](#drumchokemode) · [`DrumModel`](#drummodel) · [`DrumBus`](#drumbus) · [`DrumNoiseColor`](#drumnoisecolor) · [`PitchedInstrumentName`](#pitchedinstrumentname) · [`FactoryDrumHitName`](#factorydrumhitname) · [`Automation`](#automation) · [`BusShelfMode`](#busshelfmode) · [`CenteredLfo`](#centeredlfo) · [`CompactLfo`](#compactlfo) · [`DrumHitName`](#drumhitname) · [`GranularCurve`](#granularcurve) · [`GranularCurvePoint`](#granularcurvepoint) · [`GrooveUse`](#grooveuse) · [`InstrumentName`](#instrumentname) · [`KnobKeyframe`](#knobkeyframe) · [`ModRoute`](#modroute) · [`PitchRange`](#pitchrange) · [`RegionRange`](#regionrange) · [`ResampleSlices`](#resampleslices) · [`ResampleSource`](#resamplesource) · [`SynthEnvelope`](#synthenvelope) · [`SynthLfo`](#synthlfo) · [`TrackBusName`](#trackbusname) · [`TrackControls`](#trackcontrols)
 
 ## Rejected forms
 
 - Compact automation knobs fader and pan: use track.fader and track.pan exact params.
 - Top-level era, Track era, and mix.glue: not language fields; use top-level glue.
-- Synth patch version: not a language field; osc or osc1+osc2 identifies the architecture.
+- Synth patch version: not a language field; osc, osc1+osc2, or ops identifies the architecture.
 - Unknown compact-synth fields.
 - Compiler-output fields fxAuto, automation on Track/Bus, and underscore-prefixed internal fields.
 
@@ -48,6 +48,7 @@ Complete public Beatlab composition program. It may use plain tracks, patterns p
 | `swing` | `number` | no | `0` | ≥ 0; ≤ 10 — Score-wide swing default. |
 | `humanize` | `number` | no | `0` | ≥ 0; ≤ 10 — Score-wide timing/velocity humanization default. |
 | `glue` | `number` | no | `0` | ≥ 0; ≤ 10 — Mix-bus compressor amount. |
+| `ceilingDbtp` | `number` | no |  | ≥ -9; ≤ 0 — Estimated true-peak target for the finished master, in dBTP. The renderer may raise or lower the final level to reach it. Omit to keep the default soft-clipped master (near -3 dBFS). Invalid values are errors, never clamped or ignored. This does not target LUFS or report measured loudness. For an external delivery specification, verify the exported WAV with the required meter. |
 | `groove` | `GrooveBinding` | no |  |  |
 | `patterns` | `Dictionary<string, Pattern>` | with arrangement |  | 1..∞ entries — Pattern definitions. Each object key declares the Pattern's name and must use 1..48 letters, numbers, underscores, or hyphens. |
 | `arrangement` | `Placement[]` | with patterns |  | 1..∞ items — Pattern placements. |
@@ -491,7 +492,7 @@ Full note form shared by tracks, patterns, and motifs. The enclosing collection 
 | `off` | `number` | no | `0` | Timing offset in milliseconds. |
 | `flam` | `boolean` | no | `false` | Adds a grace hit before a drum onset. |
 | `roll` | `integer` | no |  | ≥ 1; ≤ 16 — Number of hits in a buzz leading into the onset. |
-| `slide` | `boolean \| 1 \| 0` | no | `false` | Glides a synth from its previous note. 1/0 are accepted for true/false. |
+| `slide` | `boolean \| 0 \| 1` | no | `false` | Glides a synth from its previous note. 1/0 are accepted for true/false. |
 | `art` | `string` | no |  | Articulation name. Generic names (legato, tenuto, staccato, accent, ghost, mute, breathy, bend) create expression contours on synthesized, drum, and sampled notes; sampled pitched banks may also declare recorded articulations. |
 | `sampleStart` | `number` | no | `0` | ≥ 0; ≤ 600 — Seconds skipped into a sampled recording. |
 | `reverse` | `boolean` | no | `false` | Play the selected sampled take backwards. |
@@ -1426,11 +1427,14 @@ String enum selecting the numeric custom-Bus, effect, or send property moved by 
 | "tone"
 | "cutoff"
 | "resonance"
+| "freq"
+| "gain"
+| "q"
 ```
 
 ### Values
 
-`"fader"` · `"pan"` · `"sidechain.amount"` · `"amount"` · `"low"` · `"mid"` · `"high"` · `"mix"` · `"rateHz"` · `"depth"` · `"feedback"` · `"timeBeats"` · `"size"` · `"damping"` · `"tone"` · `"cutoff"` · `"resonance"`
+`"fader"` · `"pan"` · `"sidechain.amount"` · `"amount"` · `"low"` · `"mid"` · `"high"` · `"mix"` · `"rateHz"` · `"depth"` · `"feedback"` · `"timeBeats"` · `"size"` · `"damping"` · `"tone"` · `"cutoff"` · `"resonance"` · `"freq"` · `"gain"` · `"q"`
 
 ### Value ranges
 
@@ -1453,6 +1457,9 @@ String enum selecting the numeric custom-Bus, effect, or send property moved by 
 | `tone` | reverb effect only; -1..1 |
 | `cutoff` | filter effect only; 30..16000 Hz |
 | `resonance` | filter effect only; 0..0.9 |
+| `freq` | bell/shelf effect only; 20..18000 Hz |
+| `gain` | bell/shelf effect only; -24..24 dB |
+| `q` | bell effect only; 0.1..18 |
 
 ## Keyframe
 
@@ -1533,12 +1540,12 @@ Exact continuous target in native units. This is how fader and pan are automated
 ### Syntax
 
 ```text
-"track.fader" | "track.pan" | "synth.cutoff" | "synth.resonance" | "synth.drive" | "synth.blend" | "synth.sync" | "synth.ring" | "synth.shape" | "synth.pitch1" | "synth.pitch2"
+"track.fader" | "track.pan" | "synth.cutoff" | "synth.resonance" | "synth.drive" | "synth.blend" | "synth.sync" | "synth.ring" | "synth.shape" | "synth.pitch1" | "synth.pitch2" | "synth.index"
 ```
 
 ### Values
 
-`"track.fader"` · `"track.pan"` · `"synth.cutoff"` · `"synth.resonance"` · `"synth.drive"` · `"synth.blend"` · `"synth.sync"` · `"synth.ring"` · `"synth.shape"` · `"synth.pitch1"` · `"synth.pitch2"`
+`"track.fader"` · `"track.pan"` · `"synth.cutoff"` · `"synth.resonance"` · `"synth.drive"` · `"synth.blend"` · `"synth.sync"` · `"synth.ring"` · `"synth.shape"` · `"synth.pitch1"` · `"synth.pitch2"` · `"synth.index"`
 
 ### Value ranges
 
@@ -1555,11 +1562,13 @@ Exact continuous target in native units. This is how fader and pan are automated
 | `synth.shape` | 0..1 |
 | `synth.pitch1` | -48..48 semitones |
 | `synth.pitch2` | -48..48 semitones |
+| `synth.index` | 0..4 multiplier on every operator route index |
 
 ### Constraints
 
 - synth.* targets require a synthesized instrument.
 - blend/sync/ring/shape/pitch1/pitch2 require an ex_ dual-oscillator patch.
+- index requires an ex_ FM operator patch (ops).
 
 ## MasterMove
 
@@ -1613,7 +1622,7 @@ Declared custom mixing bus. Its Score.buses object key is its routing identity. 
 | Property | Type | Required | Default | Range / meaning |
 |---|---|---:|---|---|
 | `role` | `BusRole` | no | `"bed"` | Built-in role bus that receives this custom Bus's completed output. |
-| `effects` | `BusEffect[]` | no | `[]` | 0..8 items — Insert chain processed in array order; changing the order can change the sound. |
+| `effects` | `BusEffect[]` | no | `[]` | 0..16 items — Insert chain processed in array order; changing the order can change the sound. Chain several bell/shelf bands here to build a full parametric EQ. |
 | `sends` | `Send[]` | no | `[]` | 0..8 items — Parallel feeds processed in array order after this Bus's fader and pan; each Send.tap chooses pre or post audio. |
 | `sidechain` | `Sidechain` | no |  |  |
 | `fader` | `number` | no | `1` | ≥ 0; ≤ 1 — Static bus fader. |
@@ -1652,6 +1661,8 @@ Strict discriminated bus insert. The type selects the legal parameter set.
 
 ```text
 { "id": …, "type": …, ["low": …], ["mid": …], ["high": …], ["mix": …] }
+| { "id": …, "type": …, ["freq": …], ["gain": …], ["q": …], ["mix": …] }
+| { "id": …, "type": …, ["mode": …], ["freq": …], ["gain": …], ["mix": …] }
 | { "id": …, "type": …, ["amount": …], ["mix": …] }
 | { "id": …, "type": …, ["amount": …], ["mix": …] }
 | { "id": …, "type": …, ["amount": …], ["mix": …] }
@@ -1685,6 +1696,48 @@ Three-band equalizer.
 | `low` | `number` | no | `0` | ≥ -12; ≤ 12 — Low-band gain in dB. |
 | `mid` | `number` | no | `0` | ≥ -12; ≤ 12 — Mid-band gain in dB. |
 | `high` | `number` | no | `0` | ≥ -12; ≤ 12 — High-band gain in dB. |
+| `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
+
+#### Bell bus effect
+
+One parametric peaking band. Chain several on a bus for a full EQ; each has its own id, so each one's freq, gain and q can be swept independently.
+
+##### Syntax
+
+```text
+{ "id": …, "type": …, ["freq": …], ["gain": …], ["q": …], ["mix": …] }
+```
+
+##### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `id` | `string` | yes |  | pattern `^[a-z][a-z0-9_]{0,31}$` — Unique effect id inside this bus. |
+| `type` | `"bell"` | yes |  | Effect discriminator. |
+| `freq` | `number` | no | `1000` | ≥ 20; ≤ 18000 — Centre frequency in Hz. |
+| `gain` | `number` | no | `0` | ≥ -24; ≤ 24 — Band gain in dB. Negative cuts. |
+| `q` | `number` | no | `1` | ≥ 0.1; ≤ 18 — Bandwidth. ~0.7 is a wide musical curve, 8+ is surgical. |
+| `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
+
+#### Shelf bus effect
+
+One low or high shelving band: everything below (or above) the corner moves together.
+
+##### Syntax
+
+```text
+{ "id": …, "type": …, ["mode": …], ["freq": …], ["gain": …], ["mix": …] }
+```
+
+##### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `id` | `string` | yes |  | pattern `^[a-z][a-z0-9_]{0,31}$` — Unique effect id inside this bus. |
+| `type` | `"shelf"` | yes |  | Effect discriminator. |
+| `mode` | `BusShelfMode` | no | `"low"` |  |
+| `freq` | `number` | no | `200` | ≥ 20; ≤ 18000 — Corner frequency in Hz. |
+| `gain` | `number` | no | `0` | ≥ -24; ≤ 24 — Shelf gain in dB. Negative cuts. |
 | `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
 
 #### Drive bus effect
@@ -1894,7 +1947,7 @@ Tempo-independent amplitude modulation.
 
 ### Related
 
-[`BusFilterMode`](#busfiltermode)
+[`BusShelfMode`](#busshelfmode) · [`BusFilterMode`](#busfiltermode)
 
 ## BusFilterMode
 
@@ -2358,18 +2411,19 @@ Trigger from every compiled event in one silent Trigger timeline.
 
 ## SynthPatch
 
-A compact single-oscillator or expanded dual-oscillator ex_ patch.
+A compact single-oscillator, expanded dual-oscillator, or FM operator ex_ patch.
 
 ### Syntax
 
 ```text
 CompactSynthPatch
 | DualSynthPatch
+| FmSynthPatch
 ```
 
 ### Related
 
-[`CompactSynthPatch`](#compactsynthpatch) · [`DualSynthPatch`](#dualsynthpatch)
+[`CompactSynthPatch`](#compactsynthpatch) · [`DualSynthPatch`](#dualsynthpatch) · [`FmSynthPatch`](#fmsynthpatch)
 
 ## CompactSynthPatch
 
@@ -2767,7 +2821,7 @@ String enum selecting the parameter moved by a dual-patch modulation route.
 
 ## SynthFilterMode
 
-String enum selecting the filter response of a DualSynthPatch.
+String enum selecting the filter response of a DualSynthPatch or FmSynthPatch.
 
 ### Syntax
 
@@ -2778,6 +2832,189 @@ String enum selecting the filter response of a DualSynthPatch.
 ### Values
 
 `"lowpass"` · `"bandpass"` · `"highpass"` · `"notch"`
+
+## FmSynthPatch
+
+FM operator synth. Presence of ops identifies this architecture; there is no version field. routes are the algorithm, written explicitly.
+
+### Syntax
+
+```text
+{ "ops": …, ["routes": …], ["sub": …], ["noise": …], ["unison": …], ["detuneCents": …], ["stereo": …], ["filter": …], ["amp": …], ["env2": …], ["lfo1": …], ["lfo2": …], ["mod": …], ["drive": …], ["gain": …], ["cutoffRise": …], ["pitchDropSemis": …], ["pitchDropSec": …], ["pitchRiseSemis": …] }
+```
+
+### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `ops` | `FmOperator[]` | yes |  | 1..6 items — Operators, numbered by position from 1. |
+| `routes` | `FmRoute[]` | no | `[]` | 0..12 items — Acyclic modulator-to-carrier cables. |
+| `sub` | `number` | no | `0` | ≥ 0; ≤ 1 — Sub-oscillator level. |
+| `noise` | `number` | no | `0` | ≥ 0; ≤ 1 — Additional noise level. |
+| `unison` | `integer` | no | `1` | ≥ 1; ≤ 4 — Voices per operator bank. |
+| `detuneCents` | `number` | no | `0` | ≥ 0; ≤ 100 — Unison spread. |
+| `stereo` | `number` | no | `0.8` | ≥ 0; ≤ 1 — Unison stereo spread. |
+| `filter` | `object` | no | `{"mode":"lowpass","cutoff":16000,"res":0,"keytrack":0}` | FM patch multimode filter; open by default because the operators make their own brightness. |
+| `amp` | `SynthEnvelope` | no | `{"attack":0.005,"decay":0.3,"sustain":0.7,"release":0.2}` | Whole-voice amplitude envelope. |
+| `env2` | `SynthEnvelope` | no | `{"attack":0.005,"decay":0.3,"sustain":0,"release":0.2}` | Modulation envelope. |
+| `lfo1` | `SynthLfo` | no | `{"shape":"sine","rateHz":0.5,"phase":0}` |  |
+| `lfo2` | `SynthLfo` | no | `{"shape":"triangle","rateHz":0.13,"phase":0.25}` |  |
+| `mod` | `FmModRoute[]` | no | `[]` | 0..8 items — Ordered modulation routes. |
+| `drive` | `number` | no | `1` | ≥ 1; ≤ 8 — Voice saturation; 1 is clean. |
+| `gain` | `number` | no | `0.75` | ≥ 0; ≤ 1 — Patch output gain. |
+| `cutoffRise` | `number` | no | `0` | ≥ -12000; ≤ 12000 — Whole-note cutoff travel in Hz. |
+| `pitchDropSemis` | `number` | no | `0` | ≥ -48; ≤ 48 — Attack pitch displacement. |
+| `pitchDropSec` | `number` | no | `0.08` | ≥ 0.01; ≤ 0.5 — Pitch convergence time in seconds. |
+| `pitchRiseSemis` | `number` | no | `0` | ≥ -48; ≤ 48 — Whole-note pitch travel. |
+
+### filter
+
+FM patch multimode filter; open by default because the operators make their own brightness.
+
+#### Syntax
+
+```text
+{ ["mode": …], ["cutoff": …], ["res": …], ["keytrack": …] }
+```
+
+#### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `mode` | `SynthFilterMode` | no | `"lowpass"` |  |
+| `cutoff` | `number` | no | `16000` | ≥ 30; ≤ 16000 — Cutoff in Hz. |
+| `res` | `number` | no | `0` | ≥ 0; ≤ 0.9 — Resonance. |
+| `keytrack` | `number` | no | `0` | ≥ 0; ≤ 1 — Keyboard tracking. |
+
+### Constraints
+
+- All supplied numbers must remain inside their documented ranges; out-of-range values are compile errors and are never clamped.
+- At least one operator must have level > 0, or sub or noise must be > 0.
+- Fixed-frequency operators ignore pitch modulation, slide and pitch envelopes.
+
+### Related
+
+[`FmOperator`](#fmoperator) · [`FmRoute`](#fmroute) · [`SynthFilterMode`](#synthfiltermode) · [`SynthEnvelope`](#synthenvelope) · [`SynthLfo`](#synthlfo) · [`FmModRoute`](#fmmodroute)
+
+## FmOperator
+
+One FM operator: a bounded oscillator with its own frequency rule, envelope, velocity sensitivity and self-feedback. Operators are numbered by array position starting at 1.
+
+### Syntax
+
+```text
+{ ["wave": …], ["ratio": …], ["fixedHz": …], ["detuneCents": …], ["level": …], ["env": …], ["velocity": …], ["feedback": …] }
+```
+
+### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `wave` | `FmOperatorWave` | no | `"sine"` |  |
+| `ratio` | `number` | no | `1` | ≥ 0.125; ≤ 32 — Frequency as a multiple of the note. |
+| `fixedHz` | `number` | no |  | ≥ 0.1; ≤ 20000 — Absolute frequency that ignores the note, slide, vibrato and pitch envelopes. Mutually exclusive with ratio. |
+| `detuneCents` | `number` | no | `0` | ≥ -100; ≤ 100 — Fine detune. |
+| `level` | `number` | no | `0` | ≥ 0; ≤ 1 — Audible output level; 0 is a pure modulator. |
+| `env` | `SynthEnvelope` | no | `{"attack":0.002,"decay":0.3,"sustain":0,"release":0.2}` | This operator's own envelope, scaling both its audible level and its modulation strength. Omitted means constant. |
+| `velocity` | `number` | no | `0` | ≥ 0; ≤ 1 — How much note volume scales this operator. |
+| `feedback` | `number` | no | `0` | ≥ 0; ≤ 1 — Self phase modulation. |
+
+### Constraints
+
+- ratio and fixedHz are mutually exclusive.
+- An operator with level 0 must appear as the from of at least one route.
+
+### Related
+
+[`FmOperatorWave`](#fmoperatorwave) · [`SynthEnvelope`](#synthenvelope)
+
+## FmOperatorWave
+
+String enum selecting an FM operator's waveform.
+
+### Syntax
+
+```text
+"sine" | "triangle" | "saw" | "square"
+```
+
+### Values
+
+`"sine"` · `"triangle"` · `"saw"` · `"square"`
+
+## FmRoute
+
+One phase-modulation cable from a modulator operator into a carrier operator.
+
+### Syntax
+
+```text
+{ "from": …, "to": …, "index": … }
+```
+
+### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `from` | `integer` | yes |  | ≥ 1; ≤ 6 — Modulator operator number. |
+| `to` | `integer` | yes |  | ≥ 1; ≤ 6 — Carrier operator number. |
+| `index` | `number` | yes |  | ≥ 0; ≤ 12 — Peak phase deviation in radians at the modulator's full envelope. |
+
+### Constraints
+
+- from and to must be existing operator numbers and must differ; self-modulation is the operator's feedback field.
+- A from/to pair may appear once; the whole route graph must be acyclic.
+
+## FmModRoute
+
+One bounded FM operator patch modulation route.
+
+### Syntax
+
+```text
+{ "source": …, "target": …, "amount": … }
+```
+
+### Properties
+
+| Property | Type | Required | Default | Range / meaning |
+|---|---|---:|---|---|
+| `source` | `ModulationSource` | yes |  |  |
+| `target` | `FmModulationTarget` | yes |  |  |
+| `amount` | `number` | yes |  | Signed depth in target-native units. |
+
+### Value ranges
+
+| Value / target | Range |
+|---|---|
+| `pitch` | -48..48 semitones |
+| `index` | -1..1 (scales every route index; +1 doubles) |
+| `feedback` | -1..1 |
+| `cutoff` | -12000..12000 Hz |
+| `resonance` | -0.9..0.9 |
+| `pan` | -1..1 |
+
+### Constraints
+
+- amount must remain inside the selected target's documented range; out-of-range values are compile errors and are never clamped.
+
+### Related
+
+[`ModulationSource`](#modulationsource) · [`FmModulationTarget`](#fmmodulationtarget)
+
+## FmModulationTarget
+
+String enum selecting the parameter moved by an FM operator patch modulation route.
+
+### Syntax
+
+```text
+"pitch" | "index" | "feedback" | "cutoff" | "resonance" | "pan"
+```
+
+### Values
+
+`"pitch"` · `"index"` · `"feedback"` · `"cutoff"` · `"resonance"` · `"pan"`
 
 ## CustomDrumPatch
 
@@ -3134,7 +3371,7 @@ one exact name from the generated factory catalog
 
 ### Values
 
-`"supersaw_lead"` · `"analog_pad"` · `"synth_pluck"` · `"acid_bass"` · `"fm_bell"` · `"synth_brass"` · `"sub_808"` · `"sub_pure"` · `"saw_bass"` · `"reese_bass"` · `"growl_bass"` · `"wobble_bass"` · `"donk_bass"` · `"fm_bass"` · `"pluck_bass"` · `"mid_bass"` · `"knock_bass"` · `"moog_bass"` · `"rubber_bass"` · `"acid_deep"` · `"acid_screamer"` · `"hoover_bass"` · `"saw_bass_clean"` · `"saw_bass_short"` · `"saw_bass_rolling"` · `"saw_bass_offbeat"` · `"saw_bass_wide"` · `"saw_bass_driven"` · `"saw_bass_hollow"` · `"saw_bass_psy"` · `"saw_bass_trance"` · `"saw_bass_techno"` · `"liquid_reese"` · `"neuro_reese"` · `"pwm_bass"` · `"sync_bass"` · `"wavetable_bass"` · `"ringmod_bass"` · `"metallic_fm_bass"` · `"round_analog_bass"` · `"poly_saw"` · `"square_lead"` · `"chip_lead"` · `"chip_arp"` · `"fm_lead"` · `"whistle_lead"` · `"hoover_lead"` · `"noise_lead"` · `"trance_pluck"` · `"dream_pluck"` · `"laser_lead"` · `"glass_lead"` · `"soft_lead"` · `"screech_lead"` · `"sync_lead"` · `"pwm_lead"` · `"wavetable_lead"` · `"shaped_digital_lead"` · `"vocal_wavetable_lead"` · `"poly_hybrid_lead"` · `"glass_pad"` · `"dark_pad"` · `"air_pad"` · `"ice_pad"` · `"choir_pad"` · `"strings_pad"` · `"shimmer_pad"` · `"space_pad"` · `"evolving_pad"` · `"nostalgia_pad"` · `"dark_drone"` · `"warm_poly_pad"` · `"pwm_pad"` · `"wavetable_motion_pad"` · `"swarm_pad"` · `"spectral_pad"` · `"tension_pad"` · `"textural_machine"` · `"synth_keys"` · `"saw_chords"` · `"rave_stab"` · `"house_stab"` · `"ep_keys"` · `"organ_keys"` · `"clav_keys"` · `"music_box"` · `"pizz_synth"` · `"stab_brass"` · `"space_keys"` · `"space_keys_glass"` · `"space_keys_dark"` · `"space_keys_air"` · `"space_keys_shimmer"` · `"space_keys_tape"` · `"space_keys_orbit"` · `"space_keys_hologram"` · `"space_keys_alien"` · `"space_keys_frozen"` · `"warm_poly_keys"` · `"pwm_keys"` · `"phase_keys"` · `"morphed_keys"` · `"tape_keys"` · `"bell_keys"` · `"dub_chord"` · `"detroit_chord"` · `"rhythmic_filter_keys"` · `"signal_pulse"` · `"cloud_pulse"` · `"metallic_pulse"` · `"random_pan_keys"` · `"rhythmic_organ"` · `"wooden_pluck"` · `"metallic_pluck"` · `"rubber_pluck"` · `"resonant_ping"` · `"pitch_env_hit"` · `"laser_zap"` · `"sub_drop"` · `"pitch_riser"` · `"siren"` · `"white_noise"` · `"pink_wash"` · `"noise_riser"` · `"noise_fall"` · `"vinyl_crackle"` · `"sub_drone"` · `"metallic_drone"` · `"swarm_drone"` · `"pitched_ambience"` · `"circuit_bent_texture"` · `"balafon"` · `"kalimba"` · `"mbira"` · `"dan_tranh"` · `"hand_chimes"` · `"didgeridoo_drone"` · `"didgeridoo_phrase"` · `"ocean_drum"` · `"recorder"` · `"harpsichord"` · `"bowed_psaltery"` · `"wine_glass"` · `"glockenspiel"` · `"timpani"` · `"strumstick"` · `"folk_harp"` · `"saxello"` · `"saxello_staccato"` · `"saxello_vibrato"` · `"accordion"` · `"classical_guitar"` · `"ukulele"` · `"jazz_guitar"` · `"distortion_guitar"` · `"overdriven_guitar"` · `"honky_tonk_piano"` · `"tagelharpa"` · `"tuba"` · `"tuba_staccato"` · `"baritone_sax"` · `"baritone_sax_staccato"` · `"bass_finger"` · `"bass_pluck"` · `"bass_mute"` · `"bass_ghost"` · `"funk_guitar"` · `"funk_guitar_stac"` · `"funk_guitar_hammer"` · `"twang_guitar"` · `"twang_guitar_stac"` · `"prepared_guitar"` · `"upright_pizz"` · `"upright_arco"` · `"piano"` · `"electric_piano"` · `"organ"` · `"organ_8ft"` · `"organ_4ft"` · `"harmonica"` · `"harmonica_soft"` · `"harmonica_vibrato"` · `"ocarina"` · `"ocarina_vibrato"` · `"tenor_sax"` · `"tenor_sax_staccato"` · `"tenor_sax_vibrato"` · `"harp"` · `"marimba"` · `"tubular_bells"` · `"vibraphone"` · `"vibraphone_bowed"` · `"xylophone"` · `"french_horn"` · `"trombone"` · `"trumpet"` · `"bassoon"` · `"clarinet"` · `"flute"` · `"oboe"` · `"piccolo"` · `"violin"` · `"violin_section"` · `"viola_section"` · `"cello_section"` · `"cello"` · `"cello_staccato"` · `"cello_pizzicato"` · `"bagpipe"` · `"bagpipe_short"` · `"clean_electric_guitar"`
+`"supersaw_lead"` · `"analog_pad"` · `"synth_pluck"` · `"acid_bass"` · `"fm_bell"` · `"synth_brass"` · `"sub_808"` · `"sub_pure"` · `"saw_bass"` · `"reese_bass"` · `"growl_bass"` · `"wobble_bass"` · `"donk_bass"` · `"fm_bass"` · `"pluck_bass"` · `"mid_bass"` · `"knock_bass"` · `"moog_bass"` · `"rubber_bass"` · `"acid_deep"` · `"acid_screamer"` · `"hoover_bass"` · `"saw_bass_clean"` · `"saw_bass_short"` · `"saw_bass_rolling"` · `"saw_bass_offbeat"` · `"saw_bass_wide"` · `"saw_bass_driven"` · `"saw_bass_hollow"` · `"saw_bass_psy"` · `"saw_bass_trance"` · `"saw_bass_techno"` · `"liquid_reese"` · `"neuro_reese"` · `"pwm_bass"` · `"sync_bass"` · `"wavetable_bass"` · `"ringmod_bass"` · `"metallic_fm_bass"` · `"round_analog_bass"` · `"poly_saw"` · `"square_lead"` · `"chip_lead"` · `"chip_arp"` · `"fm_lead"` · `"whistle_lead"` · `"hoover_lead"` · `"noise_lead"` · `"trance_pluck"` · `"dream_pluck"` · `"laser_lead"` · `"glass_lead"` · `"soft_lead"` · `"screech_lead"` · `"sync_lead"` · `"pwm_lead"` · `"wavetable_lead"` · `"shaped_digital_lead"` · `"vocal_wavetable_lead"` · `"poly_hybrid_lead"` · `"glass_pad"` · `"dark_pad"` · `"air_pad"` · `"ice_pad"` · `"choir_pad"` · `"strings_pad"` · `"shimmer_pad"` · `"space_pad"` · `"evolving_pad"` · `"nostalgia_pad"` · `"dark_drone"` · `"warm_poly_pad"` · `"pwm_pad"` · `"wavetable_motion_pad"` · `"swarm_pad"` · `"spectral_pad"` · `"tension_pad"` · `"textural_machine"` · `"synth_keys"` · `"saw_chords"` · `"rave_stab"` · `"house_stab"` · `"ep_keys"` · `"op_tine_piano"` · `"op_feedback_bass"` · `"op_glass_bell"` · `"organ_keys"` · `"clav_keys"` · `"music_box"` · `"pizz_synth"` · `"stab_brass"` · `"space_keys"` · `"space_keys_glass"` · `"space_keys_dark"` · `"space_keys_air"` · `"space_keys_shimmer"` · `"space_keys_tape"` · `"space_keys_orbit"` · `"space_keys_hologram"` · `"space_keys_alien"` · `"space_keys_frozen"` · `"warm_poly_keys"` · `"pwm_keys"` · `"phase_keys"` · `"morphed_keys"` · `"tape_keys"` · `"bell_keys"` · `"dub_chord"` · `"detroit_chord"` · `"rhythmic_filter_keys"` · `"signal_pulse"` · `"cloud_pulse"` · `"metallic_pulse"` · `"random_pan_keys"` · `"rhythmic_organ"` · `"wooden_pluck"` · `"metallic_pluck"` · `"rubber_pluck"` · `"resonant_ping"` · `"pitch_env_hit"` · `"laser_zap"` · `"sub_drop"` · `"pitch_riser"` · `"siren"` · `"white_noise"` · `"pink_wash"` · `"noise_riser"` · `"noise_fall"` · `"vinyl_crackle"` · `"sub_drone"` · `"metallic_drone"` · `"swarm_drone"` · `"pitched_ambience"` · `"circuit_bent_texture"` · `"balafon"` · `"kalimba"` · `"mbira"` · `"dan_tranh"` · `"hand_chimes"` · `"didgeridoo_drone"` · `"didgeridoo_phrase"` · `"ocean_drum"` · `"recorder"` · `"harpsichord"` · `"bowed_psaltery"` · `"wine_glass"` · `"glockenspiel"` · `"timpani"` · `"strumstick"` · `"folk_harp"` · `"saxello"` · `"saxello_staccato"` · `"saxello_vibrato"` · `"accordion"` · `"classical_guitar"` · `"ukulele"` · `"jazz_guitar"` · `"distortion_guitar"` · `"overdriven_guitar"` · `"honky_tonk_piano"` · `"tagelharpa"` · `"tuba"` · `"tuba_staccato"` · `"baritone_sax"` · `"baritone_sax_staccato"` · `"bass_finger"` · `"bass_pluck"` · `"bass_mute"` · `"bass_ghost"` · `"funk_guitar"` · `"funk_guitar_stac"` · `"funk_guitar_hammer"` · `"twang_guitar"` · `"twang_guitar_stac"` · `"prepared_guitar"` · `"upright_pizz"` · `"upright_arco"` · `"piano"` · `"electric_piano"` · `"organ"` · `"organ_8ft"` · `"organ_4ft"` · `"harmonica"` · `"harmonica_soft"` · `"harmonica_vibrato"` · `"ocarina"` · `"ocarina_vibrato"` · `"tenor_sax"` · `"tenor_sax_staccato"` · `"tenor_sax_vibrato"` · `"harp"` · `"marimba"` · `"tubular_bells"` · `"vibraphone"` · `"vibraphone_bowed"` · `"xylophone"` · `"french_horn"` · `"trombone"` · `"trumpet"` · `"bassoon"` · `"clarinet"` · `"flute"` · `"oboe"` · `"piccolo"` · `"violin"` · `"violin_section"` · `"viola_section"` · `"cello_section"` · `"cello"` · `"cello_staccato"` · `"cello_pizzicato"` · `"bagpipe"` · `"bagpipe_short"` · `"clean_electric_guitar"`
 
 ## FactoryDrumHitName
 
@@ -3164,6 +3401,20 @@ Sweep
 ### Related
 
 [`Sweep`](#sweep) · [`BusSweep`](#bussweep)
+
+## BusShelfMode
+
+String enum selecting which end of the spectrum a custom-Bus shelf band lifts or cuts.
+
+### Syntax
+
+```text
+"low" | "high"
+```
+
+### Values
+
+`"low"` · `"high"`
 
 ## CenteredLfo
 
@@ -3542,7 +3793,7 @@ Capture a built-in musical or declared custom bus.
 
 ## SynthEnvelope
 
-ADSR envelope in seconds plus normalized sustain. It has no universal defaults: DualSynthPatch.amp and DualSynthPatch.env2 each document the defaults inherited by omitted fields.
+ADSR envelope in seconds plus normalized sustain. It has no universal defaults: DualSynthPatch.amp, DualSynthPatch.env2, FmSynthPatch.amp, FmSynthPatch.env2 and FmOperator.env each document the defaults inherited by omitted fields.
 
 ### Syntax
 
@@ -3561,7 +3812,7 @@ ADSR envelope in seconds plus normalized sustain. It has no universal defaults: 
 
 ## SynthLfo
 
-Free-running patch LFO. It has no universal defaults: DualSynthPatch.lfo1 and DualSynthPatch.lfo2 each document the defaults inherited by omitted fields.
+Free-running patch LFO. It has no universal defaults: DualSynthPatch.lfo1, DualSynthPatch.lfo2, FmSynthPatch.lfo1 and FmSynthPatch.lfo2 each document the defaults inherited by omitted fields.
 
 ### Syntax
 
