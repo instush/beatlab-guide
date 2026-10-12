@@ -1800,21 +1800,28 @@ closest named character first, then bend it:
     tape     amount 0..10, mix 0..1
     compress mode "squash"|"smooth", amount 0..10, mix 0..1
              The track squash (fast, aggressive, saturating) and smooth (slow
-             programme-dependent levelling) knobs as a bus insert; amount 0
-             bypasses. The wet path is level-matched to its input, so mix
-             below 1 IS parallel compression: {"id":"par","type":"compress",
-             "amount":8,"mix":0.35} keeps the dry transient and adds the
-             squashed density under it. amount and mix automate; mode is static.
+             programme-dependent levelling) knobs as a bus insert. amount 0
+             is an exact bypass (the dry samples pass untouched, with no
+             makeup gain); the first half-unit fades the effect in, so a
+             sweep to 0 lands on the dry signal. The wet path is
+             level-matched to its input, so mix below 1 IS parallel
+             compression: {"id":"par","type":"compress","amount":8,
+             "mix":0.35} keeps the dry transient and adds the squashed
+             density under it. amount and mix automate; mode is static.
+    chorus   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
     phaser   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
     delay    timeBeats 0.0625..4, feedback 0..0.92, mix 0..1
     reverb   size 0..1, damping 0..1, tone -1..1, mix 0..1
     filter   mode "lowpass"|"highpass"|"bandpass"|"notch", slope 12|24,
              cutoff 30..16000 Hz, resonance 0..0.9, mix 0..1
-             One state-variable stage at slope 12 (dB/oct); slope 24 runs two
-             in series, which is the "high-pass everything but kick and bass
-             at 150 Hz, 24 dB/oct" rule in one effect. bandpass with a cutoff
-             sweep is a noise riser on a bus; notch removes a band. cutoff,
-             resonance and mix automate; mode and slope are static.
+             One state-variable stage at slope 12, two in series at 24. The
+             number is the lowpass/highpass rolloff in dB/oct; a bandpass
+             skirt falls at half that (6 or 12 dB/oct per side) and on a
+             notch the second stage deepens and widens the cut instead.
+             slope 24 highpass at 150 Hz is the "high-pass everything but
+             kick and bass, 24 dB/oct" rule in one effect; bandpass with a
+             cutoff sweep is a noise riser on a bus. cutoff, resonance and
+             mix automate; mode and slope are static.
     width    amount 0..2 (0=mono, 1=unchanged, 2=double side; no mix field),
              monoBelowHz 0..500 (static)
              monoBelowHz above 0 sums everything below that crossover to

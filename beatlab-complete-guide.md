@@ -1833,21 +1833,28 @@ closest named character first, then bend it:
     tape     amount 0..10, mix 0..1
     compress mode "squash"|"smooth", amount 0..10, mix 0..1
              The track squash (fast, aggressive, saturating) and smooth (slow
-             programme-dependent levelling) knobs as a bus insert; amount 0
-             bypasses. The wet path is level-matched to its input, so mix
-             below 1 IS parallel compression: {"id":"par","type":"compress",
-             "amount":8,"mix":0.35} keeps the dry transient and adds the
-             squashed density under it. amount and mix automate; mode is static.
+             programme-dependent levelling) knobs as a bus insert. amount 0
+             is an exact bypass (the dry samples pass untouched, with no
+             makeup gain); the first half-unit fades the effect in, so a
+             sweep to 0 lands on the dry signal. The wet path is
+             level-matched to its input, so mix below 1 IS parallel
+             compression: {"id":"par","type":"compress","amount":8,
+             "mix":0.35} keeps the dry transient and adds the squashed
+             density under it. amount and mix automate; mode is static.
+    chorus   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
     phaser   rateHz 0.01..10, depth 0..1, feedback -0.9..0.9, mix 0..1
     delay    timeBeats 0.0625..4, feedback 0..0.92, mix 0..1
     reverb   size 0..1, damping 0..1, tone -1..1, mix 0..1
     filter   mode "lowpass"|"highpass"|"bandpass"|"notch", slope 12|24,
              cutoff 30..16000 Hz, resonance 0..0.9, mix 0..1
-             One state-variable stage at slope 12 (dB/oct); slope 24 runs two
-             in series, which is the "high-pass everything but kick and bass
-             at 150 Hz, 24 dB/oct" rule in one effect. bandpass with a cutoff
-             sweep is a noise riser on a bus; notch removes a band. cutoff,
-             resonance and mix automate; mode and slope are static.
+             One state-variable stage at slope 12, two in series at 24. The
+             number is the lowpass/highpass rolloff in dB/oct; a bandpass
+             skirt falls at half that (6 or 12 dB/oct per side) and on a
+             notch the second stage deepens and widens the cut instead.
+             slope 24 highpass at 150 Hz is the "high-pass everything but
+             kick and bass, 24 dB/oct" rule in one effect; bandpass with a
+             cutoff sweep is a noise riser on a bus. cutoff, resonance and
+             mix automate; mode and slope are static.
     width    amount 0..2 (0=mono, 1=unchanged, 2=double side; no mix field),
              monoBelowHz 0..500 (static)
              monoBelowHz above 0 sums everything below that crossover to
@@ -3041,8 +3048,9 @@ kick into distortion and leave the sub dry.**
   density; past a point there is no transient left to trade.
 
 *Here:* give the kick its own bus and a post-fader `send` to a second bus whose
-rack is `{"type":"filter","mode":"highpass","slope":24,"cutoff":150}` followed by
-`{"type":"drive","amount":7}`; set that bus's `fader` about 9 dB under (≈0.35).
+rack is `{"id":"top","type":"filter","mode":"highpass","slope":24,"cutoff":150}`
+followed by `{"id":"grit","type":"drive","amount":7}`; set that bus's `fader`
+about 9 dB under (≈0.35).
 "EQ before the clipper" is a `bell` placed earlier in the same `effects` array,
 "after" is one placed later. `drive` is a soft saturator rather than a hard
 clipper, so push `amount` instead of expecting a flat top.
@@ -3058,8 +3066,8 @@ cutoff. A 50 Hz fundamental driven ~9.5 dB produces partials at 150, 250 and 350
 Keep the clean sub underneath and blend a saturated copy (around 75% drive,
 25% blend) rather than distorting the whole kick.
 
-*Here:* `{"type":"drive","amount":7.5,"mix":0.25}` on the kick's (or bass's) bus
-is that recipe in one effect; the dry sub stays in the other 75%.
+*Here:* `{"id":"harm","type":"drive","amount":7.5,"mix":0.25}` on the kick's (or
+bass's) bus is that recipe in one effect; the dry sub stays in the other 75%.
 
 ### 2.7 Kick EQ: three moves
 
@@ -3509,8 +3517,8 @@ as a drop.
 2. **High-pass everything that isn't kick or bass.** Only those two are allowed below
    100 Hz; everything else gets a high-pass at ~150 Hz with a 24 dB/oct slope.
    This one move resolves most low-mid congestion.
-   *Here:* `{"type":"filter","mode":"highpass","slope":24,"cutoff":150}` on each
-   bus that is not the kick's or the bass's.
+   *Here:* `{"id":"hp","type":"filter","mode":"highpass","slope":24,"cutoff":150}`
+   on each bus that is not the kick's or the bass's.
 3. **Duck the reverb return from the kick** (−8.5 dB, 160 ms release), not only the
    bass. Keeps the space without smearing the transient.
    *Here:* a custom return bus holding `reverb` at `mix` 1, with a `sidechain` from

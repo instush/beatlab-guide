@@ -595,7 +595,7 @@
     },
     "BusFilterSlope": {
       "title": "BusFilterSlope",
-      "description": "Numeric enum selecting a custom-Bus filter rolloff in dB per octave.",
+      "description": "Numeric enum selecting how many state-variable stages a custom-Bus filter runs in series, named by the lowpass/highpass rolloff in dB per octave. A bandpass skirt falls at half the named figure per side; a notch gains depth and width rather than a rolloff.",
       "type": "integer",
       "enum": [
         12,
@@ -603,8 +603,8 @@
       ],
       "x-beatlab-syntax": "12 | 24",
       "x-beatlab-values": {
-        "12": "one state-variable stage",
-        "24": "two identical stages in series; the rolloff and any resonance peak both double in dB"
+        "12": "one stage: 12 dB/oct lowpass or highpass, 6 dB/oct per bandpass skirt, a shallow notch",
+        "24": "two identical stages in series: 24 dB/oct lowpass or highpass, 12 dB/oct per bandpass skirt, a deeper and wider notch; any resonance peak doubles in dB"
       }
     },
     "BusCompressorMode": {
@@ -6011,7 +6011,7 @@
               "type": "number",
               "minimum": 0,
               "maximum": 10,
-              "description": "Compression amount; 0 bypasses.",
+              "description": "Compression amount. 0 is an exact bypass that leaves the dry samples untouched; the first half-unit fades the effect in, so a sweep that ends at 0 lands on the dry signal.",
               "default": 4
             },
             "mix": {
@@ -6220,7 +6220,7 @@
         {
           "type": "object",
           "title": "Filter bus effect",
-          "description": "State-variable filter: low-pass, high-pass, band-pass or notch at 12 or 24 dB per octave. cutoff, resonance and mix automate; mode and slope are static.",
+          "description": "State-variable filter: low-pass, high-pass, band-pass or notch. slope names the low-/high-pass rolloff in dB per octave (12 or 24); a band-pass skirt falls at half that per side and a notch only deepens and widens. cutoff, resonance and mix automate; mode and slope are static.",
           "properties": {
             "id": {
               "type": "string",

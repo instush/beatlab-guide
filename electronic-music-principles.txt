@@ -156,8 +156,9 @@ kick into distortion and leave the sub dry.**
   density; past a point there is no transient left to trade.
 
 *Here:* give the kick its own bus and a post-fader `send` to a second bus whose
-rack is `{"type":"filter","mode":"highpass","slope":24,"cutoff":150}` followed by
-`{"type":"drive","amount":7}`; set that bus's `fader` about 9 dB under (≈0.35).
+rack is `{"id":"top","type":"filter","mode":"highpass","slope":24,"cutoff":150}`
+followed by `{"id":"grit","type":"drive","amount":7}`; set that bus's `fader`
+about 9 dB under (≈0.35).
 "EQ before the clipper" is a `bell` placed earlier in the same `effects` array,
 "after" is one placed later. `drive` is a soft saturator rather than a hard
 clipper, so push `amount` instead of expecting a flat top.
@@ -173,8 +174,8 @@ cutoff. A 50 Hz fundamental driven ~9.5 dB produces partials at 150, 250 and 350
 Keep the clean sub underneath and blend a saturated copy (around 75% drive,
 25% blend) rather than distorting the whole kick.
 
-*Here:* `{"type":"drive","amount":7.5,"mix":0.25}` on the kick's (or bass's) bus
-is that recipe in one effect; the dry sub stays in the other 75%.
+*Here:* `{"id":"harm","type":"drive","amount":7.5,"mix":0.25}` on the kick's (or
+bass's) bus is that recipe in one effect; the dry sub stays in the other 75%.
 
 ### 2.7 Kick EQ: three moves
 
@@ -624,8 +625,8 @@ as a drop.
 2. **High-pass everything that isn't kick or bass.** Only those two are allowed below
    100 Hz; everything else gets a high-pass at ~150 Hz with a 24 dB/oct slope.
    This one move resolves most low-mid congestion.
-   *Here:* `{"type":"filter","mode":"highpass","slope":24,"cutoff":150}` on each
-   bus that is not the kick's or the bass's.
+   *Here:* `{"id":"hp","type":"filter","mode":"highpass","slope":24,"cutoff":150}`
+   on each bus that is not the kick's or the bass's.
 3. **Duck the reverb return from the kick** (−8.5 dB, 160 ms release), not only the
    bass. Keeps the space without smearing the transient.
    *Here:* a custom return bus holding `reverb` at `mix` 1, with a `sidechain` from

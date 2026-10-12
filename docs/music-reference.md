@@ -1815,7 +1815,7 @@ Compressor insert with the character of the track squash and smooth knobs. The w
 | `id` | `string` | yes |  | pattern `^[a-z][a-z0-9_]{0,31}$` — Unique effect id inside this bus. |
 | `type` | `"compress"` | yes |  | Effect discriminator. |
 | `mode` | `BusCompressorMode` | no | `"squash"` |  |
-| `amount` | `number` | no | `4` | ≥ 0; ≤ 10 — Compression amount; 0 bypasses. |
+| `amount` | `number` | no | `4` | ≥ 0; ≤ 10 — Compression amount. 0 is an exact bypass that leaves the dry samples untouched; the first half-unit fades the effect in, so a sweep that ends at 0 lands on the dry signal. |
 | `mix` | `number` | no | `1` | ≥ 0; ≤ 1 — Dry/wet mix. |
 
 #### Chorus bus effect
@@ -1903,7 +1903,7 @@ Algorithmic reverb.
 
 #### Filter bus effect
 
-State-variable filter: low-pass, high-pass, band-pass or notch at 12 or 24 dB per octave. cutoff, resonance and mix automate; mode and slope are static.
+State-variable filter: low-pass, high-pass, band-pass or notch. slope names the low-/high-pass rolloff in dB per octave (12 or 24); a band-pass skirt falls at half that per side and a notch only deepens and widens. cutoff, resonance and mix automate; mode and slope are static.
 
 ##### Syntax
 
@@ -1997,7 +1997,7 @@ String enum selecting a custom-Bus filter response.
 
 ## BusFilterSlope
 
-Numeric enum selecting a custom-Bus filter rolloff in dB per octave.
+Numeric enum selecting how many state-variable stages a custom-Bus filter runs in series, named by the lowpass/highpass rolloff in dB per octave. A bandpass skirt falls at half the named figure per side; a notch gains depth and width rather than a rolloff.
 
 ### Syntax
 
@@ -2013,8 +2013,8 @@ Numeric enum selecting a custom-Bus filter rolloff in dB per octave.
 
 | Value / target | Range |
 |---|---|
-| `12` | one state-variable stage |
-| `24` | two identical stages in series; the rolloff and any resonance peak both double in dB |
+| `12` | one stage: 12 dB/oct lowpass or highpass, 6 dB/oct per bandpass skirt, a shallow notch |
+| `24` | two identical stages in series: 24 dB/oct lowpass or highpass, 12 dB/oct per bandpass skirt, a deeper and wider notch; any resonance peak doubles in dB |
 
 ## BusCompressorMode
 
